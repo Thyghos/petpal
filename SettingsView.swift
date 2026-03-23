@@ -21,7 +21,7 @@ struct SettingsView: View {
     @AppStorage("hasAcceptedVetAIDisclaimer") private var hasAcceptedVetAIDisclaimer = false
     @AppStorage("USER_CLAUDE_API_KEY") private var userClaudeAPIKey: String = ""
     @AppStorage("USER_GEMINI_API_KEY") private var userGeminiAPIKey: String = ""
-    @AppStorage("USER_VET_AI_PROXY_URL") private var userVetAIProxyURL: String = "https://petpal-vet-ai-proxy.sollunaghost.workers.dev/v1/vet-chat"
+    @AppStorage("USER_VET_AI_PROXY_URL") private var userVetAIProxyURL: String = APIConfiguration.defaultVetAIProxyURL
     @AppStorage("USER_VET_AI_PROXY_TOKEN") private var userVetAIProxyToken: String = ""
     
     @State private var showingTileCustomization = false
@@ -348,6 +348,9 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $showingAbout) {
                 AboutView()
+            }
+            .onAppear {
+                APIConfiguration.ensureDefaultVetAIProxyURLSeeded()
             }
         }
     }

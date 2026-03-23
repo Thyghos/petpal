@@ -5,6 +5,7 @@ import Foundation
 
 /// Configuration for external API services
 struct APIConfiguration {
+    static let defaultVetAIProxyURL = "https://petpal-vet-ai-proxy.sollunaghost.workers.dev/v1/vet-chat"
     
     // MARK: - API Keys
     
@@ -106,6 +107,7 @@ struct APIConfiguration {
     static var vetAIProxyURLRaw: String? {
         userDefaultsString("USER_VET_AI_PROXY_URL")
             ?? plistString("VET_AI_PROXY_URL")
+            ?? defaultVetAIProxyURL
     }
 
     /// True when a proxy value exists but cannot be normalized into a URL.
@@ -121,6 +123,16 @@ struct APIConfiguration {
     static var vetAIProxyToken: String? {
         userDefaultsString("USER_VET_AI_PROXY_TOKEN")
             ?? plistString("VET_AI_PROXY_TOKEN")
+    }
+
+    /// Ensures a usable default proxy URL exists in user defaults for first-run and migrated users.
+    static func ensureDefaultVetAIProxyURLSeeded() {
+        let key = "USER_VET_AI_PROXY_URL"
+        let existing = UserDefaults.standard.string(forKey: key) ?? ""
+        let trimmed = existing.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty || trimmed.hasPrefix("https://your-worker.workers.dev") {
+            UserDefaults.standard.set(defaultVetAIProxyURL, forKey: key)
+        }
     }
 
     private static func normalizedNonPlaceholderString(_ raw: String?) -> String? {

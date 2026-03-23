@@ -187,6 +187,7 @@ struct VetAIView: View {
             }
         }
         .onAppear {
+            APIConfiguration.ensureDefaultVetAIProxyURLSeeded()
             if messages.isEmpty {
                 loadWelcomeMessage()
             }
