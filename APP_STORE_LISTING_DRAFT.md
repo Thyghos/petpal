@@ -12,8 +12,8 @@ Use this file while editing **Distribution** → **iOS** → your version (e.g. 
 |---------------|----------|
 | **Name** | Petpal |
 | **Subtitle** | Pet care, QR & travel tools |
-| **Promotional text** | *(see section below)* |
-| **Description** | *(see section below)* |
+| **Promotional text** | Profiles, reminders, emergency QR & travel tools for your pets. Customizable home screen. Optional Vet assistant for education only—not a vet. |
+| **Description** | *(see section below — canonical block)* |
 | **Keywords** | dog,cat,pet,reminder,travel,vet,emergency,QR,lost,profile,health,schedule,puppy,kitten |
 | **What’s New** | *(see section below)* |
 | **Privacy Policy URL** | `https://thyghos.github.io/petpal/privacy.html` *(also set under **App Privacy**)* |
@@ -54,8 +54,9 @@ Pet care, QR & travel tools
 
 ## Promotional text (170 max)
 ```
-Pet profiles, emergency QR, travel-friendly spots, reminders, and tips—customize your home screen. Built for busy pet parents. Not a substitute for a vet.
+Profiles, reminders, emergency QR & travel tools for your pets. Customizable home screen. Optional Vet assistant for education only—not a vet.
 ```
+*(142 characters. Apple may update the counter in Connect.)*
 
 ---
 
@@ -71,7 +72,7 @@ WHAT YOU CAN DO
 • Travel mode — find pet-friendly places and plan with maps.
 • Reminders — vet visits, medications, and care tasks so nothing slips through the cracks.
 • Your home screen, your way — show, hide, and reorder tiles: Travel, Documents, Reminders, Emergency QR, Health History, and more.
-• Health tips — optional daily or weekly tips based on your pet’s species (dog, cat, bird, rabbit, or all).
+• Health tips — optional daily or weekly tips based on your pet's species (dog, cat, bird, rabbit, or all).
 • Optional Vet assistant — general, educational Q&A only; not medical advice. If you use it, your questions are processed by third-party AI as described in our Privacy Policy.
 • Privacy-minded — pet data you enter stays on your device unless you use features that need network access (e.g. place search or the optional assistant). See our Privacy Policy for details.
 
@@ -83,6 +84,7 @@ Terms: https://thyghos.github.io/petpal/terms.html
 
 Need help? Use the Support link on this App Store page or email ealecci@gmail.com.
 ```
+*(Well under Apple’s 4,000-character description limit.)*
 
 ---
 
@@ -90,7 +92,7 @@ Need help? Use the Support link on this App Store page or email ealecci@gmail.co
 ```
 dog,cat,pet,reminder,travel,vet,emergency,QR,lost,profile,health,schedule,puppy,kitten
 ```
-*(Verify length in Connect; trim if over 100.)*
+*(86 characters. Do not repeat the app name “Petpal” here per Apple guidance.)*
 
 ---
 
