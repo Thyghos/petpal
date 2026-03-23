@@ -1,6 +1,6 @@
 # App Store submission walkthrough — Phases 2–10
 
-**Status:** Phases **1–2** done. **Phase 3** (Xcode checks + archive) is next. Live URLs: **`APP_STORE_CONTACT_INFO.md`**.
+**Status:** Phases **1–3** done if you already have **successful TestFlight builds** (that implies signing + archive + upload worked). Next focus: **Phases 5–7** (store listing, screenshots) and **Phase 8** (attach build to App Store version) → **9–10** (review notes, export compliance, submit). Live URLs: **`APP_STORE_CONTACT_INFO.md`**.
 
 ---
 
