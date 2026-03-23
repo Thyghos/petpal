@@ -6,7 +6,7 @@ Server-side proxy for Vet AI so API keys are not shipped in the iOS app.
 
 - `CLAUDE_API_KEY` (Anthropic)
 - `GEMINI_API_KEY` (Google Gemini)
-- Optional shared bearer token via `APP_SHARED_SECRET`
+- Built-in rate limiting per client IP (Durable Object)
 
 Provider behavior:
 
@@ -19,9 +19,17 @@ Provider behavior:
 cd vet-ai-proxy
 npx wrangler secret put CLAUDE_API_KEY
 npx wrangler secret put GEMINI_API_KEY
-npx wrangler secret put APP_SHARED_SECRET
 npx wrangler deploy
 ```
+
+## Optional limits
+
+You can configure limits in Wrangler as worker vars:
+
+- `RATE_LIMIT_RPM` (default `10`) — requests per minute per IP
+- `RATE_LIMIT_DAILY` (default `120`) — requests per day per IP
+
+If not set, defaults are used.
 
 ## Request
 
@@ -30,7 +38,6 @@ npx wrangler deploy
 Headers:
 
 - `Content-Type: application/json`
-- `Authorization: Bearer <APP_SHARED_SECRET>` (if configured)
 
 Body:
 

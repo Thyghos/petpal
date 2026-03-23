@@ -49,6 +49,7 @@ struct VetAIView: View {
     @State private var messages: [AIMessage] = []
     @State private var inputText: String = ""
     @State private var isLoading: Bool = false
+    @State private var showingAISetup = false
 
     /// Proxy is preferred (server-side key), then Claude, then Gemini.
     private var activeProviderDescription: String {
@@ -56,6 +57,13 @@ struct VetAIView: View {
         if APIConfiguration.anthropicAPIKey != nil { return "Claude" }
         if APIConfiguration.geminiAPIKey != nil { return "Gemini" }
         return ""
+    }
+
+    private var providerStatusText: String {
+        if APIConfiguration.vetAIProxyURL != nil { return "Provider: Secure Proxy" }
+        if APIConfiguration.anthropicAPIKey != nil { return "Provider: Claude (device key)" }
+        if APIConfiguration.geminiAPIKey != nil { return "Provider: Gemini (device key)" }
+        return "Provider: Offline mode"
     }
 
     var body: some View {
@@ -68,6 +76,31 @@ struct VetAIView: View {
     
     private var chatView: some View {
         VStack(spacing: 0) {
+            if activeProviderDescription.isEmpty {
+                HStack(spacing: 12) {
+                    Image(systemName: "key.fill")
+                        .foregroundStyle(Color("BrandBlue"))
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("AI setup needed")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(Color("BrandDark"))
+                        Text("Add proxy or API key to enable live replies.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Button("Configure") {
+                        showingAISetup = true
+                    }
+                    .font(.subheadline.weight(.semibold))
+                }
+                .padding(12)
+                .background(Color.white.opacity(0.9))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(.horizontal)
+                .padding(.top, 8)
+            }
+
             ScrollView {
                 VStack(spacing: 16) {
                     ForEach(messages) { message in
@@ -124,13 +157,31 @@ struct VetAIView: View {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Close") { dismiss() }
             }
+
+            ToolbarItem(placement: .principal) {
+                VStack(spacing: 2) {
+                    Text("AI Vet")
+                        .font(.headline)
+                    Text(providerStatusText)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
             
             ToolbarItem(placement: .primaryAction) {
-                Button {
-                    messages.removeAll()
-                    loadWelcomeMessage()
-                } label: {
-                    Label("Clear", systemImage: "trash")
+                HStack(spacing: 14) {
+                    Button {
+                        showingAISetup = true
+                    } label: {
+                        Label("AI Setup", systemImage: "key")
+                    }
+
+                    Button {
+                        messages.removeAll()
+                        loadWelcomeMessage()
+                    } label: {
+                        Label("Clear", systemImage: "trash")
+                    }
                 }
             }
         }
@@ -138,6 +189,9 @@ struct VetAIView: View {
             if messages.isEmpty {
                 loadWelcomeMessage()
             }
+        }
+        .sheet(isPresented: $showingAISetup) {
+            SettingsView()
         }
     }
     
@@ -148,7 +202,7 @@ struct VetAIView: View {
         if !activeProviderDescription.isEmpty {
             providerLine = "Powered by \(activeProviderDescription). "
         } else {
-            providerLine = "Add your Claude or Gemini key in Settings > Vet AI API Keys to enable live replies. "
+            providerLine = "No active proxy or API key found. Add your proxy URL/token or Claude/Gemini key in Settings > Vet AI API Keys. If using proxy, base URL is okay; Petpal auto-adds /v1/vet-chat. "
         }
         let hasRecords = !scopedVisits.isEmpty || !scopedPolicies.isEmpty
             || !scopedReminders.isEmpty || !scopedEmergencyProfiles.isEmpty || !scopedSitterNotes.isEmpty

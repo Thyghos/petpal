@@ -13,3 +13,6 @@ xcuserdata/
 **/CompilationCache.noindex/
 **/*.xcactivitylog
 build/
+
+# Cloudflare Wrangler local state
+**/.wrangler/

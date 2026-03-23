@@ -99,8 +99,9 @@ struct APIConfiguration {
     /// 1) User-entered URL in Settings (`USER_VET_AI_PROXY_URL`)
     /// 2) Info.plist `VET_AI_PROXY_URL`
     static var vetAIProxyURL: String? {
-        userDefaultsString("USER_VET_AI_PROXY_URL")
+        let raw = userDefaultsString("USER_VET_AI_PROXY_URL")
             ?? plistString("VET_AI_PROXY_URL")
+        return normalizeProxyURL(raw)
     }
 
     /// Optional shared token sent as `Authorization: Bearer <token>` to proxy.
@@ -125,6 +126,24 @@ struct APIConfiguration {
 
     private static func userDefaultsString(_ key: String) -> String? {
         normalizedNonPlaceholderString(UserDefaults.standard.string(forKey: key))
+    }
+
+    private static func normalizeProxyURL(_ raw: String?) -> String? {
+        guard let raw = normalizedNonPlaceholderString(raw),
+              var components = URLComponents(string: raw),
+              let host = components.host,
+              !host.isEmpty else { return nil }
+
+        if components.scheme == nil {
+            components.scheme = "https"
+        }
+
+        let path = components.path.trimmingCharacters(in: .whitespacesAndNewlines)
+        if path.isEmpty || path == "/" {
+            components.path = "/v1/vet-chat"
+        }
+
+        return components.url?.absoluteString
     }
 }
 
