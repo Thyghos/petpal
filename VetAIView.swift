@@ -50,8 +50,9 @@ struct VetAIView: View {
     @State private var inputText: String = ""
     @State private var isLoading: Bool = false
 
-    /// Claude (Anthropic) is preferred when `Claude_API_Key` is set; Gemini is the fallback.
+    /// Proxy is preferred (server-side key), then Claude, then Gemini.
     private var activeProviderDescription: String {
+        if APIConfiguration.vetAIProxyURL != nil { return "Secure Proxy" }
         if APIConfiguration.anthropicAPIKey != nil { return "Claude" }
         if APIConfiguration.geminiAPIKey != nil { return "Gemini" }
         return ""
@@ -147,7 +148,7 @@ struct VetAIView: View {
         if !activeProviderDescription.isEmpty {
             providerLine = "Powered by \(activeProviderDescription). "
         } else {
-            providerLine = "Add Claude_API_Key (or GEMINI_API_KEY) in Info.plist to enable AI replies. "
+            providerLine = "Add your Claude or Gemini key in Settings > Vet AI API Keys to enable live replies. "
         }
         let hasRecords = !scopedVisits.isEmpty || !scopedPolicies.isEmpty
             || !scopedReminders.isEmpty || !scopedEmergencyProfiles.isEmpty || !scopedSitterNotes.isEmpty
@@ -189,7 +190,14 @@ struct VetAIView: View {
         Task {
             do {
                 let response: String
-                if let key = APIConfiguration.anthropicAPIKey {
+                if let proxyURL = APIConfiguration.vetAIProxyURL {
+                    response = try await callProxyAPI(
+                        conversation: messages,
+                        proxyURLString: proxyURL,
+                        token: APIConfiguration.vetAIProxyToken,
+                        petContext: petContext
+                    )
+                } else if let key = APIConfiguration.anthropicAPIKey {
                     response = try await callClaudeAPI(conversation: messages, apiKey: key, petContext: petContext)
                 } else if let key = APIConfiguration.geminiAPIKey {
                     response = try await callGeminiAPI(conversation: messages, apiKey: key, petContext: petContext)
@@ -210,12 +218,12 @@ struct VetAIView: View {
             return "If this might be an emergency, contact your nearest emergency vet or animal poison control now. This app cannot triage emergencies.\n\nU.S. poison hotline (example): ASPCA Animal Poison Control (fee may apply) — search for the current number. When in doubt, go to an emergency clinic."
         }
         if lower.contains("vomit") || lower.contains("diarrhea") {
-            return "Mild stomach upset can happen, but repeated vomiting, blood, lethargy, or refusal to drink needs a vet the same day. Offer small amounts of water; avoid new foods or treats until \(petName) is stable.\n\nTo get tailored AI answers, add **Claude_API_Key** (Anthropic) or **GEMINI_API_KEY** in your app’s Info.plist."
+            return "Mild stomach upset can happen, but repeated vomiting, blood, lethargy, or refusal to drink needs a vet the same day. Offer small amounts of water; avoid new foods or treats until \(petName) is stable.\n\nTo get tailored AI answers, add your proxy URL or API key in Settings > Vet AI API Keys."
         }
         if lower.contains("food") || lower.contains("eat") || lower.contains("toxic") {
-            return "Many human foods are toxic to pets (e.g. chocolate, grapes, onions, xylitol). When unsure, don’t feed it and ask your vet.\n\nFor interactive AI help, add **Claude_API_Key** or **GEMINI_API_KEY** in Info.plist — see APIConfiguration.swift."
+            return "Many human foods are toxic to pets (e.g. chocolate, grapes, onions, xylitol). When unsure, don’t feed it and ask your vet.\n\nFor interactive AI help, add your proxy URL or API key in Settings > Vet AI API Keys."
         }
-        return "I’m running in offline mode. Add **Claude_API_Key** (Anthropic) or **GEMINI_API_KEY** in Info.plist for full AI chat.\n\nUntil then: keep \(petName) on their regular diet, fresh water, and schedule routine care with a licensed veterinarian for any ongoing concerns."
+        return "I’m running in offline mode. Add your proxy URL or Claude/Gemini key in Settings > Vet AI API Keys for full AI chat.\n\nUntil then: keep \(petName) on their regular diet, fresh water, and schedule routine care with a licensed veterinarian for any ongoing concerns."
     }
 
     /// Drops the initial welcome bubble so the API conversation starts with a `user` turn.
@@ -329,6 +337,58 @@ struct VetAIView: View {
         Give accurate, empathetic general guidance. Always encourage consulting a licensed veterinarian for diagnosis, \
         treatment, prescription decisions, and emergencies. Be warm and clear.\(recordsSection)
         """
+    }
+
+    private func callProxyAPI(
+        conversation messages: [AIMessage],
+        proxyURLString: String,
+        token: String?,
+        petContext: String
+    ) async throws -> String {
+        guard let url = URL(string: proxyURLString) else {
+            throw NSError(domain: "VetAI", code: -20, userInfo: [NSLocalizedDescriptionKey: "Invalid proxy URL."])
+        }
+
+        let trimmed = trimmedConversationForAPI(messages)
+        guard !trimmed.isEmpty else {
+            throw NSError(domain: "VetAI", code: -21, userInfo: [NSLocalizedDescriptionKey: "No messages to send."])
+        }
+
+        let payloadMessages: [[String: String]] = trimmed.map { msg in
+            [
+                "role": msg.role == .user ? "user" : "assistant",
+                "content": msg.content
+            ]
+        }
+
+        let body: [String: Any] = [
+            "messages": payloadMessages,
+            "petName": petName,
+            "petSpecies": petSpecies,
+            "petContext": petContext
+        ]
+
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token, !token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        req.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+        let (data, response) = try await URLSession.shared.data(for: req)
+        if let http = response as? HTTPURLResponse, http.statusCode != 200 {
+            let message = (try? JSONSerialization.jsonObject(with: data) as? [String: Any])?["error"] as? String
+                ?? "HTTP \(http.statusCode)"
+            throw NSError(domain: "VetAI", code: http.statusCode, userInfo: [NSLocalizedDescriptionKey: message])
+        }
+
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let reply = json["reply"] as? String,
+              !reply.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw NSError(domain: "VetAI", code: -22, userInfo: [NSLocalizedDescriptionKey: "Invalid proxy response."])
+        }
+        return reply
     }
 
     private func callGeminiAPI(conversation messages: [AIMessage], apiKey: String, petContext: String) async throws -> String {

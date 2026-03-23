@@ -75,22 +75,56 @@ struct APIConfiguration {
 
     // MARK: - AI (Vet assistant)
 
-    /// Anthropic API key in **Info.plist** (Build Settings → Info.plist File; path is often `Petpal/Info.plist` in this project), key `Claude_API_Key`.
-    /// Also accepts `Claude_API-Key` if Xcode auto-formatted the name with a hyphen.
-    static let anthropicAPIKey: String? = {
-        plistString("Claude_API_Key") ?? plistString("Claude_API-Key")
-    }()
+    /// Anthropic API key.
+    /// Resolution order:
+    /// 1) User-entered key in Settings (`USER_CLAUDE_API_KEY`)
+    /// 2) Info.plist `Claude_API_Key` / `Claude_API-Key`
+    static var anthropicAPIKey: String? {
+        userDefaultsString("USER_CLAUDE_API_KEY")
+            ?? plistString("Claude_API_Key")
+            ?? plistString("Claude_API-Key")
+    }
 
-    /// Google Gemini API key (`GEMINI_API_KEY` in Info.plist). Free tier: https://aistudio.google.com/apikey
-    static let geminiAPIKey: String? = {
-        plistString("GEMINI_API_KEY")
-    }()
+    /// Google Gemini API key.
+    /// Resolution order:
+    /// 1) User-entered key in Settings (`USER_GEMINI_API_KEY`)
+    /// 2) Info.plist `GEMINI_API_KEY`
+    static var geminiAPIKey: String? {
+        userDefaultsString("USER_GEMINI_API_KEY")
+            ?? plistString("GEMINI_API_KEY")
+    }
 
-    private static func plistString(_ key: String) -> String? {
-        guard let raw = Bundle.main.object(forInfoDictionaryKey: key) as? String else { return nil }
+    /// Optional backend proxy endpoint for Vet AI.
+    /// Resolution order:
+    /// 1) User-entered URL in Settings (`USER_VET_AI_PROXY_URL`)
+    /// 2) Info.plist `VET_AI_PROXY_URL`
+    static var vetAIProxyURL: String? {
+        userDefaultsString("USER_VET_AI_PROXY_URL")
+            ?? plistString("VET_AI_PROXY_URL")
+    }
+
+    /// Optional shared token sent as `Authorization: Bearer <token>` to proxy.
+    /// Resolution order:
+    /// 1) User-entered token in Settings (`USER_VET_AI_PROXY_TOKEN`)
+    /// 2) Info.plist `VET_AI_PROXY_TOKEN`
+    static var vetAIProxyToken: String? {
+        userDefaultsString("USER_VET_AI_PROXY_TOKEN")
+            ?? plistString("VET_AI_PROXY_TOKEN")
+    }
+
+    private static func normalizedNonPlaceholderString(_ raw: String?) -> String? {
+        guard let raw else { return nil }
         let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, !trimmed.hasPrefix("YOUR_") else { return nil }
         return trimmed
+    }
+
+    private static func plistString(_ key: String) -> String? {
+        normalizedNonPlaceholderString(Bundle.main.object(forInfoDictionaryKey: key) as? String)
+    }
+
+    private static func userDefaultsString(_ key: String) -> String? {
+        normalizedNonPlaceholderString(UserDefaults.standard.string(forKey: key))
     }
 }
 

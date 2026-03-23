@@ -19,6 +19,10 @@ struct SettingsView: View {
     @AppStorage("weightUnit") private var weightUnit: String = "lbs"
     @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer = false
     @AppStorage("hasAcceptedVetAIDisclaimer") private var hasAcceptedVetAIDisclaimer = false
+    @AppStorage("USER_CLAUDE_API_KEY") private var userClaudeAPIKey: String = ""
+    @AppStorage("USER_GEMINI_API_KEY") private var userGeminiAPIKey: String = ""
+    @AppStorage("USER_VET_AI_PROXY_URL") private var userVetAIProxyURL: String = ""
+    @AppStorage("USER_VET_AI_PROXY_TOKEN") private var userVetAIProxyToken: String = ""
     
     @State private var showingTileCustomization = false
     @State private var showingAbout = false
@@ -159,6 +163,108 @@ struct SettingsView: View {
                         Text("Co-caregivers & family")
                     } footer: {
                         Text("Send a text summary so a partner or sitter knows how you’re using Petpal. Real-time shared editing plus push notifications when the other person updates a visit requires secure cloud sync (e.g. a Petpal account or iCloud)—not available in this version yet.")
+                    }
+
+                    Section {
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "lock.shield.fill")
+                                    .foregroundStyle(Color("BrandGreen"))
+                                    .frame(width: 28)
+                                Text("Vet AI Proxy URL (recommended)")
+                                    .foregroundStyle(Color("BrandDark"))
+                            }
+                            TextField("https://your-worker.workers.dev/v1/vet-chat", text: $userVetAIProxyURL)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled()
+                                .keyboardType(.URL)
+                                .font(.footnote.monospaced())
+                        }
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "lock.fill")
+                                    .foregroundStyle(Color("BrandGreen"))
+                                    .frame(width: 28)
+                                Text("Proxy token (optional)")
+                                    .foregroundStyle(Color("BrandDark"))
+                            }
+                            SecureField("Paste VET_AI_PROXY_TOKEN", text: $userVetAIProxyToken)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled()
+                                .font(.footnote.monospaced())
+                        }
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "key.fill")
+                                    .foregroundStyle(Color("BrandBlue"))
+                                    .frame(width: 28)
+                                Text("Gemini API Key (free tier)")
+                                    .foregroundStyle(Color("BrandDark"))
+                            }
+                            SecureField("Paste GEMINI_API_KEY", text: $userGeminiAPIKey)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled()
+                                .font(.footnote.monospaced())
+                        }
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "key.fill")
+                                    .foregroundStyle(.secondary)
+                                    .frame(width: 28)
+                                Text("Claude API Key (optional)")
+                                    .foregroundStyle(Color("BrandDark"))
+                            }
+                            SecureField("Paste Claude_API_Key", text: $userClaudeAPIKey)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled()
+                                .font(.footnote.monospaced())
+                        }
+
+                        Button(role: .destructive) {
+                            userVetAIProxyURL = ""
+                            userVetAIProxyToken = ""
+                            userGeminiAPIKey = ""
+                            userClaudeAPIKey = ""
+                        } label: {
+                            Label("Clear saved AI settings", systemImage: "trash")
+                        }
+                    } header: {
+                        Text("Vet AI API Keys")
+                    } footer: {
+                        Text("""
+                        Best option: use your own backend proxy URL so API keys never ship in the app.
+                        You can also add your own Gemini/Claude keys directly. Values are stored on this device only.
+
+                        Quick free Gemini setup:
+                        1) Open Google AI Studio.
+                        2) Create an API key.
+                        3) Paste it above under Gemini API Key.
+                        4) Reopen AI Vet.
+                        """)
+                        + Text("\n")
+                        + Text("Open Google AI Studio")
+                            .foregroundStyle(Color("BrandBlue"))
+                    }
+                    
+                    Section {
+                        Link(destination: URL(string: "https://aistudio.google.com/apikey")!) {
+                            HStack {
+                                Image(systemName: "arrow.up.right.square.fill")
+                                    .foregroundStyle(Color("BrandBlue"))
+                                    .frame(width: 28)
+                                Text("Get free Gemini API key")
+                                    .foregroundStyle(Color("BrandDark"))
+                                Spacer()
+                                Image(systemName: "arrow.up.right")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    } footer: {
+                        Text("If both Gemini and Claude are set, Petpal uses Claude first.")
                     }
                     
                     // Disclaimers Section
