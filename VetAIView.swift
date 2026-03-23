@@ -61,6 +61,7 @@ struct VetAIView: View {
 
     private var providerStatusText: String {
         if APIConfiguration.vetAIProxyURL != nil { return "Provider: Secure Proxy" }
+        if APIConfiguration.hasInvalidVetAIProxyURL { return "Provider: Invalid proxy URL" }
         if APIConfiguration.anthropicAPIKey != nil { return "Provider: Claude (device key)" }
         if APIConfiguration.geminiAPIKey != nil { return "Provider: Gemini (device key)" }
         return "Provider: Offline mode"
@@ -201,6 +202,8 @@ struct VetAIView: View {
         let providerLine: String
         if !activeProviderDescription.isEmpty {
             providerLine = "Powered by \(activeProviderDescription). "
+        } else if APIConfiguration.hasInvalidVetAIProxyURL {
+            providerLine = "Your proxy URL appears invalid. Re-enter it in Settings > Vet AI API Keys (you can paste just the base workers.dev URL). "
         } else {
             providerLine = "No active proxy or API key found. Add your proxy URL/token or Claude/Gemini key in Settings > Vet AI API Keys. If using proxy, base URL is okay; Petpal auto-adds /v1/vet-chat. "
         }

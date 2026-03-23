@@ -99,9 +99,19 @@ struct APIConfiguration {
     /// 1) User-entered URL in Settings (`USER_VET_AI_PROXY_URL`)
     /// 2) Info.plist `VET_AI_PROXY_URL`
     static var vetAIProxyURL: String? {
-        let raw = userDefaultsString("USER_VET_AI_PROXY_URL")
+        normalizeProxyURL(vetAIProxyURLRaw)
+    }
+
+    /// Raw proxy URL before normalization/validation.
+    static var vetAIProxyURLRaw: String? {
+        userDefaultsString("USER_VET_AI_PROXY_URL")
             ?? plistString("VET_AI_PROXY_URL")
-        return normalizeProxyURL(raw)
+    }
+
+    /// True when a proxy value exists but cannot be normalized into a URL.
+    static var hasInvalidVetAIProxyURL: Bool {
+        guard let raw = vetAIProxyURLRaw else { return false }
+        return normalizeProxyURL(raw) == nil
     }
 
     /// Optional shared token sent as `Authorization: Bearer <token>` to proxy.
@@ -129,17 +139,30 @@ struct APIConfiguration {
     }
 
     private static func normalizeProxyURL(_ raw: String?) -> String? {
-        guard let raw = normalizedNonPlaceholderString(raw),
-              var components = URLComponents(string: raw),
+        guard var raw = normalizedNonPlaceholderString(raw) else { return nil }
+        // Common paste mistakes from rich text/messages.
+        raw = raw
+            .replacingOccurrences(of: "–", with: "-")
+            .replacingOccurrences(of: "—", with: "-")
+            .replacingOccurrences(of: " ", with: "")
+
+        if !raw.contains("://") {
+            raw = "https://\(raw)"
+        }
+
+        guard var components = URLComponents(string: raw),
               let host = components.host,
               !host.isEmpty else { return nil }
 
-        if components.scheme == nil {
-            components.scheme = "https"
-        }
+        let path = components.path
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+            .lowercased()
 
-        let path = components.path.trimmingCharacters(in: .whitespacesAndNewlines)
-        if path.isEmpty || path == "/" {
+        if path.isEmpty {
+            components.path = "/v1/vet-chat"
+        } else if path != "v1/vet-chat" {
+            // If a user pasted a base URL or wrong path, standardize to the expected endpoint.
             components.path = "/v1/vet-chat"
         }
 
