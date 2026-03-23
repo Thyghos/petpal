@@ -1,6 +1,6 @@
 # App Store submission walkthrough — Phases 2–10
 
-**Status:** Phases **1–3** done if you already have **successful TestFlight builds** (that implies signing + archive + upload worked). Next focus: **Phases 5–7** (store listing, screenshots) and **Phase 8** (attach build to App Store version) → **9–10** (review notes, export compliance, submit). Live URLs: **`APP_STORE_CONTACT_INFO.md`**.
+**Status:** Phases **1–3** done with TestFlight. **Phase 4** = App Store Connect app record (often already done before TestFlight). If **Petpal** exists under **My Apps**, treat Phase 4 as complete and continue **Phase 5+**. Live URLs: **`APP_STORE_CONTACT_INFO.md`**.
 
 ---
 
@@ -38,9 +38,21 @@ App Store Connect needs **working public URLs** (not only files in the repo).
 
 ## Phase 4 — Create app in App Store Connect
 
-1. [appstoreconnect.apple.com](https://appstoreconnect.apple.com) → **My Apps** → **+** → **New App**
-2. **iOS**, display name, language, bundle ID (match Xcode), **SKU** (e.g. `petpal-ios-001`)
-3. Create → open the app’s **App Store** tab
+**Already done?** If **My Apps** lists **Petpal** (or your store name), you already completed Phase 4. Confirm **bundle ID** matches Xcode: **`com.thyghos.petpalapp`** (see **`APP_STORE_CONTACT_INFO.md`**).
+
+**If you still need to create it:**
+
+1. Open [appstoreconnect.apple.com](https://appstoreconnect.apple.com) → **My Apps**.
+2. Click **+** (top left) → **New App**.
+3. **Platforms:** **iOS** (and others only if you ship them).
+4. **Name:** App Store display name (e.g. **Petpal**).
+5. **Primary language:** e.g. **English (U.S.)**.
+6. **Bundle ID:** choose the App ID you registered in the Developer portal — must match Xcode (**`com.thyghos.petpalapp`**). If it’s not listed, create the identifier in [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/identifiers/list) first, then return here.
+7. **SKU:** any unique internal string (e.g. `petpal-ios-001`). Users never see it.
+8. **User access** (if shown): **Full Access** for yourself unless you use a limited role.
+9. **Create** → open the app → **Distribution** / **App Store** tab to manage versions.
+
+**Phase 4 done when:** the app appears in **My Apps**, the **bundle ID** matches Xcode, and you can open the **iOS** version you’re preparing for the App Store.
 
 ---
 
