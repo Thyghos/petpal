@@ -1,10 +1,12 @@
 # App Store submission walkthrough — Phases 2–10
 
-**Status:** Phase 1 (Apple Developer account) is done. Resume here when you’re ready.
+**Status:** Phases **1–2** done. **Phase 3** (Xcode checks + archive) is next. Live URLs: **`APP_STORE_CONTACT_INFO.md`**.
 
 ---
 
 ## Phase 2 — Host legal & support links
+
+**Done.** Public pages: `https://thyghos.github.io/petpal/privacy.html`, `terms.html`, `support.html`.
 
 App Store Connect needs **working public URLs** (not only files in the repo).
 
@@ -12,9 +14,9 @@ App Store Connect needs **working public URLs** (not only files in the repo).
 
 **Step-by-step to finish:** see **`PHASE2_HOSTING.md`**.
 
-1. **Privacy policy** — e.g. `https://…/privacy.html`
-2. **Terms of service** — e.g. `https://…/terms.html` (host alongside privacy; link from policy or review notes)
-3. **Support** — e.g. `https://…/support.html` (required URL in Connect)
+1. **Privacy policy** — `https://thyghos.github.io/petpal/privacy.html`
+2. **Terms of service** — `https://thyghos.github.io/petpal/terms.html`
+3. **Support** — `https://thyghos.github.io/petpal/support.html` (required URL in Connect)
 4. **Deploy** — GitHub Actions workflow **Deploy legal pages** (publishes folder to **`gh-pages`**) or upload the folder to any static HTTPS host — details in **`PHASE2_HOSTING.md`**
 5. **Verify** — Open each URL in Safari **Private** mode (no login)
 
@@ -24,11 +26,13 @@ App Store Connect needs **working public URLs** (not only files in the repo).
 
 ## Phase 3 — Xcode project checks
 
-1. Open the **Petpal** project in Xcode
-2. Select that app target → **Signing & Capabilities**: Team + unique bundle ID
-3. **General** → **Version** (e.g. 1.0.0) and **Build** (e.g. 1)
-4. **Info.plist**: usage strings for camera, photos, location, etc. (anything the app uses)
-5. **Product → Archive** — fix errors until archive succeeds
+1. Open **`Petpal.xcodeproj`** in Xcode.
+2. Select the **Petpal** app target → **Signing & Capabilities**: your **Team**, **Automatically manage signing** on, and bundle ID **`com.thyghos.petpalapp`** (must match App Store Connect).
+3. **General** → **Version** (e.g. `1.0.0`) and **Build** (e.g. `1`); bump **Build** for each upload.
+4. **Info** / **Info.plist**: confirm usage strings exist for **location**, **camera**, **photo library**, **Bluetooth** (and anything else the target requests). This project uses the main **`Info.plist`** at the repo root (paths vary — check **Build Settings → Info.plist File**).
+5. **Destination**: **Any iOS Device** (or generic iOS device), then **Product → Archive**. Fix compile/signing errors until the archive completes.
+
+**Phase 3 done when:** a clean **Archive** succeeds and you’re ready to distribute to App Store Connect (Phase 8) after Connect metadata (Phases 4–7) is far enough along.
 
 ---
 

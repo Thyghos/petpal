@@ -2,14 +2,14 @@
 
 | Field | Value |
 |-------|--------|
-| **Privacy Policy URL** | *After Phase 2 deploy:* `https://YOUR_USER.github.io/YOUR_REPO/privacy.html` — or keep **`https://thyghos.github.io/petpal-privacy/`** until the new site is live |
-| **Support URL** | *After Phase 2 deploy:* `https://YOUR_USER.github.io/YOUR_REPO/support.html` |
-| **Terms of service** | *Same host:* `…/terms.html` (link from policy or review notes) |
+| **Privacy Policy URL** | `https://thyghos.github.io/petpal/privacy.html` |
+| **Support URL** | `https://thyghos.github.io/petpal/support.html` |
+| **Terms of service (hosted)** | `https://thyghos.github.io/petpal/terms.html` — use **Marketing URL** and/or in-app / review notes |
 | **Support email** | ealecci@gmail.com |
-| **Bundle ID** (Xcode) | `com.thyghos.Petpal.Petpal` |
+| **Bundle ID** (Xcode main target) | `com.thyghos.petpalapp` — must match the app record in App Store Connect |
 
-**App Store Connect:** paste **Privacy Policy URL** and **Support URL** under app information. Use **ealecci@gmail.com** for support contact where asked.
+**App Store Connect:** **Privacy Policy URL** (App Privacy + listing), **Support URL** + optional **Marketing URL** (terms) on the **iOS version** page. Use **ealecci@gmail.com** where contact email is requested.
 
-**Phase 2:** Follow **`PHASE2_HOSTING.md`**, then replace the placeholder URLs in this table with your real **https** links.
+**Phase 2:** Complete — pages deployed via **Deploy legal pages** → **gh-pages** + **Settings → Pages**. Source: `PHASE2_HOSTING.md`.
 
-Legacy single-page policy (if still live): [Petpal — Privacy Policy](https://thyghos.github.io/petpal-privacy/)
+Legacy single-page policy (older host): [Petpal — Privacy Policy](https://thyghos.github.io/petpal-privacy/)

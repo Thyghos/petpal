@@ -34,7 +34,7 @@ Paste **Privacy Policy URL** and **Support URL** in App Store Connect. Keep the 
 
 ## Phase 2 done when
 
-- [ ] Privacy, Terms, and Support pages load over **https://**
-- [ ] No sign-in required
-- [ ] Copy on pages matches **`PRIVACY_POLICY.md` / `TERMS_OF_SERVICE.md`** (re-run `build.py` after legal edits)
-- [ ] URLs saved for Phase 5
+- [x] Privacy, Terms, and Support pages load over **https://**
+- [x] No sign-in required
+- [ ] Copy on pages matches **`PRIVACY_POLICY.md` / `TERMS_OF_SERVICE.md`** (re-run `build.py` after legal edits) — re-check whenever you change the Markdown
+- [x] URLs saved — see **`APP_STORE_CONTACT_INFO.md`**
