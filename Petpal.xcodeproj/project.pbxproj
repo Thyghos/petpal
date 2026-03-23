@@ -6,6 +6,82 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5203AECE2F706C9B001402F1 /* VetAIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5203AECD2F706C9B001402F1 /* VetAIView.swift */; };
+		522BA83B2F6A340F00462F04 /* PAWPAL_APP_STORE_ACTION_PLAN.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA83A2F6A340F00462F04 /* PAWPAL_APP_STORE_ACTION_PLAN.md */; };
+		522BA83D2F6A343B00462F04 /* QUICK_DAILY_CHECKLIST.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA83C2F6A343B00462F04 /* QUICK_DAILY_CHECKLIST.md */; };
+		522BA83F2F6A349A00462F04 /* APP_STORE_TROUBLESHOOTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA83E2F6A349A00462F04 /* APP_STORE_TROUBLESHOOTING.md */; };
+		522BA8412F6A34E700462F04 /* START_HERE_APP_STORE.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA8402F6A34E700462F04 /* START_HERE_APP_STORE.md */; };
+		522BA8432F6A351A00462F04 /* ULTRA_QUICK_START.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA8422F6A351A00462F04 /* ULTRA_QUICK_START.md */; };
+		522BA8452F6A360600462F04 /* APP_NAME_UPDATE_COMPLETE.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA8442F6A360600462F04 /* APP_NAME_UPDATE_COMPLETE.md */; };
+		522BA8532F6A3B7D00462F04 /* APP_ICON_SETUP_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA8522F6A3B7D00462F04 /* APP_ICON_SETUP_GUIDE.md */; };
+		526331572F69F5F000A64ED5 /* PetpalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331402F69F5F000A64ED5 /* PetpalApp.swift */; };
+		526331582F69F5F000A64ED5 /* MockPetFriendlyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331352F69F5F000A64ED5 /* MockPetFriendlyData.swift */; };
+		526331592F69F5F000A64ED5 /* HealthTipCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263312C2F69F5F000A64ED5 /* HealthTipCard.swift */; };
+		5263315A2F69F5F000A64ED5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263314C2F69F5F000A64ED5 /* SettingsView.swift */; };
+		5263315B2F69F5F000A64ED5 /* BluetoothDeviceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331262F69F5F000A64ED5 /* BluetoothDeviceLocator.swift */; };
+		5263315C2F69F5F000A64ED5 /* PetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263313C2F69F5F000A64ED5 /* PetDetailView.swift */; };
+		5263315D2F69F5F000A64ED5 /* HealthTipPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263312D2F69F5F000A64ED5 /* HealthTipPreferences.swift */; };
+		5263315E2F69F5F000A64ED5 /* MultiPetDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331392F69F5F000A64ED5 /* MultiPetDashboardView.swift */; };
+		5263315F2F69F5F000A64ED5 /* AddPetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263311F2F69F5F000A64ED5 /* AddPetView.swift */; };
+		526331602F69F5F000A64ED5 /* TilePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331502F69F5F000A64ED5 /* TilePreferences.swift */; };
+		526331612F69F5F000A64ED5 /* DisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331282F69F5F000A64ED5 /* DisclaimerView.swift */; };
+		526331622F69F5F000A64ED5 /* ModernDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331382F69F5F000A64ED5 /* ModernDesignSystem.swift */; };
+		526331632F69F5F000A64ED5 /* PetsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331412F69F5F000A64ED5 /* PetsListView.swift */; };
+		526331642F69F5F000A64ED5 /* PublicEmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331462F69F5F000A64ED5 /* PublicEmergencyView.swift */; };
+		526331652F69F5F000A64ED5 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331202F69F5F000A64ED5 /* APIConfiguration.swift */; };
+		526331662F69F5F000A64ED5 /* Petpal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263313F2F69F5F000A64ED5 /* Petpal.swift */; };
+		526331672F69F5F000A64ED5 /* PetFriendlyPlacesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */; };
+		526331682F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */; };
+		526331692F69F5F000A64ED5 /* EmergencyQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331292F69F5F000A64ED5 /* EmergencyQRView.swift */; };
+		5263316A2F69F5F000A64ED5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263312F2F69F5F000A64ED5 /* HomeView.swift */; };
+		5263316B2F69F5F000A64ED5 /* TravelModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331532F69F5F000A64ED5 /* TravelModeView.swift */; };
+		5263316C2F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331362F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md */; };
+		5263316D2F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */; };
+		5263316E2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314F2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md */; };
+		5263316F2F69F5F000A64ED5 /* QUICK_START 2.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331492F69F5F000A64ED5 /* QUICK_START 2.md */; };
+		526331702F69F5F000A64ED5 /* LOCATION_SETUP.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331342F69F5F000A64ED5 /* LOCATION_SETUP.md */; };
+		526331712F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314E2F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md */; };
+		526331722F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263312B2F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md */; };
+		526331732F69F5F000A64ED5 /* PRESET_FEATURES.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331422F69F5F000A64ED5 /* PRESET_FEATURES.md */; };
+		526331742F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314D2F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md */; };
+		526331752F69F5F000A64ED5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 526331242F69F5F000A64ED5 /* Assets.xcassets */; };
+		526331762F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331472F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md */; };
+		526331772F69F5F000A64ED5 /* UI_OVERVIEW.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331542F69F5F000A64ED5 /* UI_OVERVIEW.md */; };
+		526331782F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263313A2F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md */; };
+		526331792F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331302F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md */; };
+		5263317A2F69F5F000A64ED5 /* INFO_PLIST_SETUP.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331322F69F5F000A64ED5 /* INFO_PLIST_SETUP.md */; };
+		5263317B2F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331512F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md */; };
+		5263317C2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314A2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md */; };
+		5263317D2F69F5F000A64ED5 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331442F69F5F000A64ED5 /* PRIVACY_POLICY.md */; };
+		5263317E2F69F5F000A64ED5 /* QUICK_START.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331482F69F5F000A64ED5 /* QUICK_START.md */; };
+		5263317F2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263313B2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md */; };
+		526331802F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331452F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md */; };
+		526331812F69F5F000A64ED5 /* APP_STORE_COMPLIANCE_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331212F69F5F000A64ED5 /* APP_STORE_COMPLIANCE_GUIDE.md */; };
+		526331832F69F5F000A64ED5 /* TRAVEL_MODE_README.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331522F69F5F000A64ED5 /* TRAVEL_MODE_README.md */; };
+		526331842F69F5F000A64ED5 /* APP_STORE_READY_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331222F69F5F000A64ED5 /* APP_STORE_READY_SUMMARY.md */; };
+		526331852F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331272F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md */; };
+		526331862F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331372F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md */; };
+		526331872F69F5F000A64ED5 /* PRESET_VISUAL_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331432F69F5F000A64ED5 /* PRESET_VISUAL_GUIDE.md */; };
+		526331882F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331252F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md */; };
+		526331892F69F5F000A64ED5 /* FIXES_APPLIED.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263312A2F69F5F000A64ED5 /* FIXES_APPLIED.md */; };
+		5263318A2F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331332F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md */; };
+		5263318B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md */; };
+		5263318C2F69F5F000A64ED5 /* HOME_SCREEN_REDESIGN_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263312E2F69F5F000A64ED5 /* HOME_SCREEN_REDESIGN_SUMMARY.md */; };
+		5263318D2F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331232F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md */; };
+		5263318F2F69F68D00A64ED5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263318E2F69F68D00A64ED5 /* Models.swift */; };
+		526331912F69F79900A64ED5 /* EmergencyProfileEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331902F69F79900A64ED5 /* EmergencyProfileEditor.swift */; };
+		526331992F69F8FB00A64ED5 /* DUPLICATE_FILES_FIX.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331982F69F8FB00A64ED5 /* DUPLICATE_FILES_FIX.md */; };
+		526331AA2FAA10010064ED02 /* LegacyPetBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331AA2FAA10010064ED01 /* LegacyPetBootstrap.swift */; };
+		526331AB2FAA10010064ED02 /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331AB2FAA10010064ED01 /* AppRootView.swift */; };
+		526FB7BC2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md in Resources */ = {isa = PBXBuildFile; fileRef = 526FB7BB2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md */; };
+		52BADD022F71000100B64ED5 /* RecordAttachmentSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BADD012F71000100B64ED5 /* RecordAttachmentSupport.swift */; };
+		52DCF1002F9A100000C64ED5 /* BringFidoInAppBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DCF0FF2F9A100000C64ED5 /* BringFidoInAppBrowser.swift */; };
+		52ECEC982F70699200479441 /* VetAIPetContextBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ECEC972F70699200479441 /* VetAIPetContextBuilder.swift */; };
+		52ECEC9C2F70687200479441 /* PlaceholderFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ECEC9B2F70687200479441 /* PlaceholderFeatures.swift */; };
+		52ECEC9E2F70699000479441 /* PrintShareSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ECEC9D2F70699000479441 /* PrintShareSupport.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		526331032F69F54700A64ED5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,17 +100,88 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5203AECD2F706C9B001402F1 /* VetAIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VetAIView.swift; sourceTree = "<group>"; };
+		522BA83A2F6A340F00462F04 /* PAWPAL_APP_STORE_ACTION_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PAWPAL_APP_STORE_ACTION_PLAN.md; sourceTree = "<group>"; };
+		522BA83C2F6A343B00462F04 /* QUICK_DAILY_CHECKLIST.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = QUICK_DAILY_CHECKLIST.md; sourceTree = "<group>"; };
+		522BA83E2F6A349A00462F04 /* APP_STORE_TROUBLESHOOTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_STORE_TROUBLESHOOTING.md; sourceTree = "<group>"; };
+		522BA8402F6A34E700462F04 /* START_HERE_APP_STORE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = START_HERE_APP_STORE.md; sourceTree = "<group>"; };
+		522BA8422F6A351A00462F04 /* ULTRA_QUICK_START.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ULTRA_QUICK_START.md; sourceTree = "<group>"; };
+		522BA8442F6A360600462F04 /* APP_NAME_UPDATE_COMPLETE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_NAME_UPDATE_COMPLETE.md; sourceTree = "<group>"; };
+		522BA8522F6A3B7D00462F04 /* APP_ICON_SETUP_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_ICON_SETUP_GUIDE.md; sourceTree = "<group>"; };
+		523161982F7071030074993E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Petpal/Info.plist; sourceTree = "<group>"; };
 		526330F32F69F54600A64ED5 /* Petpal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Petpal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		526331022F69F54700A64ED5 /* PetpalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetpalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5263310C2F69F54700A64ED5 /* PetpalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetpalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5263311F2F69F5F000A64ED5 /* AddPetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetView.swift; sourceTree = "<group>"; };
+		526331202F69F5F000A64ED5 /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
+		526331212F69F5F000A64ED5 /* APP_STORE_COMPLIANCE_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_STORE_COMPLIANCE_GUIDE.md; sourceTree = "<group>"; };
+		526331222F69F5F000A64ED5 /* APP_STORE_READY_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_STORE_READY_SUMMARY.md; sourceTree = "<group>"; };
+		526331232F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_STORE_SUBMISSION_GUIDE.md; sourceTree = "<group>"; };
+		526331242F69F5F000A64ED5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		526331252F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BEFORE_AFTER_VISUAL.md; sourceTree = "<group>"; };
+		526331262F69F5F000A64ED5 /* BluetoothDeviceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDeviceLocator.swift; sourceTree = "<group>"; };
+		526331272F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CUSTOMIZATION_GUIDE.md; sourceTree = "<group>"; };
+		526331282F69F5F000A64ED5 /* DisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerView.swift; sourceTree = "<group>"; };
+		526331292F69F5F000A64ED5 /* EmergencyQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyQRView.swift; sourceTree = "<group>"; };
+		5263312A2F69F5F000A64ED5 /* FIXES_APPLIED.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIXES_APPLIED.md; sourceTree = "<group>"; };
+		5263312B2F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FLOATING_VET_AI_GUIDE.md; sourceTree = "<group>"; };
+		5263312C2F69F5F000A64ED5 /* HealthTipCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTipCard.swift; sourceTree = "<group>"; };
+		5263312D2F69F5F000A64ED5 /* HealthTipPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTipPreferences.swift; sourceTree = "<group>"; };
+		5263312E2F69F5F000A64ED5 /* HOME_SCREEN_REDESIGN_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = HOME_SCREEN_REDESIGN_SUMMARY.md; sourceTree = "<group>"; };
+		5263312F2F69F5F000A64ED5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		526331302F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = IMPLEMENTATION_SUMMARY.md; sourceTree = "<group>"; };
+		526331312F69F5F000A64ED5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		526331322F69F5F000A64ED5 /* INFO_PLIST_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INFO_PLIST_SETUP.md; sourceTree = "<group>"; };
+		526331332F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INTEGRATION_SUMMARY.md; sourceTree = "<group>"; };
+		526331342F69F5F000A64ED5 /* LOCATION_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LOCATION_SETUP.md; sourceTree = "<group>"; };
+		526331352F69F5F000A64ED5 /* MockPetFriendlyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPetFriendlyData.swift; sourceTree = "<group>"; };
+		526331362F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MODERN_DESIGN_GUIDE.md; sourceTree = "<group>"; };
+		526331372F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MODERN_HOME_UI_GUIDE.md; sourceTree = "<group>"; };
+		526331382F69F5F000A64ED5 /* ModernDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernDesignSystem.swift; sourceTree = "<group>"; };
+		526331392F69F5F000A64ED5 /* MultiPetDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPetDashboardView.swift; sourceTree = "<group>"; };
+		5263313A2F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PET_CARE_FEATURE_GUIDE.md; sourceTree = "<group>"; };
+		5263313B2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PET_CARE_IMPLEMENTATION_SUMMARY.md; sourceTree = "<group>"; };
+		5263313C2F69F5F000A64ED5 /* PetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailView.swift; sourceTree = "<group>"; };
+		5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetFriendlyPlacesService.swift; sourceTree = "<group>"; };
+		5263313E2F69F5F000A64ED5 /* Petpal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Petpal.entitlements; sourceTree = "<group>"; };
+		5263313F2F69F5F000A64ED5 /* Petpal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Petpal.swift; sourceTree = "<group>"; };
+		526331402F69F5F000A64ED5 /* PetpalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetpalApp.swift; sourceTree = "<group>"; };
+		526331412F69F5F000A64ED5 /* PetsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetsListView.swift; sourceTree = "<group>"; };
+		526331422F69F5F000A64ED5 /* PRESET_FEATURES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRESET_FEATURES.md; sourceTree = "<group>"; };
+		526331432F69F5F000A64ED5 /* PRESET_VISUAL_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRESET_VISUAL_GUIDE.md; sourceTree = "<group>"; };
+		526331442F69F5F000A64ED5 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = "<group>"; };
+		526331452F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY_TEMPLATE.md; sourceTree = "<group>"; };
+		526331462F69F5F000A64ED5 /* PublicEmergencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicEmergencyView.swift; sourceTree = "<group>"; };
+		526331472F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = QUICK_FIX_SIMULATOR.md; sourceTree = "<group>"; };
+		526331482F69F5F000A64ED5 /* QUICK_START.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = QUICK_START.md; sourceTree = "<group>"; };
+		526331492F69F5F000A64ED5 /* QUICK_START 2.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "QUICK_START 2.md"; sourceTree = "<group>"; };
+		5263314A2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README_INTEGRATION_COMPLETE.md; sourceTree = "<group>"; };
+		5263314B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = REBRANDING_GUIDE.md; sourceTree = "<group>"; };
+		5263314C2F69F5F000A64ED5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5263314D2F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SIMULATOR_SETUP_GUIDE.md; sourceTree = "<group>"; };
+		5263314E2F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SUBMISSION_CHECKLIST.md; sourceTree = "<group>"; };
+		5263314F2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TERMS_OF_SERVICE.md; sourceTree = "<group>"; };
+		526331502F69F5F000A64ED5 /* TilePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TilePreferences.swift; sourceTree = "<group>"; };
+		526331512F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TOGGLE_ALL_FEATURE.md; sourceTree = "<group>"; };
+		526331522F69F5F000A64ED5 /* TRAVEL_MODE_README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TRAVEL_MODE_README.md; sourceTree = "<group>"; };
+		526331532F69F5F000A64ED5 /* TravelModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelModeView.swift; sourceTree = "<group>"; };
+		526331542F69F5F000A64ED5 /* UI_OVERVIEW.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = UI_OVERVIEW.md; sourceTree = "<group>"; };
+		526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VetAIDisclaimerSheet.swift; sourceTree = "<group>"; };
+		526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = VISUAL_GUIDE_HOME_SCREEN.md; sourceTree = "<group>"; };
+		5263318E2F69F68D00A64ED5 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		526331902F69F79900A64ED5 /* EmergencyProfileEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyProfileEditor.swift; sourceTree = "<group>"; };
+		526331982F69F8FB00A64ED5 /* DUPLICATE_FILES_FIX.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DUPLICATE_FILES_FIX.md; sourceTree = "<group>"; };
+		526331AA2FAA10010064ED01 /* LegacyPetBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyPetBootstrap.swift; sourceTree = "<group>"; };
+		526331AB2FAA10010064ED01 /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
+		526FB7BB2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = tmpTESTFLIGHT_QUICK_START.md; sourceTree = "<group>"; };
+		52BADD012F71000100B64ED5 /* RecordAttachmentSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordAttachmentSupport.swift; sourceTree = "<group>"; };
+		52DCF0FF2F9A100000C64ED5 /* BringFidoInAppBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringFidoInAppBrowser.swift; sourceTree = "<group>"; };
+		52ECEC972F70699200479441 /* VetAIPetContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VetAIPetContextBuilder.swift; sourceTree = "<group>"; };
+		52ECEC9B2F70687200479441 /* PlaceholderFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderFeatures.swift; sourceTree = "<group>"; };
+		52ECEC9D2F70699000479441 /* PrintShareSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintShareSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		526330F52F69F54600A64ED5 /* Petpal */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Petpal;
-			sourceTree = "<group>";
-		};
 		526331052F69F54700A64ED5 /* PetpalTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PetpalTests;
@@ -75,10 +222,85 @@
 		526330EA2F69F54600A64ED5 = {
 			isa = PBXGroup;
 			children = (
-				526330F52F69F54600A64ED5 /* Petpal */,
+				523161982F7071030074993E /* Info.plist */,
+				5203AECD2F706C9B001402F1 /* VetAIView.swift */,
+				52ECEC972F70699200479441 /* VetAIPetContextBuilder.swift */,
+				52ECEC9B2F70687200479441 /* PlaceholderFeatures.swift */,
+				52ECEC9D2F70699000479441 /* PrintShareSupport.swift */,
+				52BADD012F71000100B64ED5 /* RecordAttachmentSupport.swift */,
+				5263311F2F69F5F000A64ED5 /* AddPetView.swift */,
+				526331202F69F5F000A64ED5 /* APIConfiguration.swift */,
+				526331212F69F5F000A64ED5 /* APP_STORE_COMPLIANCE_GUIDE.md */,
+				526331222F69F5F000A64ED5 /* APP_STORE_READY_SUMMARY.md */,
+				526331232F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md */,
+				526331242F69F5F000A64ED5 /* Assets.xcassets */,
+				526331252F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md */,
+				526331262F69F5F000A64ED5 /* BluetoothDeviceLocator.swift */,
+				526331272F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md */,
+				526331282F69F5F000A64ED5 /* DisclaimerView.swift */,
+				526331292F69F5F000A64ED5 /* EmergencyQRView.swift */,
+				5263312A2F69F5F000A64ED5 /* FIXES_APPLIED.md */,
+				5263312B2F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md */,
+				5263312C2F69F5F000A64ED5 /* HealthTipCard.swift */,
+				5263312D2F69F5F000A64ED5 /* HealthTipPreferences.swift */,
+				5263312E2F69F5F000A64ED5 /* HOME_SCREEN_REDESIGN_SUMMARY.md */,
+				5263312F2F69F5F000A64ED5 /* HomeView.swift */,
+				526331302F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md */,
+				526331312F69F5F000A64ED5 /* Info.plist */,
+				526331322F69F5F000A64ED5 /* INFO_PLIST_SETUP.md */,
+				526331332F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md */,
+				526331342F69F5F000A64ED5 /* LOCATION_SETUP.md */,
+				526331352F69F5F000A64ED5 /* MockPetFriendlyData.swift */,
+				526331362F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md */,
+				526331372F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md */,
+				526331382F69F5F000A64ED5 /* ModernDesignSystem.swift */,
+				526331392F69F5F000A64ED5 /* MultiPetDashboardView.swift */,
+				5263313A2F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md */,
+				5263313B2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md */,
+				5263313C2F69F5F000A64ED5 /* PetDetailView.swift */,
+				5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */,
+				5263313E2F69F5F000A64ED5 /* Petpal.entitlements */,
+				5263313F2F69F5F000A64ED5 /* Petpal.swift */,
+				526331402F69F5F000A64ED5 /* PetpalApp.swift */,
+				526331412F69F5F000A64ED5 /* PetsListView.swift */,
+				526331422F69F5F000A64ED5 /* PRESET_FEATURES.md */,
+				526331432F69F5F000A64ED5 /* PRESET_VISUAL_GUIDE.md */,
+				526331442F69F5F000A64ED5 /* PRIVACY_POLICY.md */,
+				526331452F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md */,
+				526331462F69F5F000A64ED5 /* PublicEmergencyView.swift */,
+				526331472F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md */,
+				526331482F69F5F000A64ED5 /* QUICK_START.md */,
+				526331492F69F5F000A64ED5 /* QUICK_START 2.md */,
+				5263314A2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md */,
+				5263314B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md */,
+				5263314C2F69F5F000A64ED5 /* SettingsView.swift */,
+				5263314D2F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md */,
+				5263314E2F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md */,
+				5263314F2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md */,
+				526331502F69F5F000A64ED5 /* TilePreferences.swift */,
+				526331512F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md */,
+				526331522F69F5F000A64ED5 /* TRAVEL_MODE_README.md */,
+				526331532F69F5F000A64ED5 /* TravelModeView.swift */,
+				52DCF0FF2F9A100000C64ED5 /* BringFidoInAppBrowser.swift */,
+				526331542F69F5F000A64ED5 /* UI_OVERVIEW.md */,
+				526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */,
+				526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */,
 				526331052F69F54700A64ED5 /* PetpalTests */,
 				5263310F2F69F54700A64ED5 /* PetpalUITests */,
 				526330F42F69F54600A64ED5 /* Products */,
+				5263318E2F69F68D00A64ED5 /* Models.swift */,
+				526331AA2FAA10010064ED01 /* LegacyPetBootstrap.swift */,
+				526331AB2FAA10010064ED01 /* AppRootView.swift */,
+				526331902F69F79900A64ED5 /* EmergencyProfileEditor.swift */,
+				526331982F69F8FB00A64ED5 /* DUPLICATE_FILES_FIX.md */,
+				522BA83A2F6A340F00462F04 /* PAWPAL_APP_STORE_ACTION_PLAN.md */,
+				522BA83C2F6A343B00462F04 /* QUICK_DAILY_CHECKLIST.md */,
+				522BA83E2F6A349A00462F04 /* APP_STORE_TROUBLESHOOTING.md */,
+				522BA8402F6A34E700462F04 /* START_HERE_APP_STORE.md */,
+				522BA8422F6A351A00462F04 /* ULTRA_QUICK_START.md */,
+				522BA8442F6A360600462F04 /* APP_NAME_UPDATE_COMPLETE.md */,
+				522BA8522F6A3B7D00462F04 /* APP_ICON_SETUP_GUIDE.md */,
+				526FB7BB2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,9 +328,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				526330F52F69F54600A64ED5 /* Petpal */,
 			);
 			name = Petpal;
 			packageProductDependencies = (
@@ -212,6 +431,48 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5263316C2F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md in Resources */,
+				522BA8412F6A34E700462F04 /* START_HERE_APP_STORE.md in Resources */,
+				5263316D2F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md in Resources */,
+				5263316E2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md in Resources */,
+				526331992F69F8FB00A64ED5 /* DUPLICATE_FILES_FIX.md in Resources */,
+				5263316F2F69F5F000A64ED5 /* QUICK_START 2.md in Resources */,
+				526331702F69F5F000A64ED5 /* LOCATION_SETUP.md in Resources */,
+				526331712F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md in Resources */,
+				526331722F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md in Resources */,
+				526331732F69F5F000A64ED5 /* PRESET_FEATURES.md in Resources */,
+				526331742F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md in Resources */,
+				526331752F69F5F000A64ED5 /* Assets.xcassets in Resources */,
+				526331762F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md in Resources */,
+				526331772F69F5F000A64ED5 /* UI_OVERVIEW.md in Resources */,
+				526331782F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md in Resources */,
+				526331792F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md in Resources */,
+				5263317A2F69F5F000A64ED5 /* INFO_PLIST_SETUP.md in Resources */,
+				5263317B2F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md in Resources */,
+				5263317C2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md in Resources */,
+				5263317D2F69F5F000A64ED5 /* PRIVACY_POLICY.md in Resources */,
+				5263317E2F69F5F000A64ED5 /* QUICK_START.md in Resources */,
+				522BA8452F6A360600462F04 /* APP_NAME_UPDATE_COMPLETE.md in Resources */,
+				5263317F2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md in Resources */,
+				526FB7BC2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md in Resources */,
+				526331802F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md in Resources */,
+				526331812F69F5F000A64ED5 /* APP_STORE_COMPLIANCE_GUIDE.md in Resources */,
+				522BA83D2F6A343B00462F04 /* QUICK_DAILY_CHECKLIST.md in Resources */,
+				522BA8432F6A351A00462F04 /* ULTRA_QUICK_START.md in Resources */,
+				526331832F69F5F000A64ED5 /* TRAVEL_MODE_README.md in Resources */,
+				526331842F69F5F000A64ED5 /* APP_STORE_READY_SUMMARY.md in Resources */,
+				526331852F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md in Resources */,
+				526331862F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md in Resources */,
+				526331872F69F5F000A64ED5 /* PRESET_VISUAL_GUIDE.md in Resources */,
+				522BA83B2F6A340F00462F04 /* PAWPAL_APP_STORE_ACTION_PLAN.md in Resources */,
+				522BA8532F6A3B7D00462F04 /* APP_ICON_SETUP_GUIDE.md in Resources */,
+				526331882F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md in Resources */,
+				526331892F69F5F000A64ED5 /* FIXES_APPLIED.md in Resources */,
+				5263318A2F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md in Resources */,
+				522BA83F2F6A349A00462F04 /* APP_STORE_TROUBLESHOOTING.md in Resources */,
+				5263318B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md in Resources */,
+				5263318C2F69F5F000A64ED5 /* HOME_SCREEN_REDESIGN_SUMMARY.md in Resources */,
+				5263318D2F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +497,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				526331572F69F5F000A64ED5 /* PetpalApp.swift in Sources */,
+				526331582F69F5F000A64ED5 /* MockPetFriendlyData.swift in Sources */,
+				526331592F69F5F000A64ED5 /* HealthTipCard.swift in Sources */,
+				5263315A2F69F5F000A64ED5 /* SettingsView.swift in Sources */,
+				5263315B2F69F5F000A64ED5 /* BluetoothDeviceLocator.swift in Sources */,
+				5263315C2F69F5F000A64ED5 /* PetDetailView.swift in Sources */,
+				526331912F69F79900A64ED5 /* EmergencyProfileEditor.swift in Sources */,
+				5263315D2F69F5F000A64ED5 /* HealthTipPreferences.swift in Sources */,
+				5263315E2F69F5F000A64ED5 /* MultiPetDashboardView.swift in Sources */,
+				5263315F2F69F5F000A64ED5 /* AddPetView.swift in Sources */,
+				526331602F69F5F000A64ED5 /* TilePreferences.swift in Sources */,
+				526331612F69F5F000A64ED5 /* DisclaimerView.swift in Sources */,
+				526331622F69F5F000A64ED5 /* ModernDesignSystem.swift in Sources */,
+				5203AECE2F706C9B001402F1 /* VetAIView.swift in Sources */,
+				52ECEC982F70699200479441 /* VetAIPetContextBuilder.swift in Sources */,
+				52ECEC9C2F70687200479441 /* PlaceholderFeatures.swift in Sources */,
+				52ECEC9E2F70699000479441 /* PrintShareSupport.swift in Sources */,
+				52BADD022F71000100B64ED5 /* RecordAttachmentSupport.swift in Sources */,
+				526331632F69F5F000A64ED5 /* PetsListView.swift in Sources */,
+				526331642F69F5F000A64ED5 /* PublicEmergencyView.swift in Sources */,
+				526331652F69F5F000A64ED5 /* APIConfiguration.swift in Sources */,
+				526331662F69F5F000A64ED5 /* Petpal.swift in Sources */,
+				526331672F69F5F000A64ED5 /* PetFriendlyPlacesService.swift in Sources */,
+				526331682F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift in Sources */,
+				526331692F69F5F000A64ED5 /* EmergencyQRView.swift in Sources */,
+				5263316A2F69F5F000A64ED5 /* HomeView.swift in Sources */,
+				5263316B2F69F5F000A64ED5 /* TravelModeView.swift in Sources */,
+				52DCF1002F9A100000C64ED5 /* BringFidoInAppBrowser.swift in Sources */,
+				5263318F2F69F68D00A64ED5 /* Models.swift in Sources */,
+				526331AA2FAA10010064ED02 /* LegacyPetBootstrap.swift in Sources */,
+				526331AB2FAA10010064ED02 /* AppRootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,14 +682,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 5MYA4PW6KR;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Petpal/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Petpal uses ​Bluetooth to discover and connect to your pet​'s tracking device so you can locate your pet when they​'re nearby.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Petpal uses your camera to take photos of your pet for their profile.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Petpal uses your location to find nearby pet-friendly places and veterinarians.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Petpal can save QR codes and images to your photo library when you choose to save them.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Petpal needs access to your photo library to set your pet's profile picture.";
+				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Petpal can send reminders for vet appointments and pet care.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -413,18 +713,20 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.thyghos.Petpal.Petpal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thyghos.petpalapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
@@ -434,14 +736,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 5MYA4PW6KR;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Petpal/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Petpal uses ​Bluetooth to discover and connect to your pet​'s tracking device so you can locate your pet when they​'re nearby.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Petpal uses your camera to take photos of your pet for their profile.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Petpal uses your location to find nearby pet-friendly places and veterinarians.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Petpal can save QR codes and images to your photo library when you choose to save them.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Petpal needs access to your photo library to set your pet's profile picture.";
+				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Petpal can send reminders for vet appointments and pet care.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -457,18 +767,20 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.thyghos.Petpal.Petpal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thyghos.petpalapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;

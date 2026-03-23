@@ -1,0 +1,18 @@
+name: PantryVision
+options:
+  bundleIdPrefix: com.john
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  PantryVision:
+    type: application
+    platform: iOS
+    deploymentTarget:
+      iOS: "16.0"
+    sources:
+      - PantryVision
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        PRODUCT_NAME: "PantryVision"
+        INFOPLIST_FILE: "Info.plist"

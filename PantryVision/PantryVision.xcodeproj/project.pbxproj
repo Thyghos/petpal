@@ -1,0 +1,249 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0768332657FEA1B0F5B8838D3A8DE1B4 /* GroceryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB3A9F7850173600C62CF9B5BE1793E /* GroceryModels.swift */; };
+		1A6471B6F7E9AF18FC08330A06AA819B /* FamilySetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A8780E013844187999F8B4ED492CA /* FamilySetupView.swift */; };
+		5FFD7BA3407FC953FDB18D1C3D7166C2 /* CloudFunctionsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B534BD70A38072874FDBA8B152855F0D /* CloudFunctionsClient.swift */; };
+		61870123CE8D3194A9173388CED2011B /* PhotoAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18362EED608358E595619C923FA9AD8A /* PhotoAnalysisService.swift */; };
+		739D11AE8BC1004BF4C3D4EEF0C7E74C /* GroceryListSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08129D354A3D6A19E7B2CDE181267F22 /* GroceryListSyncService.swift */; };
+		759939E99C2E97854491FEE3F1021139 /* PantryVisionIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C0522CB12D51A9CD175D0E04F097BC /* PantryVisionIdentity.swift */; };
+		7BD4463DE84FC18FCEE82F1AC88C93BB /* FamilyCodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AC7A3BAB7C01AAD2986450A9872049 /* FamilyCodeService.swift */; };
+		81B149B55F09F6AD3C1A43D3F533F0AD /* ReceiptScanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F144DAEAD9D392175E70B9AC2C3B17 /* ReceiptScanService.swift */; };
+		91C920EA26CAFC366A52CEC3C143E3E2 /* PantryVisionTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96333BB74BE774F790F2C149099E7C39 /* PantryVisionTheme.swift */; };
+		A6F1C385A6257353077A314101388E99 /* PantryVisionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D077895B8A118FD0145D3A7CEE3D1EC5 /* PantryVisionConfig.swift */; };
+		A99916AEF6A1B46C16BF144DD4430B95 /* PantryVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218AC2E55B479F078ED3566414840397 /* PantryVisionApp.swift */; };
+		C418F7D881B18C420FE025C9F9E54B0C /* FridgeItemMappingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48C1A03CDC4373AD7290812CAC854E8 /* FridgeItemMappingAPI.swift */; };
+		CB9C6E14384230C9534E8F1C8291BCB1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FCC1CD2A5F0F34C61C2FB5F1E259DE /* ContentView.swift */; };
+		D3F833F07F8A4801A3E9709EA9854D57 /* ReceiptScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E381E4BCB202D3D8B989085F3086AEAB /* ReceiptScanView.swift */; };
+		DB8BA108E0FFA4E9C220B769D9AA8D28 /* StorePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860A3F873C2595CD12524057D11C677D /* StorePickerView.swift */; };
+		FA68A43801AB5E71CE5FC509B7C9C137 /* IdentitySetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D93116DA80798573C6A4CE1BDD5C8F /* IdentitySetupView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08129D354A3D6A19E7B2CDE181267F22 /* GroceryListSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryListSyncService.swift; sourceTree = "<group>"; };
+		08AC7A3BAB7C01AAD2986450A9872049 /* FamilyCodeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyCodeService.swift; sourceTree = "<group>"; };
+		18362EED608358E595619C923FA9AD8A /* PhotoAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAnalysisService.swift; sourceTree = "<group>"; };
+		1FB3A9F7850173600C62CF9B5BE1793E /* GroceryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryModels.swift; sourceTree = "<group>"; };
+		218AC2E55B479F078ED3566414840397 /* PantryVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryVisionApp.swift; sourceTree = "<group>"; };
+		29C0522CB12D51A9CD175D0E04F097BC /* PantryVisionIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryVisionIdentity.swift; sourceTree = "<group>"; };
+		860A3F873C2595CD12524057D11C677D /* StorePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePickerView.swift; sourceTree = "<group>"; };
+		8C1A8780E013844187999F8B4ED492CA /* FamilySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilySetupView.swift; sourceTree = "<group>"; };
+		96333BB74BE774F790F2C149099E7C39 /* PantryVisionTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryVisionTheme.swift; sourceTree = "<group>"; };
+		98FCC1CD2A5F0F34C61C2FB5F1E259DE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B534BD70A38072874FDBA8B152855F0D /* CloudFunctionsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudFunctionsClient.swift; sourceTree = "<group>"; };
+		B8D93116DA80798573C6A4CE1BDD5C8F /* IdentitySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentitySetupView.swift; sourceTree = "<group>"; };
+		D077895B8A118FD0145D3A7CEE3D1EC5 /* PantryVisionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryVisionConfig.swift; sourceTree = "<group>"; };
+		D48C1A03CDC4373AD7290812CAC854E8 /* FridgeItemMappingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FridgeItemMappingAPI.swift; sourceTree = "<group>"; };
+		DC606F70CDC4AC52E53F4F69D2DFF750 /* PantryVision.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PantryVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1F144DAEAD9D392175E70B9AC2C3B17 /* ReceiptScanService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptScanService.swift; sourceTree = "<group>"; };
+		E381E4BCB202D3D8B989085F3086AEAB /* ReceiptScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptScanView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		143DC982A9320B2AB8B39D55EF919815 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B534BD70A38072874FDBA8B152855F0D /* CloudFunctionsClient.swift */,
+				08AC7A3BAB7C01AAD2986450A9872049 /* FamilyCodeService.swift */,
+				D48C1A03CDC4373AD7290812CAC854E8 /* FridgeItemMappingAPI.swift */,
+				08129D354A3D6A19E7B2CDE181267F22 /* GroceryListSyncService.swift */,
+				18362EED608358E595619C923FA9AD8A /* PhotoAnalysisService.swift */,
+				E1F144DAEAD9D392175E70B9AC2C3B17 /* ReceiptScanService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4E9C0894D24CE331ED087999E56F08E6 = {
+			isa = PBXGroup;
+			children = (
+				E1D6F9A370CB168932F8B39315F3708C /* PantryVision */,
+				82B790E131995474F2193F32384CB23B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		734B82464A33BEBE7FE73C5BCE395AC8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1FB3A9F7850173600C62CF9B5BE1793E /* GroceryModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		82B790E131995474F2193F32384CB23B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DC606F70CDC4AC52E53F4F69D2DFF750 /* PantryVision.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DACF63EB9F935EDC954B1CE3327FB500 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				D077895B8A118FD0145D3A7CEE3D1EC5 /* PantryVisionConfig.swift */,
+				29C0522CB12D51A9CD175D0E04F097BC /* PantryVisionIdentity.swift */,
+				96333BB74BE774F790F2C149099E7C39 /* PantryVisionTheme.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		E1D6F9A370CB168932F8B39315F3708C /* PantryVision */ = {
+			isa = PBXGroup;
+			children = (
+				98FCC1CD2A5F0F34C61C2FB5F1E259DE /* ContentView.swift */,
+				218AC2E55B479F078ED3566414840397 /* PantryVisionApp.swift */,
+				734B82464A33BEBE7FE73C5BCE395AC8 /* Models */,
+				143DC982A9320B2AB8B39D55EF919815 /* Services */,
+				DACF63EB9F935EDC954B1CE3327FB500 /* Utils */,
+				ECE29439F92CF450251B8E421D2731F6 /* Views */,
+			);
+			path = PantryVision;
+			sourceTree = "<group>";
+		};
+		ECE29439F92CF450251B8E421D2731F6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8C1A8780E013844187999F8B4ED492CA /* FamilySetupView.swift */,
+				B8D93116DA80798573C6A4CE1BDD5C8F /* IdentitySetupView.swift */,
+				E381E4BCB202D3D8B989085F3086AEAB /* ReceiptScanView.swift */,
+				860A3F873C2595CD12524057D11C677D /* StorePickerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		94DA891E46592C4E11CBBC658B91B762 /* PantryVision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAF7EEBC84C5661811C225706BCFC16E /* Build configuration list for PBXNativeTarget "PantryVision" */;
+			buildPhases = (
+				4507225D5E5CC22BE09A39585A216585 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PantryVision;
+			productName = PantryVision;
+			productReference = DC606F70CDC4AC52E53F4F69D2DFF750 /* PantryVision.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6F2E9A4E6B80B8803EB007069466A19C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1000;
+			};
+			buildConfigurationList = 746126748B0FC9CAABCA779E8DB92C5F /* Build configuration list for PBXProject "PantryVision" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4E9C0894D24CE331ED087999E56F08E6;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				94DA891E46592C4E11CBBC658B91B762 /* PantryVision */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4507225D5E5CC22BE09A39585A216585 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5FFD7BA3407FC953FDB18D1C3D7166C2 /* CloudFunctionsClient.swift in Sources */,
+				CB9C6E14384230C9534E8F1C8291BCB1 /* ContentView.swift in Sources */,
+				7BD4463DE84FC18FCEE82F1AC88C93BB /* FamilyCodeService.swift in Sources */,
+				1A6471B6F7E9AF18FC08330A06AA819B /* FamilySetupView.swift in Sources */,
+				C418F7D881B18C420FE025C9F9E54B0C /* FridgeItemMappingAPI.swift in Sources */,
+				739D11AE8BC1004BF4C3D4EEF0C7E74C /* GroceryListSyncService.swift in Sources */,
+				0768332657FEA1B0F5B8838D3A8DE1B4 /* GroceryModels.swift in Sources */,
+				FA68A43801AB5E71CE5FC509B7C9C137 /* IdentitySetupView.swift in Sources */,
+				A99916AEF6A1B46C16BF144DD4430B95 /* PantryVisionApp.swift in Sources */,
+				A6F1C385A6257353077A314101388E99 /* PantryVisionConfig.swift in Sources */,
+				759939E99C2E97854491FEE3F1021139 /* PantryVisionIdentity.swift in Sources */,
+				91C920EA26CAFC366A52CEC3C143E3E2 /* PantryVisionTheme.swift in Sources */,
+				61870123CE8D3194A9173388CED2011B /* PhotoAnalysisService.swift in Sources */,
+				81B149B55F09F6AD3C1A43D3F533F0AD /* ReceiptScanService.swift in Sources */,
+				D3F833F07F8A4801A3E9709EA9854D57 /* ReceiptScanView.swift in Sources */,
+				DB8BA108E0FFA4E9C220B769D9AA8D28 /* StorePickerView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0BB6CFC152327D23B3C05461C43EFC4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.john.PantryVision;
+				PRODUCT_NAME = PantryVision;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		5E0AC7E3DCE156BF60A45DB971FD064D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A74D3D2E54D1EEA7571DA39AA7EE9FAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.john.PantryVision;
+				PRODUCT_NAME = PantryVision;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		B5349186116AE507A4C131CA19C2959D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		746126748B0FC9CAABCA779E8DB92C5F /* Build configuration list for PBXProject "PantryVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E0AC7E3DCE156BF60A45DB971FD064D /* Debug */,
+				B5349186116AE507A4C131CA19C2959D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BAF7EEBC84C5661811C225706BCFC16E /* Build configuration list for PBXNativeTarget "PantryVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BB6CFC152327D23B3C05461C43EFC4D /* Debug */,
+				A74D3D2E54D1EEA7571DA39AA7EE9FAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "";
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6F2E9A4E6B80B8803EB007069466A19C /* Project object */;
+}

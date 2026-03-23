@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Xcode / SwiftPM
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# Build products & caches (never commit)
+**/DerivedData/
+**/derivedData/
+**/ModuleCache.noindex/
+**/CompilationCache.noindex/
+**/*.xcactivitylog
+build/

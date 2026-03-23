@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Petpal app icon: solid BrandBlue #4A90D9, white heart stroke, BrandOrange paw #F4845F -->
+<!-- Export 1024�1024 PNG for App Store (no transparency). -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <style>
+      .bg { fill: #4A90D9; }
+      .heart-stroke { fill: none; stroke: #FFFFFF; stroke-width: 44; stroke-linejoin: round; stroke-linecap: round; }
+      .paw { fill: #F4845F; }
+    </style>
+  </defs>
+  <!-- Rounded square (~iOS icon proportion) -->
+  <rect class="bg" x="64" y="64" width="896" height="896" rx="200" ry="200"/>
+  <!-- Heart outline -->
+  <path class="heart-stroke" d="M512 298
+    C 420 220 268 248 268 410
+    C 268 520 400 640 512 730
+    C 624 640 756 520 756 410
+    C 756 248 604 220 512 298 Z"/>
+  <!-- Paw print inside heart -->
+  <g class="paw" transform="translate(512 498)">
+    <ellipse cx="0" cy="52" rx="72" ry="88"/>
+    <circle cx="-78" cy="-28" r="38"/>
+    <circle cx="78" cy="-28" r="38"/>
+    <circle cx="-42" cy="-72" r="34"/>
+    <circle cx="42" cy="-72" r="34"/>
+  </g>
+</svg>

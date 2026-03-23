@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Emergency - Petpal</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      background: #f8f6f2;
+      color: #333;
+      min-height: 100vh;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    h1 { font-size: 1.5rem; margin: 0 0 8px; color: #c45c26; }
+    .subtitle { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+    .section { margin-bottom: 20px; }
+    .section:last-child { margin-bottom: 0; }
+    .label { font-size: 0.75rem; color: #888; text-transform: uppercase; margin-bottom: 4px; }
+    .value { font-size: 1rem; }
+    .value a { color: #c45c26; text-decoration: none; }
+    .value a:hover { text-decoration: underline; }
+    .badge { display: inline-block; background: #c45c26; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; margin-top: 16px; }
+    .badge a { color: white; }
+    .empty { color: #999; font-style: italic; }
+  </style>
+</head>
+<body>
+  <div id="content"></div>
+  <script>
+    (function() {
+      const hash = location.hash.slice(1);
+      if (!hash) {
+        document.getElementById('content').innerHTML = '<div class="card"><h1>Pet Emergency Tag</h1><p class="subtitle">Scan a Petpal emergency QR code to view contact information.</p><a href="https://apps.apple.com/app/petpal" class="badge">Download Petpal on the App Store</a></div>';
+        return;
+      }
+      try {
+        let b64 = decodeURIComponent(hash).replace(/-/g, '+').replace(/_/g, '/');
+        while (b64.length % 4) b64 += '=';
+        const json = atob(b64);
+        const p = JSON.parse(json);
+        const v = (s) => (s && s.trim()) ? s.trim() : null;
+        const row = (label, val) => {
+          const value = v(val);
+          return '<div class="section"><div class="label">' + label + '</div><div class="value">' + (value || '<span class="empty">—</span>') + '</div></div>';
+        };
+        let phone = v(p.ownerPhone) || v(p.ownerPhoneRaw);
+        if (phone && !phone.startsWith('tel:')) phone = '<a href="tel:' + phone.replace(/\D/g, '') + '">' + phone + '</a>';
+        let html = '<div class="card">';
+        html += '<h1>🐾 ' + (v(p.petName) || 'Pet') + '</h1>';
+        html += '<p class="subtitle">Emergency contact – Petpal</p>';
+        html += row('Owner', p.ownerName);
+        html += row('Phone', phone || (v(p.ownerPhone) ? p.ownerPhone : null));
+        html += row('Email', p.ownerEmail ? '<a href="mailto:' + p.ownerEmail + '">' + p.ownerEmail + '</a>' : null);
+        html += row('Alternate contact', p.alternateContact);
+        if (v(p.medications)) html += row('Medications', p.medications);
+        if (v(p.allergies)) html += row('Allergies', p.allergies);
+        if (v(p.medicalConditions)) html += row('Medical conditions', p.medicalConditions);
+        if (v(p.microchipNumber)) html += row('Microchip', p.microchipNumber);
+        if (v(p.vetName)) html += row('Vet', p.vetName + (v(p.vetPhone) ? ' • ' + p.vetPhone : ''));
+        if (v(p.vetAddress)) html += row('Vet address', p.vetAddress);
+        if (v(p.feedingInstructions)) html += row('Feeding', p.feedingInstructions);
+        if (v(p.specialNeeds)) html += row('Special needs', p.specialNeeds);
+        if (v(p.lostPetMessage)) html += row('Message', p.lostPetMessage);
+        if (v(p.rewardOffered)) html += row('Reward', p.rewardOffered);
+        html += '<a href="https://apps.apple.com/app/petpal" class="badge">Download Petpal</a>';
+        html += '</div>';
+        document.getElementById('content').innerHTML = html;
+      } catch (e) {
+        document.getElementById('content').innerHTML = '<div class="card"><h1>Invalid tag</h1><p class="subtitle">This QR code may be corrupted or from an older version of Petpal.</p></div>';
+      }
+    })();
+  </script>
+</body>
+</html>

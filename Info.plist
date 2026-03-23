@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>GEOAPIFY_API_KEY</key>
+	<string>e5a5b12549eb45d5b58e6068f893a784</string>
+	<key>Claude_API_Key</key>
+	<string></string>
+	<key>GEMINI_API_KEY</key>
+	<string></string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Petpal uses your location to show nearby veterinarians, pet-friendly places, and directions in Travel Mode.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Petpal uses your location to find nearby pet services and vets while you use the app.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Petpal uses ​Bluetooth to discover and connect to your pet​&apos;s tracking device so you can locate your pet when they​&apos;re nearby.</string>
+	<key>CFBundleIdentifier</key>
+	<string></string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Petpal uses your location to find nearby pet​-friendly places and veterinarians.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Petpal uses your camera to take photos of your pet for their profile.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Petpal can save ​QR codes and pet information to your photo library.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Petpal needs access to your photo library to set your pet​&apos;s profile picture.</string>
+	<key>EXAppExtensionAttributes</key>
+	<dict>
+		<key>EXExtensionPointIdentifier</key>
+		<string>com.apple.accessory-setup-extension</string>
+	</dict>
+	<key>NSBluetoothServices</key>
+	<array>
+		<string>2EC09DB0-7CAC-4499-B106-04C43BCC252F</string>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data-access-protocol</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Example Protocol Display Name</string>
+			<key>UTTypeIcons</key>
+			<dict>
+				<key>UTTypeSymbolName</key>
+				<string>ExampleProtocolIcon</string>
+			</dict>
+			<key>UTTypeIdentifier</key>
+			<string>com.example.example-protocol</string>
+		</dict>
+	</array>
+</dict>
+</plist>
