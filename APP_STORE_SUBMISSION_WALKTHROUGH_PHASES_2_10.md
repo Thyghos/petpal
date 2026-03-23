@@ -1,6 +1,6 @@
 # App Store submission walkthrough — Phases 2–10
 
-**Status:** Phases **1–3** done with TestFlight. **Phase 4** = App Store Connect app record (often already done before TestFlight). If **Petpal** exists under **My Apps**, treat Phase 4 as complete and continue **Phase 5+**. Live URLs: **`APP_STORE_CONTACT_INFO.md`**.
+**Status:** Phases **1–4** done for most teams with TestFlight + **My Apps**. **Phase 5** = listing copy + URLs — use **`APP_STORE_LISTING_DRAFT.md`**. URLs: **`APP_STORE_CONTACT_INFO.md`**.
 
 ---
 
@@ -58,10 +58,17 @@ App Store Connect needs **working public URLs** (not only files in the repo).
 
 ## Phase 5 — URLs & basic store info
 
-1. **Privacy Policy URL**
-2. **Support URL**
-3. **Category** (e.g. Health & Fitness if accurate)
-4. **Subtitle** + **Description** (include medical/AI disclaimer block per your compliance guide)
+**Single source of copy:** paste from **`APP_STORE_LISTING_DRAFT.md`** (subtitle, description, keywords, promotional text, What’s New, categories, copyright).
+
+1. **Distribution** → **iOS** → your **version** → **English (U.S.)** (or primary locale).
+2. **Support URL** → `https://thyghos.github.io/petpal/support.html`
+3. **Marketing URL** *(optional)* → `https://thyghos.github.io/petpal/terms.html`
+4. **Privacy Policy URL** — same as **App Privacy**: `https://thyghos.github.io/petpal/privacy.html` (see **`APP_STORE_CONTACT_INFO.md`**).
+5. **Primary / Secondary category** — e.g. **Lifestyle** + **Travel** (or adjust per listing draft).
+6. **Name**, **Subtitle**, **Description** (includes medical + optional AI disclaimer), **Keywords**, **Promotional Text**, **What’s New**, **Copyright** as in the draft.
+7. **Save**; fix any Connect validation errors (length limits, keyword format).
+
+**Phase 5 done when:** listing text and URLs are filled, saved, and match your privacy policy and actual app behavior.
 
 ---
 
