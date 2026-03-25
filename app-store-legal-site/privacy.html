@@ -14,7 +14,7 @@
   <main class="content">
     <article class="legal">
 <h1>Privacy Policy for Petpal</h1>
-<p><strong>Last Updated: March 22, 2026</strong></p>
+<p><strong>Last Updated: March 25, 2026</strong></p>
 <h2>Introduction</h2>
 <p>Welcome to Petpal (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We are committed to protecting your privacy and the privacy of your pets. This Privacy Policy explains how we collect, use, and protect your information when you use the Petpal mobile application.</p>
 <h2>Information We Collect</h2>
@@ -28,10 +28,10 @@
 </ul>
 <h3>Automatically Collected Information</h3>
 <ul>
-<li><strong>Location Data</strong>: Approximate location for finding nearby pet-friendly places, veterinarians, and services (only when you use the Travel Mode feature)</li>
-<li><strong>Usage Data</strong>: App usage statistics and crash reports (anonymous)</li>
-<li><strong>Device Information</strong>: Device type, operating system version</li>
+<li><strong>Location Data</strong>: Approximate location for finding nearby pet-friendly places, veterinarians, and services (only when you use features that request location, such as Travel Mode)</li>
+<li><strong>Device Information</strong>: Limited device/OS details only as needed for features you use (for example maps and AI APIs do not receive your full pet database)</li>
 </ul>
+<p>Apple may provide the developer with <strong>aggregated crash diagnostics and App Store analytics</strong> through App Store Connect (for example crash logs and download statistics). Petpal does not embed third-party advertising or cross-app tracking SDKs in the app.</p>
 <h2>How We Use Your Information</h2>
 <p>We use your information to:</p>
 <ul>
@@ -43,13 +43,25 @@
 <li>Improve app performance and user experience</li>
 </ul>
 <h2>Data Storage</h2>
-<h3>Local Storage</h3>
+<h3>On your devices (SwiftData)</h3>
 <ul>
-<li><strong>All pet data is stored locally on your device</strong></li>
-<li>Photos, health records, and personal information remain on your iPhone/iPad</li>
-<li>We do not upload your pet profiles or health records to our servers</li>
+<li>Pet profiles, reminders, health history, emergency QR data, insurance, pet-sitter notes, and file attachments are stored in the app database on your device.</li>
+<li>We do not operate our own servers for this app data.</li>
 </ul>
-<h3>Cloud Processing</h3>
+<h3>iCloud sync (CloudKit)</h3>
+<ul>
+<li>If you are signed in to iCloud, Petpal can <strong>sync your app database</strong> across your own Apple devices (e.g. iPhone and iPad) using Apple’s <strong>CloudKit</strong> private database tied to your Apple ID.</li>
+<li>That data is subject to <a href="https://www.apple.com/legal/privacy/">Apple’s privacy policy</a>. We cannot read your iCloud data on Apple’s servers.</li>
+<li>Sync is <strong>not</strong> instant: allow time and open the app occasionally on Wi‑Fi or cellular so changes can upload and download.</li>
+<li>If iCloud is unavailable or you are not signed in, Petpal continues to work with <strong>local</strong> storage on that device only.</li>
+</ul>
+<h3>Backup export and import</h3>
+<ul>
+<li>You may export some or all categories of your data to a <strong>JSON</strong> file or a <strong>ZIP</strong> archive (same content) and share it (for example by Mail, AirDrop, or Files).</li>
+<li>Anyone who receives that file can see the information it contains. Treat backups like sensitive documents.</li>
+<li>Importing a backup can merge rows, update existing rows, or replace all data on the device, depending on the option you choose in the app.</li>
+</ul>
+<h3>Cloud Processing (network features)</h3>
 <ul>
 <li>AI chat queries are processed by third-party AI providers you configure in the app (e.g. Anthropic Claude, Google Gemini). Only the text you send as a prompt is transmitted for a response.</li>
 <li>Location and place search may use Apple Maps and third-party location APIs (e.g. Geoapify) when you use Travel Mode or nearby-place features.</li>
@@ -69,9 +81,10 @@
 <li>With service providers who help us operate the app (under strict confidentiality)</li>
 </ul>
 <h2>Third-Party Services</h2>
-<p>Petpal uses the following third-party services:</p>
+<p>Petpal may use the following third-party services, depending on features you turn on:</p>
 <ul>
-<li><strong>AI providers (e.g. Anthropic, Google)</strong>: Optional Vet AI chat when you add API keys in the app</li>
+<li><strong>Apple iCloud / CloudKit</strong>: Optional sync of your app database between your devices when you use iCloud</li>
+<li><strong>AI providers (e.g. Anthropic, Google)</strong>: Optional Vet AI chat when you add API keys or use a configured proxy in the app</li>
 <li><strong>Apple Maps</strong>: Location-based features on Apple platforms</li>
 <li><strong>Geoapify</strong> (when configured): Pet-friendly place search</li>
 </ul>
@@ -87,8 +100,9 @@
 </ul>
 <h2>Data Retention</h2>
 <ul>
-<li>Data is stored on your device until you delete it</li>
-<li>Deleting the app removes all locally stored data</li>
+<li>Data remains in the app (and in your <strong>iCloud private database</strong> if iCloud sync is active) until you delete it or change it via import</li>
+<li>Deleting the app removes the <strong>local</strong> copy on that device; <strong>iCloud</strong> copies may remain until you remove data in-app, replace via import, or manage storage with your Apple account</li>
+<li>Exported backup files you saved elsewhere are <strong>not</strong> deleted when you delete the app</li>
 <li>AI queries are not stored long-term by us</li>
 </ul>
 <h2>Children&#x27;s Privacy</h2>
@@ -112,11 +126,13 @@
 <p>Petpal is for informational purposes only and is not a substitute for professional veterinary care. See our Terms of Service for complete medical disclaimers.</p>
 <h2>Contact Us</h2>
 <p>If you have questions about this Privacy Policy or your data:</p>
-<p><strong>Operator</strong>: Emilio Alecci (Florida, United States) <strong>Email (privacy &amp; support)</strong>: ealecci@gmail.com <strong>Website</strong>: https://thyghos.github.io/petpal-privacy/ *(update this link if you host these pages elsewhere)*</p>
+<p><strong>Operator</strong>: Emilio Alecci (Florida, United States)<br />
+<strong>Email (privacy &amp; support)</strong>: ealecci@gmail.com<br />
+<strong>Website</strong>: <a href="https://thyghos.github.io/petpal-privacy/">https://thyghos.github.io/petpal-privacy/</a></p>
 <h2>Your Consent</h2>
 <p>By using Petpal, you consent to this Privacy Policy.</p>
 <hr />
-<p><strong>Effective Date</strong>: March 22, 2026</p>
+<p><strong>Effective Date</strong>: March 25, 2026</p>
 <p><strong>Your Privacy Matters</strong>: We believe your pet&#x27;s information is personal and private. We&#x27;re committed to keeping it safe and never selling your data.</p>
 <p>🐾 Thank you for trusting Petpal with your pet&#x27;s care!</p>
 
