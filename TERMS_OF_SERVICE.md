@@ -1,6 +1,6 @@
 # Terms of Service for Petpal
 
-**Last Updated: March 22, 2026**
+**Last Updated: March 31, 2026**
 
 ## Agreement to Terms
 
@@ -9,11 +9,15 @@ By accessing or using the Petpal mobile application ("App"), you agree to be bou
 ## Description of Service
 
 Petpal is a pet health tracking and information application that allows you to:
-- Store and organize your pet's health information
+- Store and organize your pet's health information (profiles, health history, vet documents, certificates, weight, insurance records you enter)
 - Set reminders for medications, appointments, and care tasks
-- Access general pet care information through an AI assistant
-- Find pet-friendly locations and services
+- Access general pet care information through an optional AI assistant (Vet AI)
+- Customize which features appear on your home screen
 - Generate emergency QR codes for pet information
+- Export or import selected data via backup (when you use that feature)
+- Open optional **Pet Picks** and **Insurance** links to third-party sites (some may be affiliate or partner links—see the Privacy Policy)
+
+**Not included in the current app:** map-based travel or place search, a standalone “Shop” tile, or continuous location tracking for discovery features.
 
 ## Medical Disclaimer
 
@@ -69,10 +73,11 @@ You agree to:
 ## Data and Privacy
 
 Your use of the App is governed by our Privacy Policy. Key points:
-- Your data is stored locally on your device
+- Your data is stored on your device (and optionally syncs via **your** iCloud / CloudKit if you use that)
 - We do not sell your personal information
-- AI queries are processed by third-party services
-- Location data is used only for pet-friendly place features
+- Optional AI (Vet AI) queries are processed by third-party providers you enable or that the app supports
+- **Petpal does not collect or use your location** for features in this version
+- Affiliate or partner links open in your browser; those sites have their own privacy practices
 
 See our full Privacy Policy at: [privacy policy URL]
 
@@ -111,16 +116,20 @@ You agree to indemnify and hold harmless Emilio Alecci *(or your registered busi
 
 ## Third-Party Services
 
-The App uses third-party services including:
-- AI service providers
-- Mapping services
-- Analytics providers
+Depending on how you use the App, third parties may include:
+- **Apple** (iCloud/CloudKit sync, StoreKit for purchases, platform services)
+- **AI service providers** (optional Vet AI)
+- **Optional proxy or relay** services if configured for AI requests
+- **Hosting** for an optional static emergency page (if you set one up)
+- **Websites you choose to open** from Pet Picks, Insurance, or other links (each site has its own terms)
+
+Apple may provide **aggregated** crash or App Store analytics to the developer per Apple’s policies. This version of the App does **not** bundle third-party advertising or cross-app tracking SDKs.
 
 Each third-party service has its own terms and conditions. We are not responsible for third-party services.
 
 ## Subscription and Payments
 
-Petpal does **not** currently offer auto-renewing in-app subscriptions. Any future paid features will be described in the App Store listing and updated here. Purchases made through Apple are subject to [Apple’s standard App Store terms](https://www.apple.com/legal/internet-services/itunes/).
+**Optional in-app purchases** (for example subscriptions related to Vet AI features and optional tips) are processed by **Apple** through StoreKit. Pricing and renewal terms appear in the App Store at purchase time. Purchases are subject to [Apple’s standard App Store terms](https://www.apple.com/legal/internet-services/itunes/).
 
 ## Termination
 
@@ -184,7 +193,7 @@ BY USING PETPAL, YOU ACKNOWLEDGE THAT:
 
 ---
 
-**Effective Date**: March 22, 2026
+**Effective Date**: March 31, 2026
 
 **Important Reminder**: Petpal is a tool to help you organize your pet's information and access general pet care tips. It is NOT a replacement for professional veterinary care. Always consult your veterinarian for medical advice, diagnosis, and treatment.
 

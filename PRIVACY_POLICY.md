@@ -1,6 +1,6 @@
 # Privacy Policy for Petpal
 
-**Last Updated: March 28, 2026**
+**Last Updated: March 31, 2026**
 
 ## Introduction
 
@@ -8,7 +8,9 @@ Welcome to Petpal ("we," "our," or "us"). We are committed to protecting your pr
 
 ## Summary (current version)
 
-In this release, **Petpal does not collect or use your location**. Data you enter stays on your device and, if you use iCloud, in **your** Apple iCloud account via CloudKit—we do not run our own database for your pet records.
+**Petpal does not collect or use your device location** in this build. There is **no Travel Mode**, **no map-based place search**, and **no separate “Shop” home tile**—those features are not part of the app. The home screen is **customizable**; typical areas include Reminders, AI Vet, Health History, Pet Care Notes, Insurance, Weight Tracker, Certificates, Emergency QR, and Pet Picks (exact tiles depend on what you show and how you order them).
+
+Data you enter stays on your device and, if you use iCloud, in **your** Apple iCloud account via CloudKit—we do not run our own database for your pet records.
 
 Optional **Vet AI** sends only the text you type to AI providers you configure (or a proxy). **In-app purchases** (subscriptions and tips) are processed by **Apple**. **Pet Picks** and **Insurance** may include **affiliate or partner links**; we may earn a commission when you use them, at no extra cost to you.
 
@@ -32,7 +34,7 @@ You may store the following in the app (all optional except where a feature need
 
 ## Information We Do **Not** Collect (this release)
 
-- **Location**: Petpal **does not request GPS or continuous location** for normal use. If we add a location-based feature in a future version, we will update this policy and App Store disclosures **before** collecting location.
+- **Location**: Petpal **does not request GPS or continuous location** for normal use. We do **not** operate map-based discovery, nearby-place search, or similar location-driven features in this version. If we add a location-based feature later, we will update this policy and App Store disclosures **before** collecting location.
 - **We do not sell** your data, **do not use** it for third-party advertising, and **do not** embed ad or cross-app tracking SDKs in Petpal.
 
 ## Automatically Collected / Device-Related
@@ -56,7 +58,7 @@ Pet profiles, reminders, health data, certificates, attachments, weight entries,
 
 ### iCloud (CloudKit)
 
-If you are signed in to **iCloud** and CloudKit sync is active, that same app data can sync to Apple’s **private** CloudKit database for your **Apple ID** across your devices. Apple operates that infrastructure; see [Apple’s Privacy Policy](https://www.apple.com/legal/privacy/). Sync can take time—open the app on Wi‑Fi or cellular occasionally. If iCloud is unavailable, Petpal continues with **local** storage on that device.
+If you are signed in to **iCloud** and CloudKit sync is active, that same app data can sync to Apple’s **private** CloudKit database for your **Apple ID** across your devices. Apple operates that infrastructure; see Apple’s Privacy Policy at https://www.apple.com/legal/privacy/. Sync can take time—open the app on Wi‑Fi or cellular occasionally. If iCloud is unavailable, Petpal continues with **local** storage on that device.
 
 ### Backup export / import
 
@@ -66,13 +68,11 @@ You may export selected categories to **JSON** or **ZIP** and share the file (Ma
 
 These apply **only** when you use the relevant feature or sign in:
 
-| Service | Purpose |
-|--------|---------|
-| **Apple iCloud / CloudKit** | Optional sync of your app data between your devices |
-| **Apple StoreKit** | Optional subscriptions (e.g. Vet AI plans) and optional in-app tips; payment handled by Apple |
-| **Anthropic / Google (Gemini)** | Optional Vet AI responses when you configure API keys or use supported flows in the app |
-| **Cloudflare Worker (or similar) proxy** | Optional: may relay Vet AI requests if a proxy URL is configured—only request content you send, not your full pet database |
-| **Hosted emergency page** | If you use the optional static emergency page feature, that page is served from infrastructure you configure (e.g. GitHub Pages); visitors only see what you put on that page |
+- **Apple iCloud / CloudKit** — Optional sync of your app data between your devices.
+- **Apple StoreKit** — Optional subscriptions (e.g. Vet AI plans) and optional in-app tips; payment handled by Apple.
+- **Anthropic / Google (Gemini)** — Optional Vet AI responses when you configure API keys or use supported flows in the app.
+- **Cloudflare Worker (or similar) proxy** — Optional: may relay Vet AI requests if a proxy URL is configured—only request content you send, not your full pet database.
+- **Hosted emergency page** — If you use the optional static emergency page feature, that page is served from infrastructure you configure (e.g. GitHub Pages); visitors only see what you put on that page.
 
 Opening **external websites** (for example insurance resources, product recommendations, or App Store links) is governed by those sites’ policies.
 
@@ -133,6 +133,6 @@ By using Petpal, you agree to this Privacy Policy.
 
 ---
 
-**Effective date**: March 28, 2026
+**Effective date**: March 31, 2026
 
 We treat your pet’s information as sensitive and do not sell it.
