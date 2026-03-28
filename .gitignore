@@ -10,6 +10,7 @@ xcuserdata/
 **/DerivedData/
 **/derivedData/
 .derivedData/
+.derivedDataBuildCheck/
 **/ModuleCache.noindex/
 **/CompilationCache.noindex/
 **/*.xcactivitylog

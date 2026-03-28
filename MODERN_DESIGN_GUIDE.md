@@ -457,7 +457,7 @@ ModernSectionHeader("Title", icon: "star") {
 │ │ 🎨 │           │
 │ └────┘           │
 │                  │
-│ Travel Mode      │
+│ AI Vet           │
 └──────────────────┘
 Simple, flat
 ```
@@ -469,7 +469,7 @@ Simple, flat
 │ │🎨✨│           │
 │ └────┘           │
 │                  │
-│ Travel Mode      │
+│ AI Vet           │
 └──────────────────┘
 Glassmorphic, depth, glow
 ```

@@ -8,7 +8,7 @@ Welcome to Petpal ("we," "our," or "us"). We are committed to protecting your pr
 
 ## Summary (current version)
 
-In this release, **Petpal does not use your location** for any feature you can reach from the home screen. **Travel Mode** (maps and nearby-place search) is **not offered** in the main app flow. Data you enter stays on your device and, if you use iCloud, in **your** Apple iCloud account via CloudKit—we do not run our own database for your pet records.
+In this release, **Petpal does not collect or use your location**. Data you enter stays on your device and, if you use iCloud, in **your** Apple iCloud account via CloudKit—we do not run our own database for your pet records.
 
 Optional **Vet AI** sends only the text you type to AI providers you configure (or a proxy). **In-app purchases** (subscriptions and tips) are processed by **Apple**.
 
@@ -32,7 +32,7 @@ You may store the following in the app (all optional except where a feature need
 
 ## Information We Do **Not** Collect (this release)
 
-- **Location**: The home screen does not include Travel Mode or map-based search. Petpal **does not request GPS/location** for normal use in this version. (Legacy code or permission strings may remain for a possible future update; if we turn location features on again, we will update this policy and App Store disclosures **before** collecting location.)
+- **Location**: Petpal **does not request GPS or continuous location** for normal use. If we add a location-based feature in a future version, we will update this policy and App Store disclosures **before** collecting location.
 - **We do not sell** your data, **do not use** it for third-party advertising, and **do not** embed ad or cross-app tracking SDKs in Petpal.
 
 ## Automatically Collected / Device-Related
@@ -74,9 +74,7 @@ These apply **only** when you use the relevant feature or sign in:
 | **Cloudflare Worker (or similar) proxy** | Optional: may relay Vet AI requests if a proxy URL is configured—only request content you send, not your full pet database |
 | **Hosted emergency page** | If you use the optional static emergency page feature, that page is served from infrastructure you configure (e.g. GitHub Pages); visitors only see what you put on that page |
 
-**Not used in the current home-screen experience** (no user-facing entry in this build): map-based Travel Mode, **Apple MapKit**-driven nearby search, **Geoapify**, Google Places, and BringFido API flows that depended on device location. If we ship those again, we will update this policy and product disclosures.
-
-Opening **external websites** (for example insurance resources or App Store links) is governed by those sites’ policies.
+Opening **external websites** (for example insurance resources, product recommendations, or App Store links) is governed by those sites’ policies.
 
 ## Data Sharing
 

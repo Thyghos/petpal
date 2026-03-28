@@ -1,5 +1,7 @@
 # Modern Home Screen UI - Design Guide
 
+> **Note (2026):** Travel Mode and some legacy tile names below were removed; match **TilePreferences.swift** / the Settings screen for the live list.
+
 ## Overview
 
 The home screen has been completely redesigned with a modern, sleek aesthetic featuring:
@@ -78,8 +80,8 @@ Each feature card includes:
 
 #### Color Gradients
 - **Vet AI**: Green gradient
-- **Travel Mode**: Orange gradient
-- **Documents**: Blue gradient
+- **Pet Care Notes / Pet Picks**: Orange gradient (examples)
+- **Insurance / blue tiles**: Blue gradient
 - **Reminders**: Purple gradient (with badge support)
 - **Emergency QR**: Red gradient
 - **Health History**: Pink gradient

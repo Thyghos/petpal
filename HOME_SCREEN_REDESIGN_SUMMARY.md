@@ -1,5 +1,7 @@
 # Home Screen Redesign - Summary
 
+> **Note (2026):** Travel Mode was removed; orange tiles today are features like **Pet Care Notes** or **Pet Picks**, not maps.
+
 ## ✨ What's New
 
 Your home screen has been completely redesigned with a **modern, sleek UI** that looks and feels premium!
@@ -19,8 +21,8 @@ Instead of boring boxes, you now have:
 - 💫 **Smooth press animations**
 - 🎨 **Color-coded gradients** for each feature:
   - 🟢 Vet AI (Green)
-  - 🟠 Travel Mode (Orange)
-  - 🔵 Documents (Blue)
+  - 🟠 Pet Care Notes / Pet Picks (Orange)
+  - 🔵 Insurance / blue tiles (Blue)
   - 🟣 Reminders (Purple)
   - 🔴 Emergency QR (Red)
   - 🌸 Health History (Pink)
@@ -139,7 +141,7 @@ Easy photo workflow:
 
 Each feature has its own gradient:
 - **Green**: Health/AI features (Vet AI)
-- **Orange**: Travel and food features
+- **Orange**: Sitter notes, Pet Picks, and similar warm accents
 - **Blue**: Documents and insurance
 - **Purple**: Knowledge and tracking
 - **Red**: Emergency features

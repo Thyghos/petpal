@@ -53,7 +53,7 @@ Use this to track your progress toward App Store submission!
 - [ ] Screenshot 2: Health records screen
 - [ ] Screenshot 3: Reminders feature
 - [ ] Screenshot 4: Emergency QR code
-- [ ] Screenshot 5: Travel mode or Vet AI
+- [ ] Screenshot 5: Vet AI or Settings / customization
 - [ ] Optional: 6th screenshot
 
 ### Optional Assets

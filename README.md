@@ -1,6 +1,6 @@
 # Petpal
 
-Petpal is an iOS app for pet owners: multiple pet profiles, care-oriented home experience, pet-friendly places, travel mode, emergency/QR-style flows, and optional Vet AI assistance (presented with clear disclaimers — not a substitute for a veterinarian).
+Petpal is an iOS app for pet owners: multiple pet profiles, a customizable home experience, reminders, certificates and health records, emergency QR flows, backup/export, and optional Vet AI assistance (presented with clear disclaimers — not a substitute for a veterinarian).
 
 ## Open and run
 

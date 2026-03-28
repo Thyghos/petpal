@@ -1,5 +1,7 @@
 # Tile Presets - Visual Reference
 
+> **Note (2026):** Travel Mode and the “Travel Ready” preset were removed. ASCII diagrams below are historical; use **Settings → Customize Home Tiles** for the current tile list.
+
 ## Quick Visual Comparison
 
 ### Before (Default - All Tiles Visible)

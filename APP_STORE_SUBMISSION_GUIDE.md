@@ -284,7 +284,7 @@ App Distribution: Make available on App Store
 2. Health history/records screen
 3. Reminders feature
 4. Emergency QR code
-5. Travel mode
+5. Certificates, weight tracker, or Pet Picks  
 6. Vet AI chat (if it's a key feature)
 
 **Best Practices:**
@@ -338,10 +338,9 @@ Keep your pet healthy, happy, and safe with PawPal - the all-in-one pet care com
 • Emergency contacts and allergies
 • Vet information always accessible
 
-✈️ Travel Mode
-• Travel checklists and planning
-• Vaccination records for trips
-• Pet-friendly location finder
+📄 Certificates & documents
+• Vaccines, licenses, and paperwork in one place
+• Attach photos or PDFs per pet
 
 🏥 Insurance Tracker
 • Track insurance claims
@@ -385,7 +384,7 @@ Download PawPal today and give your pet the care they deserve!
 #### 6.2 Keywords (Max 100 characters)
 
 ```
-pet,dog,cat,health,vet,medical,care,reminder,tracker,insurance,travel,emergency,qr
+pet,dog,cat,health,vet,medical,care,reminder,tracker,insurance,emergency,qr,weight
 ```
 
 (Comma-separated, no spaces after commas)

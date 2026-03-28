@@ -39,7 +39,7 @@ These are now in your **Petpal** target in Xcode (Debug + Release) so iOS shows 
 | Photo library | Pet profile photos |
 | Photo library (add) | Saving QR / images |
 | Camera | Optional pet photos |
-| Location when in use | Travel mode / nearby places |
+| Location | Not used in the current app (omit or remove key if unused) |
 | User notifications | Reminders (if you add notifications later) |
 
 To **edit the wording**: Xcode → select the **Petpal** target → **Build Settings** → search **“Privacy”** or **“INFOPLIST_KEY_NS”**.

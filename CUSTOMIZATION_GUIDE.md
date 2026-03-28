@@ -16,16 +16,16 @@ Users can now:
 - ✅ **Reset to default** order and visibility
 - ✅ Tiles are saved and persist between app sessions
 
-**Available Tiles**:
-1. Travel Mode
-2. Documents
-3. Reminders (with overdue badge)
-4. Emergency QR
-5. Health History
-6. Food & Treats
-7. Insurance
-8. Encyclopedia
-9. Dashboard
+**Available tiles** (current app):
+1. Reminders  
+2. AI Vet  
+3. Emergency QR  
+4. Health History  
+5. Pet Care Notes (sitter sheet)  
+6. Insurance  
+7. Weight Tracker  
+8. Certificates  
+9. Pet Picks  
 
 ### 2. Health Tips of the Day/Week
 

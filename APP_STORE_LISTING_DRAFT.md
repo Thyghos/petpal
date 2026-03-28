@@ -11,10 +11,10 @@ Use this file while editing **Distribution** → **iOS** → your version (e.g. 
 | Connect field | Use this |
 |---------------|----------|
 | **Name** | Petpal |
-| **Subtitle** | Pet care, QR & travel tools |
-| **Promotional text** | Profiles, reminders, emergency QR & travel tools for your pets. Customizable home screen. Optional Vet assistant for education only—not a vet. |
+| **Subtitle** | Pet care, reminders & QR |
+| **Promotional text** | Profiles, reminders, emergency QR, and health tools for your pets. Customizable home screen. Optional Vet assistant for education only—not a vet. |
 | **Description** | *(see section below — canonical block)* |
-| **Keywords** | dog,cat,pet,reminder,travel,vet,emergency,QR,lost,profile,health,schedule,puppy,kitten |
+| **Keywords** | dog,cat,pet,reminder,vet,emergency,QR,lost,profile,health,schedule,puppy,kitten,weight |
 | **What’s New** | *(see section below)* |
 | **Privacy Policy URL** | `https://thyghos.github.io/petpal/privacy.html` *(also set under **App Privacy**)* |
 | **Support URL** | `https://thyghos.github.io/petpal/support.html` |
@@ -22,7 +22,7 @@ Use this file while editing **Distribution** → **iOS** → your version (e.g. 
 | **Support email** | ealecci@gmail.com |
 | **Copyright** | 2026 Emilio Alecci |
 | **Primary category** | Lifestyle |
-| **Secondary category** | Travel *(or Health & Fitness if it fits better)* |
+| **Secondary category** | Health & Fitness *(or Utilities—pick what fits)* |
 | **Bundle ID** (Xcode / Connect) | `com.thyghos.petpalapp` |
 
 ---
@@ -46,35 +46,36 @@ Petpal
 
 ## Subtitle (30 characters max)
 ```
-Pet care, QR & travel tools
+Pet care, reminders & QR
 ```
-*(28 characters)*
+*(26 characters)*
 
 ---
 
 ## Promotional text (170 max)
 ```
-Profiles, reminders, emergency QR & travel tools for your pets. Customizable home screen. Optional Vet assistant for education only—not a vet.
+Profiles, reminders, emergency QR, and health tools for your pets. Customizable home screen. Optional Vet assistant for education only—not a vet.
 ```
-*(142 characters. Apple may update the counter in Connect.)*
+*(Same as summary table. Apple may update the character counter in Connect.)*
 
 ---
 
 ## Description (paste as one block)
 
 ```
-Everything for your pets in one place—profiles, reminders, emergency info, and travel help. Petpal is for pet parents who want less chaos and more peace of mind.
+Everything for your pets in one place—profiles, reminders, emergency info, and everyday care tools. Petpal is for pet parents who want less chaos and more peace of mind.
 
 WHAT YOU CAN DO
 
 • Pet profiles — name, breed, photo, weight, birthday, and more. Switch between pets anytime.
 • Emergency QR — keep critical info handy if your pet is lost; easy to share from your phone.
-• Travel mode — find pet-friendly places and plan with maps.
 • Reminders — vet visits, medications, and care tasks so nothing slips through the cracks.
-• Your home screen, your way — show, hide, and reorder tiles: Travel, Documents, Reminders, Emergency QR, Health History, and more.
+• Certificates & documents — vaccines, licenses, and paperwork with attachments.
+• Weight tracking — simple history per pet.
+• Your home screen, your way — show, hide, and reorder tiles for the features you use most.
 • Health tips — optional daily or weekly tips based on your pet's species (dog, cat, bird, rabbit, or all).
 • Optional Vet assistant — general, educational Q&A only; not medical advice. If you use it, your questions are processed by third-party AI as described in our Privacy Policy.
-• Privacy-minded — pet data you enter stays on your device unless you use features that need network access (e.g. place search or the optional assistant). See our Privacy Policy for details.
+• Privacy-minded — pet data stays on your device (and your iCloud, if you use sync) unless you use network features such as the optional assistant or opening external links. See our Privacy Policy for details.
 
 IMPORTANT
 
@@ -90,15 +91,15 @@ Need help? Use the Support link on this App Store page or email ealecci@gmail.co
 
 ## Keywords (100 characters max, commas only — no spaces after commas)
 ```
-dog,cat,pet,reminder,travel,vet,emergency,QR,lost,profile,health,schedule,puppy,kitten
+dog,cat,pet,reminder,vet,emergency,QR,lost,profile,health,schedule,puppy,kitten,weight
 ```
-*(86 characters. Do not repeat the app name “Petpal” here per Apple guidance.)*
+*(Within 100 characters. Do not repeat the app name “Petpal” here per Apple guidance.)*
 
 ---
 
 ## What’s New (Version 1.0)
 ```
-Welcome to Petpal! Organize pet profiles, reminders, emergency QR, travel tools, and a home screen you can customize. We’d love your feedback—use Support on this listing.
+Welcome to Petpal! Organize pet profiles, reminders, emergency QR, and everyday care tools—and customize your home screen. We’d love your feedback—use Support on this listing.
 ```
 
 ---
@@ -126,9 +127,9 @@ Legacy single-page policy: https://thyghos.github.io/petpal-privacy/
 ## Categories
 
 - **Primary:** Lifestyle  
-- **Secondary:** Travel  
+- **Secondary:** Health & Fitness  
 
-*(If the app is strongly health-record focused, **Health & Fitness** as primary or secondary can be appropriate—pick what best matches how you position Petpal.)*
+*(Adjust if **Utilities** or another category fits your positioning better.)*
 
 ---
 
@@ -143,7 +144,7 @@ Complete Apple’s questionnaire honestly → expect **4+** for this app (medica
 1. Home — pet card + feature tiles  
 2. Pet profile / edit screen  
 3. Emergency QR  
-4. Travel mode or map  
+4. Certificates, weight tracker, or Vet AI  
 5. Reminders or health tip card  
 6. Customize tiles or Settings  
 
@@ -151,4 +152,4 @@ Complete Apple’s questionnaire honestly → expect **4+** for this app (medica
 
 ## App Privacy
 
-Your **App Privacy** answers should match **`PRIVACY_POLICY.md`** and real app behavior (location, search, optional AI, etc.).
+Your **App Privacy** answers should match **`PRIVACY_POLICY.md`** and real app behavior (no location in the current app; optional AI; photos when you attach them; etc.).

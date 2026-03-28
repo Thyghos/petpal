@@ -1,5 +1,7 @@
 # Before & After: Modern Design Transformation
 
+> **Note (2026):** Older diagrams may show a “Travel” tile; that feature was removed. Today’s grid uses the tiles in **Settings → Customize Home Tiles**.
+
 ## 🎨 Visual Transformation Overview
 
 ### Complete Home Screen Comparison
@@ -19,7 +21,7 @@
 │ Features         [Customize]    │
 │ ┌────────┐  ┌────────┐         │
 │ │ 🎨     │  │ 📄     │         │
-│ │ Travel │  │ Docs   │         │
+│ │ Health │  │ Notes  │         │
 │ └────────┘  └────────┘         │
 │ (flat cards, simple)            │
 │                                 │
@@ -44,7 +46,7 @@
 │ 💎 Features → [Customize]      │
 │ ┌────────┐  ┌────────┐         │
 │ │✨🎨✨ │  │✨📄✨ │         │
-│ │ Travel │  │ Docs   │         │
+│ │ Health │  │ Notes  │         │
 │ └────────┘  └────────┘         │
 │ (glassmorphic, glowing icons)   │
 │                                 │
@@ -115,7 +117,7 @@ Basic Tile:
 │ │ 🎨 │   │
 │ └────┘   │
 │          │
-│ Travel   │
+│ Pet Picks│
 │ Mode     │
 └──────────┘
 
@@ -134,7 +136,7 @@ Enhanced Tile:
 │ │🎨✨│   │ ← Icon glow
 │ └────┘   │
 │          │
-│ Travel   │
+│ Pet Picks│
 │ Mode     │
 └──────────┘
 

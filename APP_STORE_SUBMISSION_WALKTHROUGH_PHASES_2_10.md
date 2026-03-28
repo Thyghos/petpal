@@ -64,7 +64,7 @@ App Store Connect needs **working public URLs** (not only files in the repo).
 2. **Support URL** → `https://thyghos.github.io/petpal/support.html`
 3. **Marketing URL** *(optional)* → `https://thyghos.github.io/petpal/terms.html`
 4. **Privacy Policy URL** — same as **App Privacy**: `https://thyghos.github.io/petpal/privacy.html` (see **`APP_STORE_CONTACT_INFO.md`**).
-5. **Primary / Secondary category** — e.g. **Lifestyle** + **Travel** (or adjust per listing draft).
+5. **Primary / Secondary category** — e.g. **Lifestyle** + **Health & Fitness** (or adjust per listing draft).
 6. **Name**, **Subtitle**, **Description** (includes medical + optional AI disclaimer), **Keywords**, **Promotional Text**, **What’s New**, **Copyright** as in the draft.
 7. **Save**; fix any Connect validation errors (length limits, keyword format).
 
@@ -74,7 +74,7 @@ App Store Connect needs **working public URLs** (not only files in the repo).
 
 ## Phase 6 — App Privacy (nutrition label)
 
-Must match real behavior (especially **Vet AI** → Claude/Gemini, **photos**, **location** for Travel Mode, analytics if any).
+Must match real behavior (especially **Vet AI** → configured AI provider, **photos** when attaching images, **no location** in the current app unless you add it later, analytics if any).
 
 1. App → **App Privacy**
 2. Declare collected data types, linked to user or not, third-party sharing as applicable

@@ -35,32 +35,21 @@
 		5263316D2F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */; };
 		5263316E2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314F2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md */; };
 		5263316F2F69F5F000A64ED5 /* QUICK_START 2.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331492F69F5F000A64ED5 /* QUICK_START 2.md */; };
-		526331702F69F5F000A64ED5 /* LOCATION_SETUP.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331342F69F5F000A64ED5 /* LOCATION_SETUP.md */; };
 		526331712F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314E2F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md */; };
 		526331722F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263312B2F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md */; };
 		526331732F69F5F000A64ED5 /* PRESET_FEATURES.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331422F69F5F000A64ED5 /* PRESET_FEATURES.md */; };
-		526331742F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314D2F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md */; };
 		526331752F69F5F000A64ED5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 526331242F69F5F000A64ED5 /* Assets.xcassets */; };
-		526331762F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331472F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md */; };
-		526331772F69F5F000A64ED5 /* UI_OVERVIEW.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331542F69F5F000A64ED5 /* UI_OVERVIEW.md */; };
-		526331782F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263313A2F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md */; };
 		526331792F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331302F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md */; };
 		5263317A2F69F5F000A64ED5 /* INFO_PLIST_SETUP.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331322F69F5F000A64ED5 /* INFO_PLIST_SETUP.md */; };
 		5263317B2F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331512F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md */; };
-		5263317C2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314A2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md */; };
 		5263317D2F69F5F000A64ED5 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331442F69F5F000A64ED5 /* PRIVACY_POLICY.md */; };
-		5263317E2F69F5F000A64ED5 /* QUICK_START.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331482F69F5F000A64ED5 /* QUICK_START.md */; };
-		5263317F2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263313B2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md */; };
 		526331802F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331452F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md */; };
 		526331812F69F5F000A64ED5 /* APP_STORE_COMPLIANCE_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331212F69F5F000A64ED5 /* APP_STORE_COMPLIANCE_GUIDE.md */; };
-		526331832F69F5F000A64ED5 /* TRAVEL_MODE_README.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331522F69F5F000A64ED5 /* TRAVEL_MODE_README.md */; };
 		526331842F69F5F000A64ED5 /* APP_STORE_READY_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331222F69F5F000A64ED5 /* APP_STORE_READY_SUMMARY.md */; };
 		526331852F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331272F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md */; };
 		526331862F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331372F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md */; };
 		526331872F69F5F000A64ED5 /* PRESET_VISUAL_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331432F69F5F000A64ED5 /* PRESET_VISUAL_GUIDE.md */; };
 		526331882F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331252F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md */; };
-		526331892F69F5F000A64ED5 /* FIXES_APPLIED.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263312A2F69F5F000A64ED5 /* FIXES_APPLIED.md */; };
-		5263318A2F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331332F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md */; };
 		5263318B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md */; };
 		5263318C2F69F5F000A64ED5 /* HOME_SCREEN_REDESIGN_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263312E2F69F5F000A64ED5 /* HOME_SCREEN_REDESIGN_SUMMARY.md */; };
 		5263318D2F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331232F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md */; };
@@ -129,7 +118,6 @@
 		526331272F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CUSTOMIZATION_GUIDE.md; sourceTree = "<group>"; };
 		526331282F69F5F000A64ED5 /* DisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerView.swift; sourceTree = "<group>"; };
 		526331292F69F5F000A64ED5 /* EmergencyQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyQRView.swift; sourceTree = "<group>"; };
-		5263312A2F69F5F000A64ED5 /* FIXES_APPLIED.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIXES_APPLIED.md; sourceTree = "<group>"; };
 		5263312B2F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FLOATING_VET_AI_GUIDE.md; sourceTree = "<group>"; };
 		5263312C2F69F5F000A64ED5 /* HealthTipCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTipCard.swift; sourceTree = "<group>"; };
 		5263312D2F69F5F000A64ED5 /* HealthTipPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTipPreferences.swift; sourceTree = "<group>"; };
@@ -138,14 +126,10 @@
 		526331302F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = IMPLEMENTATION_SUMMARY.md; sourceTree = "<group>"; };
 		526331312F69F5F000A64ED5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		526331322F69F5F000A64ED5 /* INFO_PLIST_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INFO_PLIST_SETUP.md; sourceTree = "<group>"; };
-		526331332F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INTEGRATION_SUMMARY.md; sourceTree = "<group>"; };
-		526331342F69F5F000A64ED5 /* LOCATION_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LOCATION_SETUP.md; sourceTree = "<group>"; };
 		526331362F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MODERN_DESIGN_GUIDE.md; sourceTree = "<group>"; };
 		526331372F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MODERN_HOME_UI_GUIDE.md; sourceTree = "<group>"; };
 		526331382F69F5F000A64ED5 /* ModernDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernDesignSystem.swift; sourceTree = "<group>"; };
 		526331392F69F5F000A64ED5 /* MultiPetDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPetDashboardView.swift; sourceTree = "<group>"; };
-		5263313A2F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PET_CARE_FEATURE_GUIDE.md; sourceTree = "<group>"; };
-		5263313B2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PET_CARE_IMPLEMENTATION_SUMMARY.md; sourceTree = "<group>"; };
 		5263313C2F69F5F000A64ED5 /* PetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailView.swift; sourceTree = "<group>"; };
 		5263313E2F69F5F000A64ED5 /* Petpal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Petpal.entitlements; sourceTree = "<group>"; };
 		526331402F69F5F000A64ED5 /* PetpalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetpalApp.swift; sourceTree = "<group>"; };
@@ -155,19 +139,13 @@
 		526331442F69F5F000A64ED5 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = "<group>"; };
 		526331452F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY_TEMPLATE.md; sourceTree = "<group>"; };
 		526331462F69F5F000A64ED5 /* PublicEmergencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicEmergencyView.swift; sourceTree = "<group>"; };
-		526331472F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = QUICK_FIX_SIMULATOR.md; sourceTree = "<group>"; };
-		526331482F69F5F000A64ED5 /* QUICK_START.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = QUICK_START.md; sourceTree = "<group>"; };
 		526331492F69F5F000A64ED5 /* QUICK_START 2.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "QUICK_START 2.md"; sourceTree = "<group>"; };
-		5263314A2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README_INTEGRATION_COMPLETE.md; sourceTree = "<group>"; };
 		5263314B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = REBRANDING_GUIDE.md; sourceTree = "<group>"; };
 		5263314C2F69F5F000A64ED5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		5263314D2F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SIMULATOR_SETUP_GUIDE.md; sourceTree = "<group>"; };
 		5263314E2F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SUBMISSION_CHECKLIST.md; sourceTree = "<group>"; };
 		5263314F2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TERMS_OF_SERVICE.md; sourceTree = "<group>"; };
 		526331502F69F5F000A64ED5 /* TilePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TilePreferences.swift; sourceTree = "<group>"; };
 		526331512F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TOGGLE_ALL_FEATURE.md; sourceTree = "<group>"; };
-		526331522F69F5F000A64ED5 /* TRAVEL_MODE_README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TRAVEL_MODE_README.md; sourceTree = "<group>"; };
-		526331542F69F5F000A64ED5 /* UI_OVERVIEW.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = UI_OVERVIEW.md; sourceTree = "<group>"; };
 		526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VetAIDisclaimerSheet.swift; sourceTree = "<group>"; };
 		526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = VISUAL_GUIDE_HOME_SCREEN.md; sourceTree = "<group>"; };
 		5263318E2F69F68D00A64ED5 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -253,7 +231,6 @@
 				526331272F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md */,
 				526331282F69F5F000A64ED5 /* DisclaimerView.swift */,
 				526331292F69F5F000A64ED5 /* EmergencyQRView.swift */,
-				5263312A2F69F5F000A64ED5 /* FIXES_APPLIED.md */,
 				5263312B2F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md */,
 				5263312C2F69F5F000A64ED5 /* HealthTipCard.swift */,
 				5263312D2F69F5F000A64ED5 /* HealthTipPreferences.swift */,
@@ -262,14 +239,10 @@
 				526331302F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md */,
 				526331312F69F5F000A64ED5 /* Info.plist */,
 				526331322F69F5F000A64ED5 /* INFO_PLIST_SETUP.md */,
-				526331332F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md */,
-				526331342F69F5F000A64ED5 /* LOCATION_SETUP.md */,
 				526331362F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md */,
 				526331372F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md */,
 				526331382F69F5F000A64ED5 /* ModernDesignSystem.swift */,
 				526331392F69F5F000A64ED5 /* MultiPetDashboardView.swift */,
-				5263313A2F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md */,
-				5263313B2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md */,
 				5263313C2F69F5F000A64ED5 /* PetDetailView.swift */,
 				5263313E2F69F5F000A64ED5 /* Petpal.entitlements */,
 				526331402F69F5F000A64ED5 /* PetpalApp.swift */,
@@ -293,19 +266,13 @@
 				526331442F69F5F000A64ED5 /* PRIVACY_POLICY.md */,
 				526331452F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md */,
 				526331462F69F5F000A64ED5 /* PublicEmergencyView.swift */,
-				526331472F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md */,
-				526331482F69F5F000A64ED5 /* QUICK_START.md */,
 				526331492F69F5F000A64ED5 /* QUICK_START 2.md */,
-				5263314A2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md */,
 				5263314B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md */,
 				5263314C2F69F5F000A64ED5 /* SettingsView.swift */,
-				5263314D2F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md */,
 				5263314E2F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md */,
 				5263314F2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md */,
 				526331502F69F5F000A64ED5 /* TilePreferences.swift */,
 				526331512F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md */,
-				526331522F69F5F000A64ED5 /* TRAVEL_MODE_README.md */,
-				526331542F69F5F000A64ED5 /* UI_OVERVIEW.md */,
 				526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */,
 				526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */,
 				526331052F69F54700A64ED5 /* PetpalTests */,
@@ -460,29 +427,20 @@
 				5263316E2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md in Resources */,
 				526331992F69F8FB00A64ED5 /* DUPLICATE_FILES_FIX.md in Resources */,
 				5263316F2F69F5F000A64ED5 /* QUICK_START 2.md in Resources */,
-				526331702F69F5F000A64ED5 /* LOCATION_SETUP.md in Resources */,
 				526331712F69F5F000A64ED5 /* SUBMISSION_CHECKLIST.md in Resources */,
 				526331722F69F5F000A64ED5 /* FLOATING_VET_AI_GUIDE.md in Resources */,
 				526331732F69F5F000A64ED5 /* PRESET_FEATURES.md in Resources */,
-				526331742F69F5F000A64ED5 /* SIMULATOR_SETUP_GUIDE.md in Resources */,
 				526331752F69F5F000A64ED5 /* Assets.xcassets in Resources */,
-				526331762F69F5F000A64ED5 /* QUICK_FIX_SIMULATOR.md in Resources */,
-				526331772F69F5F000A64ED5 /* UI_OVERVIEW.md in Resources */,
-				526331782F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md in Resources */,
 				526331792F69F5F000A64ED5 /* IMPLEMENTATION_SUMMARY.md in Resources */,
 				5263317A2F69F5F000A64ED5 /* INFO_PLIST_SETUP.md in Resources */,
 				5263317B2F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md in Resources */,
-				5263317C2F69F5F000A64ED5 /* README_INTEGRATION_COMPLETE.md in Resources */,
 				5263317D2F69F5F000A64ED5 /* PRIVACY_POLICY.md in Resources */,
-				5263317E2F69F5F000A64ED5 /* QUICK_START.md in Resources */,
 				522BA8452F6A360600462F04 /* APP_NAME_UPDATE_COMPLETE.md in Resources */,
-				5263317F2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md in Resources */,
 				526FB7BC2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md in Resources */,
 				526331802F69F5F000A64ED5 /* PRIVACY_POLICY_TEMPLATE.md in Resources */,
 				526331812F69F5F000A64ED5 /* APP_STORE_COMPLIANCE_GUIDE.md in Resources */,
 				522BA83D2F6A343B00462F04 /* QUICK_DAILY_CHECKLIST.md in Resources */,
 				522BA8432F6A351A00462F04 /* ULTRA_QUICK_START.md in Resources */,
-				526331832F69F5F000A64ED5 /* TRAVEL_MODE_README.md in Resources */,
 				526331842F69F5F000A64ED5 /* APP_STORE_READY_SUMMARY.md in Resources */,
 				526331852F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md in Resources */,
 				526331862F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md in Resources */,
@@ -490,8 +448,6 @@
 				522BA83B2F6A340F00462F04 /* PAWPAL_APP_STORE_ACTION_PLAN.md in Resources */,
 				522BA8532F6A3B7D00462F04 /* APP_ICON_SETUP_GUIDE.md in Resources */,
 				526331882F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md in Resources */,
-				526331892F69F5F000A64ED5 /* FIXES_APPLIED.md in Resources */,
-				5263318A2F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md in Resources */,
 				522BA83F2F6A349A00462F04 /* APP_STORE_TROUBLESHOOTING.md in Resources */,
 				5263318B2F69F5F000A64ED5 /* REBRANDING_GUIDE.md in Resources */,
 				5263318C2F69F5F000A64ED5 /* HOME_SCREEN_REDESIGN_SUMMARY.md in Resources */,

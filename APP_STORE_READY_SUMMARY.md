@@ -152,7 +152,7 @@ Prepare 5-8 screenshots showing:
 3. Pet profile with photo
 4. Features overview
 5. Emergency QR code
-6. Travel mode
+6. Certificates or weight tracker  
 7. Reminders
 
 **Required**: At least one showing disclaimers

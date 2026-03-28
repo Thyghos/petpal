@@ -12,7 +12,7 @@
 ### ✅ What You Already Have
 - ✅ Working app with no major crashes
 - ✅ SwiftData persistence working
-- ✅ Multiple features implemented (Emergency QR, Travel Mode, Vet AI, etc.)
+- ✅ Multiple features implemented (Emergency QR, reminders, Vet AI, certificates, weight, etc.)
 - ✅ Disclaimer system in place (DisclaimerView, VetAIDisclaimerSheet)
 - ✅ Multi-pet support
 - ✅ Modern SwiftUI design
@@ -91,9 +91,6 @@ Value: Petpal can save QR codes and export data to your photo library.
 Key: NSCameraUsageDescription
 Value: Petpal uses your camera to take photos of your pet for their profile.
 
-Key: NSLocationWhenInUseUsageDescription
-Value: Petpal uses your location to find nearby pet-friendly places, veterinarians, and emergency services.
-
 Key: NSUserNotificationsUsageDescription
 Value: Petpal sends reminders for vet appointments, medications, and daily pet care tips.
 ```
@@ -121,7 +118,7 @@ Create test checklist:
 
 **Features:**
 - [ ] Emergency QR → Generates correctly
-- [ ] Travel Mode → Loads and functions
+- [ ] Home tiles (certificates, weight, Pet Picks, etc.) → Open as expected
 - [ ] Vet AI → Opens and responds
 - [ ] Reminders → Can add/edit/delete
 - [ ] Settings → All toggles work
@@ -232,7 +229,7 @@ Resolution: 1290 x 2796 pixels
 1. **Home Screen** - Show pet card with features grid
 2. **Disclaimer Banner** - Show compliance (important!)
 3. **Emergency QR Code** - Key safety feature
-4. **Travel Mode** - Travel checklist
+4. **Certificates or weight tracker**
 5. **Vet AI Chat** - Show AI conversation
 6. **Multi-Pet Dashboard** - Show multiple pets
 7. **Reminders** - Show calendar/reminders
@@ -348,11 +345,9 @@ Keep your pet healthy, happy, and safe with Petpal - the all-in-one pet care com
 • Allergy and medication information
 • Veterinarian contact details
 
-✈️ Travel Mode
-• Travel checklist and planning
-• Vaccination records for trips
-• Find pet-friendly places
-• Location-based veterinary services
+📄 Certificates & weight
+• Store vaccine and license documents per pet
+• Track weight over time
 
 💊 AI Assistant (With Disclaimers)
 • Get general pet care information
@@ -411,7 +406,7 @@ Privacy Policy: [your URL]
 Maximum 100 characters (no spaces after commas):
 
 ```
-pet,dog,cat,health,vet,medical,care,reminder,tracker,qr,emergency,travel,insurance,ai,wellness
+pet,dog,cat,health,vet,medical,care,reminder,tracker,qr,emergency,insurance,ai,wellness,weight
 ```
 
 **[ ] Task 20: Promotional Text** (170 chars)
@@ -606,7 +601,7 @@ KEY INFORMATION:
    - Set reminders
    - Generate Emergency QR code
    - Try AI assistant (requires disclaimer acceptance)
-   - Test travel mode features
+   - Test home tiles and core flows (QR, reminders, certificates, etc.)
 
 4. AI Feature:
    - Provides general pet care information only

@@ -1,5 +1,7 @@
 # Tile Presets Feature Guide
 
+> **Note (2026):** Travel Mode and Travel Ready preset were removed. Sections below still describe older layouts in places—verify behavior in the app.
+
 ## 🎯 New Feature: Smart Tile Presets
 
 ### Overview

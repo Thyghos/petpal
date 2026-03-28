@@ -147,7 +147,7 @@ Your PawPal app is in great shape! You already have:
 - SwiftData persistence
 - Multi-pet support
 - Emergency QR codes
-- Travel mode
+- Customizable home tiles (reminders, QR, health, etc.)
 - Vet AI assistant
 - Reminders system
 - Settings & customization

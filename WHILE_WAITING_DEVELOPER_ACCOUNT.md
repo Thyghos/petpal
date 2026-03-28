@@ -10,7 +10,7 @@ Your account is **pending**. You **cannot** use App Store Connect, create the ap
 
 - [x] Privacy policy live: **https://thyghos.github.io/petpal-privacy/**
 - [x] Support email: **ealecci@gmail.com**
-- [x] Info.plist permission strings (photo, camera, location, notifications)
+- [x] Info.plist permission strings (photo, camera, notifications—as applicable)
 - [x] See **`APP_STORE_CONTACT_INFO.md`** and **`APP_STORE_LISTING_DRAFT.md`**
 
 ---
@@ -26,7 +26,7 @@ Run on **Simulator** and a **real iPhone** if you have one:
 | My Pets, active pet | |
 | Home tiles | Open each screen; placeholders are OK |
 | Emergency QR | Create profile, see QR |
-| Travel Mode | Location permission, map loads |
+| Extra tiles | Certificates, weight, Pet Picks, etc. |
 | Settings | Tile order, health tip prefs |
 | Disclaimers | Accept once, re-open from settings if needed |
 | Kill app & relaunch | Data still there (SwiftData) |
@@ -49,7 +49,7 @@ Apple **requires** a 1024×1024 PNG (no transparency, square — iOS rounds it).
 
 1. Xcode → Simulator → **iPhone 16 Pro Max** (or **15 Pro Max**) — 6.7" display.
 2. Run app (**⌘R**), go to each screen, **⌘S** (saves to Desktop).
-3. Take **at least 3**, ideally **5–8**: Home, My Pets, Emergency QR, Travel Mode, Settings, Health tip, etc.
+3. Take **at least 3**, ideally **5–8**: Home, My Pets, Emergency QR, Settings, health tip, certificates, etc.
 
 Optional: later add frames/text in [App Store Screenshot](https://appscreenshotmaker.com/) or similar.
 
@@ -62,7 +62,7 @@ Open **`APP_STORE_LISTING_DRAFT.md`**. Tweak subtitle, description, keywords. Wh
 
 ### 5. Code cleanup (optional, 30–60 min)
 - Build (**⌘B**) → fix **yellow warnings** in the Issues navigator.
-- Search project for **`print(`** — remove or wrap in `#if DEBUG` before you ship (there are several in **TravelModeView** and **LocationManager**).
+- Search project for **`print(`** — remove or wrap in `#if DEBUG` before you ship.
 
 ---
 

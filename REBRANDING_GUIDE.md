@@ -76,7 +76,7 @@ This guide will help you change all instances of "PawPal" to "Petpal" throughout
 - [ ] `PRESET_FEATURES.md`
 - [ ] `BEFORE_AFTER_VISUAL.md`
 - [ ] `IMPLEMENTATION_SUMMARY.md`
-- [ ] `QUICK_START.md`
+- [ ] `ULTRA_QUICK_START.md` *(and other `.md` guides you keep)*
 - [ ] All other `.md` files in your repo
 
 **Quick way to update:**

@@ -3,7 +3,7 @@
 ## 🎯 What You Asked For → What I Built
 
 ### Request #1: Drag and Drop Tiles
-**You wanted:** Reorder tiles like travel, insurance, etc.
+**You wanted:** Reorder tiles like reminders, insurance, etc.
 
 **What I built:**
 ```
@@ -97,7 +97,7 @@ Settings → Health Tips
 │  Features      [Customize]  │
 │  ┌──────┐  ┌──────┐         │
 │  │✈️    │  │📄    │         │
-│  │Travel│  │Docs  │         │
+│  │Health│  │Notes │         │
 │  └──────┘  └──────┘         │
 │  ┌──────┐  ┌──────┐         │
 │  │🔔    │  │❤️    │         │
@@ -144,8 +144,8 @@ Settings → Health Tips
 ├─────────────────────────────┤
 │ VISIBLE TILES               │
 │ ┌─────────────────────────┐ │
-│ │ ☰ ✈️  Travel Mode  👁️‍🗨️│ │
-│ │ ☰ 📄  Documents    👁️‍🗨️│ │
+│ │ ☰ 🔔  Reminders    👁️‍🗨️│ │
+│ │ ☰ 📄  Certificates 👁️‍🗨️│ │
 │ │ ☰ 🔔  Reminders    👁️‍🗨️│ │
 │ │ ☰ 🚨  Emergency QR 👁️‍🗨️│ │
 │ │ ... (drag to reorder)   │ │
@@ -245,17 +245,16 @@ ForEach(visibleTiles) { tile in
 ## 🎨 Customization Examples
 
 ### Example 1: Power User
-**Wants:** Quick access to travel and insurance
+**Wants:** Quick access to reminders and insurance
 
 **Setup:**
 1. Settings → Customize Tiles
-2. Drag "Travel Mode" to top
+2. Drag "Reminders" to top
 3. Drag "Insurance" to second
-4. Hide "Encyclopedia" (never uses it)
-5. Hide "Dashboard"
-6. Save
+4. Hide tiles you rarely use
+5. Save
 
-**Result:** Home shows only 7 tiles, most-used at top!
+**Result:** Home shows your preferred tiles first!
 
 ### Example 2: New Pet Owner
 **Wants:** Learn about dog care
@@ -277,7 +276,7 @@ ForEach(visibleTiles) { tile in
 **Setup:**
 1. Health Tips → Weekly
 2. Pet is Cat
-3. Hide tiles: Travel, Encyclopedia, Dashboard
+3. Hide tiles you don’t need (e.g. optional tiles from the list)
 4. Keep: Reminders, Emergency QR, Health, Food
 
 **Result:** 

@@ -1,5 +1,7 @@
 # Visual Guide: New Home Screen
 
+> **Note (2026):** “Travel” was removed; substitute any current orange or secondary tile from the live app when reading diagrams below.
+
 ## 🏠 Home Screen Layout
 
 ```
@@ -20,10 +22,10 @@
 │  Features                                  │
 │                                            │
 │  ┌──────────┐    ┌──────────┐            │
-│  │ [🧠]     │    │ [✈️]     │            │
+│  │ [🧠]     │    │ [🎁]     │            │
 │  │ Green    │    │ Orange   │            │
 │  │          │    │          │            │
-│  │ Vet AI   │    │ Travel   │            │
+│  │ Vet AI   │    │ Pet Picks│            │
 │  └──────────┘    └──────────┘            │
 │                                            │
 │  ┌──────────┐    ┌──────────┐            │
@@ -82,7 +84,7 @@ States:
 
 Gradient Colors:
 • Vet AI: 🟢 Green
-• Travel: 🟠 Orange  
+• Pet Care Notes / orange tiles: 🟠 Orange  
 • Documents: 🔵 Blue
 • Reminders: 🟣 Purple
 • Emergency: 🔴 Red
@@ -228,7 +230,7 @@ Direction: Top-Left → Bottom-Right
 ```
 Row 1:
 ┌─────────────┐  ┌─────────────┐
-│  Vet AI     │  │ Travel Mode │
+│  Vet AI     │  │ Certificates│
 │  Green      │  │ Orange      │
 └─────────────┘  └─────────────┘
 

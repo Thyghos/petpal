@@ -42,7 +42,7 @@
 - [ ] Emergency QR generates
 
 **Feature Tests:**
-- [ ] Travel Mode loads
+- [ ] Home tiles open (e.g. certificates, weight, Pet Picks)
 - [ ] Vet AI opens
 - [ ] Reminders work
 - [ ] Settings work
@@ -93,7 +93,7 @@ _____________________________________________________
 - [ ] Screenshot 1: Home screen
 - [ ] Screenshot 2: Disclaimer/compliance
 - [ ] Screenshot 3: Emergency QR
-- [ ] Screenshot 4: Travel Mode
+- [ ] Screenshot 4: Certificates or weight tracker
 - [ ] Screenshot 5: Vet AI
 - [ ] Screenshot 6: Multi-pet (optional)
 - [ ] Screenshot 7: Reminders (optional)

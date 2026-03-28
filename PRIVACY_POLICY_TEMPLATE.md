@@ -52,7 +52,7 @@ Your data includes:
 - Pet profiles and photos
 - Health records and documents
 - Reminders and appointments
-- Travel plans and checklists
+- Trip or sitter plans you choose to store
 
 ### Data Backup
 
