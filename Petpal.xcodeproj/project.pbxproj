@@ -19,7 +19,6 @@
 		526331582F69F5F000A64ED5 /* MockPetFriendlyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331352F69F5F000A64ED5 /* MockPetFriendlyData.swift */; };
 		526331592F69F5F000A64ED5 /* HealthTipCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263312C2F69F5F000A64ED5 /* HealthTipCard.swift */; };
 		5263315A2F69F5F000A64ED5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263314C2F69F5F000A64ED5 /* SettingsView.swift */; };
-		5263315B2F69F5F000A64ED5 /* BluetoothDeviceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331262F69F5F000A64ED5 /* BluetoothDeviceLocator.swift */; };
 		5263315C2F69F5F000A64ED5 /* PetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263313C2F69F5F000A64ED5 /* PetDetailView.swift */; };
 		5263315D2F69F5F000A64ED5 /* HealthTipPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263312D2F69F5F000A64ED5 /* HealthTipPreferences.swift */; };
 		5263315E2F69F5F000A64ED5 /* MultiPetDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331392F69F5F000A64ED5 /* MultiPetDashboardView.swift */; };
@@ -30,7 +29,6 @@
 		526331632F69F5F000A64ED5 /* PetsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331412F69F5F000A64ED5 /* PetsListView.swift */; };
 		526331642F69F5F000A64ED5 /* PublicEmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331462F69F5F000A64ED5 /* PublicEmergencyView.swift */; };
 		526331652F69F5F000A64ED5 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331202F69F5F000A64ED5 /* APIConfiguration.swift */; };
-		526331662F69F5F000A64ED5 /* Petpal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263313F2F69F5F000A64ED5 /* Petpal.swift */; };
 		526331672F69F5F000A64ED5 /* PetFriendlyPlacesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */; };
 		526331682F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */; };
 		526331692F69F5F000A64ED5 /* EmergencyQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331292F69F5F000A64ED5 /* EmergencyQRView.swift */; };
@@ -132,7 +130,6 @@
 		526331232F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_STORE_SUBMISSION_GUIDE.md; sourceTree = "<group>"; };
 		526331242F69F5F000A64ED5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		526331252F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BEFORE_AFTER_VISUAL.md; sourceTree = "<group>"; };
-		526331262F69F5F000A64ED5 /* BluetoothDeviceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDeviceLocator.swift; sourceTree = "<group>"; };
 		526331272F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CUSTOMIZATION_GUIDE.md; sourceTree = "<group>"; };
 		526331282F69F5F000A64ED5 /* DisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerView.swift; sourceTree = "<group>"; };
 		526331292F69F5F000A64ED5 /* EmergencyQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyQRView.swift; sourceTree = "<group>"; };
@@ -157,7 +154,6 @@
 		5263313C2F69F5F000A64ED5 /* PetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailView.swift; sourceTree = "<group>"; };
 		5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetFriendlyPlacesService.swift; sourceTree = "<group>"; };
 		5263313E2F69F5F000A64ED5 /* Petpal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Petpal.entitlements; sourceTree = "<group>"; };
-		5263313F2F69F5F000A64ED5 /* Petpal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Petpal.swift; sourceTree = "<group>"; };
 		526331402F69F5F000A64ED5 /* PetpalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetpalApp.swift; sourceTree = "<group>"; };
 		526331412F69F5F000A64ED5 /* PetsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetsListView.swift; sourceTree = "<group>"; };
 		526331422F69F5F000A64ED5 /* PRESET_FEATURES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRESET_FEATURES.md; sourceTree = "<group>"; };
@@ -262,7 +258,6 @@
 				526331232F69F5F000A64ED5 /* APP_STORE_SUBMISSION_GUIDE.md */,
 				526331242F69F5F000A64ED5 /* Assets.xcassets */,
 				526331252F69F5F000A64ED5 /* BEFORE_AFTER_VISUAL.md */,
-				526331262F69F5F000A64ED5 /* BluetoothDeviceLocator.swift */,
 				526331272F69F5F000A64ED5 /* CUSTOMIZATION_GUIDE.md */,
 				526331282F69F5F000A64ED5 /* DisclaimerView.swift */,
 				526331292F69F5F000A64ED5 /* EmergencyQRView.swift */,
@@ -287,7 +282,6 @@
 				5263313C2F69F5F000A64ED5 /* PetDetailView.swift */,
 				5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */,
 				5263313E2F69F5F000A64ED5 /* Petpal.entitlements */,
-				5263313F2F69F5F000A64ED5 /* Petpal.swift */,
 				526331402F69F5F000A64ED5 /* PetpalApp.swift */,
 				52F1C0012F72000000BD001 /* PetpalSwiftDataStore.swift */,
 				52F1C0052F72000000BD005 /* PetpalBackup.swift */,
@@ -555,7 +549,6 @@
 				526331582F69F5F000A64ED5 /* MockPetFriendlyData.swift in Sources */,
 				526331592F69F5F000A64ED5 /* HealthTipCard.swift in Sources */,
 				5263315A2F69F5F000A64ED5 /* SettingsView.swift in Sources */,
-				5263315B2F69F5F000A64ED5 /* BluetoothDeviceLocator.swift in Sources */,
 				5263315C2F69F5F000A64ED5 /* PetDetailView.swift in Sources */,
 				526331912F69F79900A64ED5 /* EmergencyProfileEditor.swift in Sources */,
 				5263315D2F69F5F000A64ED5 /* HealthTipPreferences.swift in Sources */,
@@ -572,7 +565,6 @@
 				526331632F69F5F000A64ED5 /* PetsListView.swift in Sources */,
 				526331642F69F5F000A64ED5 /* PublicEmergencyView.swift in Sources */,
 				526331652F69F5F000A64ED5 /* APIConfiguration.swift in Sources */,
-				526331662F69F5F000A64ED5 /* Petpal.swift in Sources */,
 				526331672F69F5F000A64ED5 /* PetFriendlyPlacesService.swift in Sources */,
 				526331682F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift in Sources */,
 				526331692F69F5F000A64ED5 /* EmergencyQRView.swift in Sources */,
@@ -746,7 +738,6 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Petpal/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Petpal uses ​Bluetooth to discover and connect to your pet​'s tracking device so you can locate your pet when they​'re nearby.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Petpal uses your camera to take photos of your pet for their profile.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Petpal can save QR codes and images to your photo library when you choose to save them.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Petpal needs access to your photo library to set your pet's profile picture.";
@@ -799,7 +790,6 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Petpal/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Petpal uses ​Bluetooth to discover and connect to your pet​'s tracking device so you can locate your pet when they​'re nearby.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Petpal uses your camera to take photos of your pet for their profile.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Petpal can save QR codes and images to your photo library when you choose to save them.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Petpal needs access to your photo library to set your pet's profile picture.";
