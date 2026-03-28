@@ -40,6 +40,7 @@ struct HomeView: View {
     @State private var showingGeneralDisclaimer = false
     @State private var showingVetAIDisclaimerSheet = false
     @State private var showingSettings = false
+    @State private var showingDevTipJar = false
     @State private var healthTipDismissed = false
     
     private var sortedPets: [Pet] {
@@ -140,35 +141,6 @@ struct HomeView: View {
                 .padding(.top, 8)
                 .padding(.bottom, 32)
             }
-            
-            // Floating Vet AI Button
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button {
-                        // Show disclaimer if not accepted, otherwise open Vet AI
-                        if hasAcceptedVetAIDisclaimer {
-                            showingVetAI = true
-                        } else {
-                            showingVetAIDisclaimerSheet = true
-                        }
-                    } label: {
-                        ZStack {
-                            Circle()
-                                .fill(Color("BrandGreen"))
-                                .frame(width: 64, height: 64)
-                                .shadow(color: Color("BrandGreen").opacity(0.4), radius: 12, x: 0, y: 6)
-                            
-                            Image(systemName: "bubble.left.and.text.bubble.right.fill")
-                                .font(.system(size: 28, weight: .semibold))
-                                .foregroundStyle(.white)
-                        }
-                    }
-                    .padding(.trailing, 20)
-                    .padding(.bottom, 20)
-                }
-            }
         }
         .sheet(item: $petUnderEdit, onDismiss: {
             petUnderEdit = nil
@@ -226,6 +198,11 @@ struct HomeView: View {
         .sheet(isPresented: $showingSettings) {
             SettingsView()
         }
+        #if os(iOS)
+        .sheet(isPresented: $showingDevTipJar) {
+            DeveloperTipJarView()
+        }
+        #endif
         .onAppear {
             reconcileActivePetAndPager()
         }
@@ -645,30 +622,56 @@ struct HomeView: View {
             showingFoodRecommendations = true
         case "insurance":
             showingInsuranceTracker = true
+        case "ai_vet":
+            if hasAcceptedVetAIDisclaimer {
+                showingVetAI = true
+            } else {
+                showingVetAIDisclaimerSheet = true
+            }
         default:
             break
         }
     }
     
     private var footerText: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 10) {
             Text("Your pet's health, always at your fingertips.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
-            
-            Text("Made with ❤️ for pet parents")
-                .font(.caption2)
-                .foregroundStyle(.secondary.opacity(0.7))
+
+            #if os(iOS)
+            Button {
+                showingDevTipJar = true
+            } label: {
+                Label("Developer Tip Jar", systemImage: "heart.circle.fill")
+                    .font(.subheadline.weight(.semibold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+            }
+            .buttonStyle(.bordered)
+            .tint(Color("BrandPurple"))
+            .accessibilityHint("Optional tips to support Petpal development")
+            #endif
+
+            HStack(spacing: 4) {
+                Text("Made with")
+                Image(systemName: "heart.fill")
+                    .font(.caption2)
+                    .foregroundStyle(Color("BrandPurple"))
+                Text("for pet parents")
+            }
+            .font(.caption2)
+            .foregroundStyle(.secondary.opacity(0.7))
 
             if let privacyURL = URL(string: "https://thyghos.github.io/petpal-privacy/") {
                 Link("Privacy Policy", destination: privacyURL)
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
-                    .padding(.top, 2)
                     .accessibilityHint("Opens the privacy policy in Safari")
             }
         }
         .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity)
     }
     
     private func greetingText() -> String {
@@ -901,73 +904,6 @@ private struct HomePetHeroPageBackground: View {
                     lineWidth: 1.5
                 )
         )
-    }
-}
- 
-// MARK: - Floating Vet AI Button
-
-struct FloatingVetAIButton: View {
-    let action: () -> Void
-    @State private var isPressed = false
-    @State private var isPulse = false
-    
-    var body: some View {
-        Button(action: action) {
-            ZStack {
-                // Pulse animation background
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color("BrandGreen").opacity(0.3), Color("BrandGreen").opacity(0.1)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 72, height: 72)
-                    .scaleEffect(isPulse ? 1.2 : 1.0)
-                    .opacity(isPulse ? 0 : 1)
-                
-                // Main button
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color("BrandGreen"), Color("BrandGreen").opacity(0.8)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 64, height: 64)
-                    .shadow(color: Color("BrandGreen").opacity(0.4), radius: 12, x: 0, y: 6)
-                
-                // Chat bubble icon
-                Image(systemName: "bubble.left.and.text.bubble.right.fill")
-                    .font(.system(size: 28, weight: .semibold))
-                    .foregroundStyle(.white)
-                
-                // Optional: AI sparkle indicator
-                Image(systemName: "sparkles")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(.white)
-                    .offset(x: 18, y: -18)
-            }
-            .scaleEffect(isPressed ? 0.9 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
-        }
-        .buttonStyle(.plain)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in isPressed = true }
-                .onEnded { _ in isPressed = false }
-        )
-        .onAppear {
-            // Continuous pulse animation
-            withAnimation(
-                .easeInOut(duration: 2.0)
-                .repeatForever(autoreverses: false)
-            ) {
-                isPulse = true
-            }
-        }
     }
 }
 
