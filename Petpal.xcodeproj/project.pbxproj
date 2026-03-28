@@ -16,7 +16,6 @@
 		522BA8452F6A360600462F04 /* APP_NAME_UPDATE_COMPLETE.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA8442F6A360600462F04 /* APP_NAME_UPDATE_COMPLETE.md */; };
 		522BA8532F6A3B7D00462F04 /* APP_ICON_SETUP_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 522BA8522F6A3B7D00462F04 /* APP_ICON_SETUP_GUIDE.md */; };
 		526331572F69F5F000A64ED5 /* PetpalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331402F69F5F000A64ED5 /* PetpalApp.swift */; };
-		526331582F69F5F000A64ED5 /* MockPetFriendlyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331352F69F5F000A64ED5 /* MockPetFriendlyData.swift */; };
 		526331592F69F5F000A64ED5 /* HealthTipCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263312C2F69F5F000A64ED5 /* HealthTipCard.swift */; };
 		5263315A2F69F5F000A64ED5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263314C2F69F5F000A64ED5 /* SettingsView.swift */; };
 		5263315C2F69F5F000A64ED5 /* PetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263313C2F69F5F000A64ED5 /* PetDetailView.swift */; };
@@ -29,11 +28,9 @@
 		526331632F69F5F000A64ED5 /* PetsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331412F69F5F000A64ED5 /* PetsListView.swift */; };
 		526331642F69F5F000A64ED5 /* PublicEmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331462F69F5F000A64ED5 /* PublicEmergencyView.swift */; };
 		526331652F69F5F000A64ED5 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331202F69F5F000A64ED5 /* APIConfiguration.swift */; };
-		526331672F69F5F000A64ED5 /* PetFriendlyPlacesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */; };
 		526331682F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */; };
 		526331692F69F5F000A64ED5 /* EmergencyQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331292F69F5F000A64ED5 /* EmergencyQRView.swift */; };
 		5263316A2F69F5F000A64ED5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263312F2F69F5F000A64ED5 /* HomeView.swift */; };
-		5263316B2F69F5F000A64ED5 /* TravelModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331532F69F5F000A64ED5 /* TravelModeView.swift */; };
 		5263316C2F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331362F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md */; };
 		5263316D2F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md in Resources */ = {isa = PBXBuildFile; fileRef = 526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */; };
 		5263316E2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5263314F2F69F5F000A64ED5 /* TERMS_OF_SERVICE.md */; };
@@ -74,7 +71,6 @@
 		526331AB2FAA10010064ED02 /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526331AB2FAA10010064ED01 /* AppRootView.swift */; };
 		526FB7BC2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md in Resources */ = {isa = PBXBuildFile; fileRef = 526FB7BB2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md */; };
 		52BADD022F71000100B64ED5 /* RecordAttachmentSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BADD012F71000100B64ED5 /* RecordAttachmentSupport.swift */; };
-		52DCF1002F9A100000C64ED5 /* BringFidoInAppBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DCF0FF2F9A100000C64ED5 /* BringFidoInAppBrowser.swift */; };
 		52F1C0112F72000000BD001 /* PetpalSwiftDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C0012F72000000BD001 /* PetpalSwiftDataStore.swift */; };
 		52F1C0122F72000000BD002 /* PetpalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C0022F72000000BD002 /* PetpalStore.swift */; };
 		52F1C0132F72000000BD003 /* PetReminderNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C0032F72000000BD003 /* PetReminderNotificationService.swift */; };
@@ -144,7 +140,6 @@
 		526331322F69F5F000A64ED5 /* INFO_PLIST_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INFO_PLIST_SETUP.md; sourceTree = "<group>"; };
 		526331332F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INTEGRATION_SUMMARY.md; sourceTree = "<group>"; };
 		526331342F69F5F000A64ED5 /* LOCATION_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LOCATION_SETUP.md; sourceTree = "<group>"; };
-		526331352F69F5F000A64ED5 /* MockPetFriendlyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPetFriendlyData.swift; sourceTree = "<group>"; };
 		526331362F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MODERN_DESIGN_GUIDE.md; sourceTree = "<group>"; };
 		526331372F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MODERN_HOME_UI_GUIDE.md; sourceTree = "<group>"; };
 		526331382F69F5F000A64ED5 /* ModernDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernDesignSystem.swift; sourceTree = "<group>"; };
@@ -152,7 +147,6 @@
 		5263313A2F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PET_CARE_FEATURE_GUIDE.md; sourceTree = "<group>"; };
 		5263313B2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PET_CARE_IMPLEMENTATION_SUMMARY.md; sourceTree = "<group>"; };
 		5263313C2F69F5F000A64ED5 /* PetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailView.swift; sourceTree = "<group>"; };
-		5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetFriendlyPlacesService.swift; sourceTree = "<group>"; };
 		5263313E2F69F5F000A64ED5 /* Petpal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Petpal.entitlements; sourceTree = "<group>"; };
 		526331402F69F5F000A64ED5 /* PetpalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetpalApp.swift; sourceTree = "<group>"; };
 		526331412F69F5F000A64ED5 /* PetsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetsListView.swift; sourceTree = "<group>"; };
@@ -173,7 +167,6 @@
 		526331502F69F5F000A64ED5 /* TilePreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TilePreferences.swift; sourceTree = "<group>"; };
 		526331512F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TOGGLE_ALL_FEATURE.md; sourceTree = "<group>"; };
 		526331522F69F5F000A64ED5 /* TRAVEL_MODE_README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TRAVEL_MODE_README.md; sourceTree = "<group>"; };
-		526331532F69F5F000A64ED5 /* TravelModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelModeView.swift; sourceTree = "<group>"; };
 		526331542F69F5F000A64ED5 /* UI_OVERVIEW.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = UI_OVERVIEW.md; sourceTree = "<group>"; };
 		526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VetAIDisclaimerSheet.swift; sourceTree = "<group>"; };
 		526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = VISUAL_GUIDE_HOME_SCREEN.md; sourceTree = "<group>"; };
@@ -184,7 +177,6 @@
 		526331AB2FAA10010064ED01 /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
 		526FB7BB2F6F02A800D30E94 /* tmpTESTFLIGHT_QUICK_START.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = tmpTESTFLIGHT_QUICK_START.md; sourceTree = "<group>"; };
 		52BADD012F71000100B64ED5 /* RecordAttachmentSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordAttachmentSupport.swift; sourceTree = "<group>"; };
-		52DCF0FF2F9A100000C64ED5 /* BringFidoInAppBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringFidoInAppBrowser.swift; sourceTree = "<group>"; };
 		52F1C0012F72000000BD001 /* PetpalSwiftDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetpalSwiftDataStore.swift; sourceTree = "<group>"; };
 		52F1C0022F72000000BD002 /* PetpalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetpalStore.swift; sourceTree = "<group>"; };
 		52F1C0032F72000000BD003 /* PetReminderNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetReminderNotificationService.swift; sourceTree = "<group>"; };
@@ -272,7 +264,6 @@
 				526331322F69F5F000A64ED5 /* INFO_PLIST_SETUP.md */,
 				526331332F69F5F000A64ED5 /* INTEGRATION_SUMMARY.md */,
 				526331342F69F5F000A64ED5 /* LOCATION_SETUP.md */,
-				526331352F69F5F000A64ED5 /* MockPetFriendlyData.swift */,
 				526331362F69F5F000A64ED5 /* MODERN_DESIGN_GUIDE.md */,
 				526331372F69F5F000A64ED5 /* MODERN_HOME_UI_GUIDE.md */,
 				526331382F69F5F000A64ED5 /* ModernDesignSystem.swift */,
@@ -280,7 +271,6 @@
 				5263313A2F69F5F000A64ED5 /* PET_CARE_FEATURE_GUIDE.md */,
 				5263313B2F69F5F000A64ED5 /* PET_CARE_IMPLEMENTATION_SUMMARY.md */,
 				5263313C2F69F5F000A64ED5 /* PetDetailView.swift */,
-				5263313D2F69F5F000A64ED5 /* PetFriendlyPlacesService.swift */,
 				5263313E2F69F5F000A64ED5 /* Petpal.entitlements */,
 				526331402F69F5F000A64ED5 /* PetpalApp.swift */,
 				52F1C0012F72000000BD001 /* PetpalSwiftDataStore.swift */,
@@ -315,8 +305,6 @@
 				526331502F69F5F000A64ED5 /* TilePreferences.swift */,
 				526331512F69F5F000A64ED5 /* TOGGLE_ALL_FEATURE.md */,
 				526331522F69F5F000A64ED5 /* TRAVEL_MODE_README.md */,
-				526331532F69F5F000A64ED5 /* TravelModeView.swift */,
-				52DCF0FF2F9A100000C64ED5 /* BringFidoInAppBrowser.swift */,
 				526331542F69F5F000A64ED5 /* UI_OVERVIEW.md */,
 				526331552F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift */,
 				526331562F69F5F000A64ED5 /* VISUAL_GUIDE_HOME_SCREEN.md */,
@@ -546,7 +534,6 @@
 				52F1C0142F72000000BD004 /* InsuranceCuratedContent.swift in Sources */,
 				52F1C01C2F72000000BD00C /* LucysTipJarView.swift in Sources */,
 				52F1C01D2F72000000BD00D /* LucysFavoritesView.swift in Sources */,
-				526331582F69F5F000A64ED5 /* MockPetFriendlyData.swift in Sources */,
 				526331592F69F5F000A64ED5 /* HealthTipCard.swift in Sources */,
 				5263315A2F69F5F000A64ED5 /* SettingsView.swift in Sources */,
 				5263315C2F69F5F000A64ED5 /* PetDetailView.swift in Sources */,
@@ -565,12 +552,9 @@
 				526331632F69F5F000A64ED5 /* PetsListView.swift in Sources */,
 				526331642F69F5F000A64ED5 /* PublicEmergencyView.swift in Sources */,
 				526331652F69F5F000A64ED5 /* APIConfiguration.swift in Sources */,
-				526331672F69F5F000A64ED5 /* PetFriendlyPlacesService.swift in Sources */,
 				526331682F69F5F000A64ED5 /* VetAIDisclaimerSheet.swift in Sources */,
 				526331692F69F5F000A64ED5 /* EmergencyQRView.swift in Sources */,
 				5263316A2F69F5F000A64ED5 /* HomeView.swift in Sources */,
-				5263316B2F69F5F000A64ED5 /* TravelModeView.swift in Sources */,
-				52DCF1002F9A100000C64ED5 /* BringFidoInAppBrowser.swift in Sources */,
 				5263318F2F69F68D00A64ED5 /* Models.swift in Sources */,
 				526331AA2FAA10010064ED02 /* LegacyPetBootstrap.swift in Sources */,
 				526331AB2FAA10010064ED02 /* AppRootView.swift in Sources */,

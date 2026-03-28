@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>GEOAPIFY_API_KEY</key>
-	<string>e5a5b12549eb45d5b58e6068f893a784</string>
 	<key>Claude_API_Key</key>
 	<string></string>
 	<key>GEMINI_API_KEY</key>

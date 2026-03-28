@@ -19,13 +19,13 @@ struct SettingsView: View {
     @AppStorage("weightUnit") private var weightUnit: String = "lbs"
     @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer = false
     @AppStorage("hasAcceptedVetAIDisclaimer") private var hasAcceptedVetAIDisclaimer = false
-    @AppStorage("USER_CLAUDE_API_KEY") private var userClaudeAPIKey: String = ""
-    @AppStorage("USER_GEMINI_API_KEY") private var userGeminiAPIKey: String = ""
-    @AppStorage("USER_VET_AI_PROXY_URL") private var userVetAIProxyURL: String = APIConfiguration.defaultVetAIProxyURL
-    @AppStorage("USER_VET_AI_PROXY_TOKEN") private var userVetAIProxyToken: String = ""
     
     @State private var showingTileCustomization = false
     @State private var showingAbout = false
+    #if os(iOS)
+    @State private var showingDataBackup = false
+    @State private var showingDevTipJar = false
+    #endif
     
     var currentTilePreferences: TilePreferences {
         if let prefs = tilePreferences.first {
@@ -70,7 +70,7 @@ struct SettingsView: View {
             lines.append("(All pets combined: \(vetVisits.count) visits in this app)")
         }
         lines.append("")
-        lines.append("We use Petpal for health history and reminders. Full two-way sync and push alerts when someone else edits records need a future cloud update—each phone keeps its own copy for now.")
+        lines.append("We use Petpal for health history and reminders. With iCloud enabled, Petpal can sync data across your iPhone and iPad on the same Apple ID. You can also export a backup file from Settings → Backup & restore.")
         return lines.joined(separator: "\n")
     }
 
@@ -145,6 +145,30 @@ struct SettingsView: View {
                         Text("Receive helpful pet care tips tailored to your \(petSpecies.lowercased()). Tips appear on your home screen.")
                     }
 
+                    #if os(iOS)
+                    Section {
+                        Button {
+                            showingDataBackup = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "arrow.triangle.2.circlepath.icloud")
+                                    .foregroundStyle(Color("BrandBlue"))
+                                    .frame(width: 28)
+                                Text("Backup & restore")
+                                    .foregroundStyle(Color("BrandDark"))
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    } header: {
+                        Text("Your data")
+                    } footer: {
+                        Text("Export a file to move data to another device, or import a backup. When you’re signed into iCloud, Petpal can sync across your devices on the same Apple ID.")
+                    }
+                    #endif
+
                     Section {
                         ShareLink(
                             item: petOverviewShareText,
@@ -162,108 +186,38 @@ struct SettingsView: View {
                     } header: {
                         Text("Co-caregivers & family")
                     } footer: {
-                        Text("Send a text summary so a partner or sitter knows how you’re using Petpal. Real-time shared editing plus push notifications when the other person updates a visit requires secure cloud sync (e.g. a Petpal account or iCloud)—not available in this version yet.")
+                        Text("Send a text summary so a partner or sitter knows how you’re using Petpal. For full data on another device, use Backup & restore or stay signed into iCloud on both devices.")
                     }
 
+                    #if os(iOS)
                     Section {
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: 12) {
-                                Image(systemName: "lock.shield.fill")
-                                    .foregroundStyle(Color("BrandGreen"))
-                                    .frame(width: 28)
-                                Text("Vet AI Proxy URL (recommended)")
-                                    .foregroundStyle(Color("BrandDark"))
-                            }
-                            TextField("https://your-worker.workers.dev/v1/vet-chat", text: $userVetAIProxyURL)
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled()
-                                .keyboardType(.URL)
-                                .font(.footnote.monospaced())
-                        }
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: 12) {
-                                Image(systemName: "lock.fill")
-                                    .foregroundStyle(Color("BrandGreen"))
-                                    .frame(width: 28)
-                                Text("Proxy token (optional)")
-                                    .foregroundStyle(Color("BrandDark"))
-                            }
-                            SecureField("Paste VET_AI_PROXY_TOKEN", text: $userVetAIProxyToken)
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled()
-                                .font(.footnote.monospaced())
-                        }
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: 12) {
-                                Image(systemName: "key.fill")
-                                    .foregroundStyle(Color("BrandBlue"))
-                                    .frame(width: 28)
-                                Text("Gemini API Key (free tier)")
-                                    .foregroundStyle(Color("BrandDark"))
-                            }
-                            SecureField("Paste GEMINI_API_KEY", text: $userGeminiAPIKey)
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled()
-                                .font(.footnote.monospaced())
-                        }
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: 12) {
-                                Image(systemName: "key.fill")
-                                    .foregroundStyle(.secondary)
-                                    .frame(width: 28)
-                                Text("Claude API Key (optional)")
-                                    .foregroundStyle(Color("BrandDark"))
-                            }
-                            SecureField("Paste Claude_API_Key", text: $userClaudeAPIKey)
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled()
-                                .font(.footnote.monospaced())
-                        }
-
-                        Button(role: .destructive) {
-                            userVetAIProxyURL = ""
-                            userVetAIProxyToken = ""
-                            userGeminiAPIKey = ""
-                            userClaudeAPIKey = ""
+                        Button {
+                            showingDevTipJar = true
                         } label: {
-                            Label("Clear saved AI settings", systemImage: "trash")
-                        }
-                    } header: {
-                        Text("Vet AI API Keys")
-                    } footer: {
-                        Text("""
-                        Best option: use your own backend proxy URL so API keys never ship in the app.
-                        You can also add your own Gemini/Claude keys directly. Values are stored on this device only.
-
-                        Quick free Gemini setup:
-                        1) Open Google AI Studio.
-                        2) Create an API key.
-                        3) Paste it above under Gemini API Key.
-                        4) Reopen AI Vet.
-                        """)
-                    }
-                    
-                    Section {
-                        Link(destination: URL(string: "https://aistudio.google.com/apikey")!) {
                             HStack {
-                                Image(systemName: "arrow.up.right.square.fill")
-                                    .foregroundStyle(Color("BrandBlue"))
+                                Image(systemName: "heart.fill")
+                                    .foregroundStyle(Color("BrandPurple"))
                                     .frame(width: 28)
-                                Text("Get free Gemini API key")
-                                    .foregroundStyle(Color("BrandDark"))
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Developer Tip Jar")
+                                        .foregroundStyle(Color("BrandDark"))
+                                    Text("Optional support for Petpal")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
                                 Spacer()
-                                Image(systemName: "arrow.up.right")
+                                Image(systemName: "chevron.right")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
                         }
+                    } header: {
+                        Text("Support")
                     } footer: {
-                        Text("If both Gemini and Claude are set, Petpal uses Claude first.")
+                        Text("Leave a tip if you’d like—nothing is locked behind it. Payments go through Apple.")
                     }
-                    
+                    #endif
+
                     // Disclaimers Section
                     Section {
                         Toggle(isOn: $hasAcceptedDisclaimer) {
@@ -324,6 +278,23 @@ struct SettingsView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
+                        #if os(iOS)
+                        Button {
+                            showingDevTipJar = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "heart.circle.fill")
+                                    .foregroundStyle(Color("BrandPurple"))
+                                    .frame(width: 28)
+                                Text("Support Petpal")
+                                    .foregroundStyle(Color("BrandDark"))
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        #endif
                     } header: {
                         Text("About")
                     }
@@ -349,9 +320,16 @@ struct SettingsView: View {
             .sheet(isPresented: $showingAbout) {
                 AboutView()
             }
-            .onAppear {
-                APIConfiguration.ensureDefaultVetAIProxyURLSeeded()
+            #if os(iOS)
+            .sheet(isPresented: $showingDataBackup) {
+                NavigationStack {
+                    DataBackupSettingsView()
+                }
             }
+            .sheet(isPresented: $showingDevTipJar) {
+                DeveloperTipJarView()
+            }
+            #endif
         }
     }
 }
@@ -387,7 +365,7 @@ struct TileCustomizationView: View {
     
     // Preset check computed properties
     var isEssentialPresetActive: Bool {
-        let essentialTiles: Set<String> = ["reminders", "health", "travel"]
+        let essentialTiles: Set<String> = ["reminders", "ai_vet", "health", "weight"]
         let visibleSet = Set(tileOrder.filter { !hiddenTiles.contains($0) })
         return visibleSet == essentialTiles
     }
@@ -396,12 +374,6 @@ struct TileCustomizationView: View {
         let medicalTiles: Set<String> = ["health", "emergency", "insurance"]
         let visibleSet = Set(tileOrder.filter { !hiddenTiles.contains($0) })
         return visibleSet == medicalTiles
-    }
-    
-    var isTravelPresetActive: Bool {
-        let travelTiles: Set<String> = ["travel", "emergency"]
-        let visibleSet = Set(tileOrder.filter { !hiddenTiles.contains($0) })
-        return visibleSet == travelTiles
     }
     
     var body: some View {
@@ -493,7 +465,7 @@ struct TileCustomizationView: View {
                                         .font(.subheadline)
                                         .fontWeight(.semibold)
                                         .foregroundStyle(Color("BrandDark"))
-                                    Text("Reminders, Health History, Travel Mode")
+                                    Text("Reminders, AI Vet, Health History, Weight Tracker")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
@@ -529,34 +501,6 @@ struct TileCustomizationView: View {
                                 if isMedicalPresetActive {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundStyle(.pink)
-                                }
-                            }
-                        }
-                        .buttonStyle(.plain)
-                        
-                        // Travel Ready Preset
-                        Button {
-                            withAnimation {
-                                applyTravelPreset()
-                            }
-                        } label: {
-                            HStack(spacing: 12) {
-                                Image(systemName: "airplane.departure")
-                                    .foregroundStyle(Color("BrandBlue"))
-                                    .frame(width: 28)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("Travel Ready")
-                                        .font(.subheadline)
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(Color("BrandDark"))
-                                    Text("Travel Mode, Emergency QR")
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                                Spacer()
-                                if isTravelPresetActive {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundStyle(Color("BrandBlue"))
                                 }
                             }
                         }
@@ -707,12 +651,12 @@ struct TileCustomizationView: View {
     
     // Preset application functions
     private func applyEssentialPreset() {
-        let essentialTiles: Set<String> = ["reminders", "health", "travel"]
+        let essentialTiles: Set<String> = ["reminders", "ai_vet", "health", "weight"]
         hiddenTiles = tileOrder.filter { !essentialTiles.contains($0) }
         
         // Reorder to put essential tiles at top
         var newOrder = tileOrder
-        let essentialIds = ["reminders", "health", "travel"]
+        let essentialIds = ["reminders", "ai_vet", "health", "weight"]
         for id in essentialIds.reversed() {
             if let index = newOrder.firstIndex(of: id) {
                 newOrder.remove(at: index)
@@ -723,29 +667,13 @@ struct TileCustomizationView: View {
     }
     
     private func applyMedicalPreset() {
-        let medicalTiles: Set<String> = ["health", "emergency", "insurance"]
+        let medicalTiles: Set<String> = ["health", "emergency", "insurance", "certificates"]
         hiddenTiles = tileOrder.filter { !medicalTiles.contains($0) }
         
         // Reorder to put medical tiles at top
         var newOrder = tileOrder
-        let medicalIds = ["health", "emergency", "insurance"]
+        let medicalIds = ["health", "emergency", "insurance", "certificates"]
         for id in medicalIds.reversed() {
-            if let index = newOrder.firstIndex(of: id) {
-                newOrder.remove(at: index)
-                newOrder.insert(id, at: 0)
-            }
-        }
-        tileOrder = newOrder
-    }
-    
-    private func applyTravelPreset() {
-        let travelTiles: Set<String> = ["travel", "emergency"]
-        hiddenTiles = tileOrder.filter { !travelTiles.contains($0) }
-        
-        // Reorder to put travel tiles at top
-        var newOrder = tileOrder
-        let travelIds = ["travel", "emergency"]
-        for id in travelIds.reversed() {
             if let index = newOrder.firstIndex(of: id) {
                 newOrder.remove(at: index)
                 newOrder.insert(id, at: 0)
@@ -773,6 +701,17 @@ struct TileCustomizationView: View {
 
 struct AboutView: View {
     @Environment(\.dismiss) private var dismiss
+    
+    private var appVersionText: String {
+        // Use the installed bundle's version/build so the UI matches TestFlight/App Store.
+        let info = Bundle.main.infoDictionary
+        let short = info?["CFBundleShortVersionString"] as? String ?? "?"
+        let build = info?["CFBundleVersion"] as? String
+        if let build, !build.isEmpty, build != "?" {
+            return "Version \(short) (Build \(build))"
+        }
+        return "Version \(short)"
+    }
     
     var body: some View {
         NavigationStack {
@@ -802,7 +741,7 @@ struct AboutView: View {
                                 .font(.system(size: 42, weight: .bold, design: .rounded))
                                 .foregroundStyle(Color("BrandDark"))
                             
-                            Text("Version 1.0")
+                            Text(appVersionText)
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                         }
@@ -825,7 +764,6 @@ struct AboutView: View {
                             FeatureBullet(icon: "cross.case.fill", text: "Track health records and medications")
                             FeatureBullet(icon: "bell.badge.fill", text: "Never miss vet appointments")
                             FeatureBullet(icon: "qrcode.viewfinder", text: "Emergency QR codes for lost pets")
-                            FeatureBullet(icon: "airplane.departure", text: "Travel mode for adventures")
                             FeatureBullet(icon: "sparkles", text: "AI-powered vet assistance")
                         }
                         .padding()

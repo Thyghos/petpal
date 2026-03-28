@@ -516,21 +516,21 @@ struct EnhancedFeatureTile: View {
         
         HStack(spacing: 14) {
             EnhancedFeatureTile(
-                icon: "airplane.departure",
-                title: "Travel Mode",
-                gradient: [Color("BrandOrange"), Color("BrandOrange").opacity(0.7)],
-                badge: nil
-            ) {
-                print("Travel tapped")
-            }
-            
-            EnhancedFeatureTile(
                 icon: "bell.badge.fill",
                 title: "Reminders",
                 gradient: [Color("BrandPurple"), Color("BrandPurple").opacity(0.7)],
                 badge: 3
             ) {
                 print("Reminders tapped")
+            }
+
+            EnhancedFeatureTile(
+                icon: "cross.case.circle.fill",
+                title: "AI Vet",
+                gradient: [Color("BrandGreen"), Color("BrandPurple").opacity(0.8)],
+                badge: nil
+            ) {
+                print("AI Vet tapped")
             }
         }
         

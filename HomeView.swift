@@ -36,7 +36,9 @@ struct HomeView: View {
     @State private var showingEmergencyQR = false
     @State private var showingReminders = false
     @State private var showingInsuranceTracker = false
-    @State private var showingTravelMode = false
+    @State private var showingWeightTracker = false
+    @State private var showingCertificates = false
+    @State private var showingHelpfulProducts = false
     @State private var showingGeneralDisclaimer = false
     @State private var showingVetAIDisclaimerSheet = false
     @State private var showingSettings = false
@@ -183,8 +185,14 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $showingInsuranceTracker) {
             InsuranceTrackerView()
         }
-        .fullScreenCover(isPresented: $showingTravelMode) {
-            TravelModeView()
+        .fullScreenCover(isPresented: $showingWeightTracker) {
+            WeightTrackerView()
+        }
+        .fullScreenCover(isPresented: $showingCertificates) {
+            CertificatesView()
+        }
+        .fullScreenCover(isPresented: $showingHelpfulProducts) {
+            HelpfulProductsView()
         }
         #else
         .sheet(isPresented: $showingVetAI) { VetAIView() }
@@ -193,7 +201,9 @@ struct HomeView: View {
         .sheet(isPresented: $showingFoodRecommendations) { FoodRecommendationsView() }
         .sheet(isPresented: $showingReminders) { RemindersView() }
         .sheet(isPresented: $showingInsuranceTracker) { InsuranceTrackerView() }
-        .sheet(isPresented: $showingTravelMode) { TravelModeView() }
+        .sheet(isPresented: $showingWeightTracker) { WeightTrackerView() }
+        .sheet(isPresented: $showingCertificates) { CertificatesView() }
+        .sheet(isPresented: $showingHelpfulProducts) { HelpfulProductsView() }
         #endif
         .sheet(isPresented: $showingSettings) {
             SettingsView()
@@ -610,8 +620,6 @@ struct HomeView: View {
     
     private func handleTileTap(_ tileId: String) {
         switch tileId {
-        case "travel":
-            showingTravelMode = true
         case "reminders":
             showingReminders = true
         case "emergency":
@@ -622,6 +630,12 @@ struct HomeView: View {
             showingFoodRecommendations = true
         case "insurance":
             showingInsuranceTracker = true
+        case "weight":
+            showingWeightTracker = true
+        case "certificates":
+            showingCertificates = true
+        case "favorites":
+            showingHelpfulProducts = true
         case "ai_vet":
             if hasAcceptedVetAIDisclaimer {
                 showingVetAI = true
