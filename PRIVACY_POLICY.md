@@ -10,7 +10,7 @@ Welcome to Petpal ("we," "our," or "us"). We are committed to protecting your pr
 
 In this release, **Petpal does not collect or use your location**. Data you enter stays on your device and, if you use iCloud, in **your** Apple iCloud account via CloudKit—we do not run our own database for your pet records.
 
-Optional **Vet AI** sends only the text you type to AI providers you configure (or a proxy). **In-app purchases** (subscriptions and tips) are processed by **Apple**.
+Optional **Vet AI** sends only the text you type to AI providers you configure (or a proxy). **In-app purchases** (subscriptions and tips) are processed by **Apple**. **Pet Picks** and **Insurance** may include **affiliate or partner links**; we may earn a commission when you use them, at no extra cost to you.
 
 ---
 
@@ -75,6 +75,8 @@ These apply **only** when you use the relevant feature or sign in:
 | **Hosted emergency page** | If you use the optional static emergency page feature, that page is served from infrastructure you configure (e.g. GitHub Pages); visitors only see what you put on that page |
 
 Opening **external websites** (for example insurance resources, product recommendations, or App Store links) is governed by those sites’ policies.
+
+**Affiliate and partner links:** When you tap a link and it opens in Safari (or another browser), **Petpal does not run that website** and does **not** control cookies, analytics, or personal data collected **on that site**. Merchants, affiliate networks, and partners may use cookies, pixels, or similar technologies under **their** privacy policies. We do not receive your full browsing history from those sites through normal use of Petpal.
 
 ## Data Sharing
 

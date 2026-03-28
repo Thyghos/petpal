@@ -1001,6 +1001,12 @@ struct InsuranceTrackerView: View {
                         Button("Add Policy") { showingAdd = true }
                             .buttonStyle(.borderedProminent)
                     }
+                    Text(AffiliateLinkDisclosure.listFooter)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 20)
                 } else {
                     List {
                         ForEach(petScopedPolicies) { p in
@@ -1024,6 +1030,13 @@ struct InsuranceTrackerView: View {
                             }
                         }
                         .onDelete(perform: deletePolicies)
+
+                        Section {
+                            Text(AffiliateLinkDisclosure.listFooter)
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                 }
             }
