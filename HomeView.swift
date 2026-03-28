@@ -659,6 +659,14 @@ struct HomeView: View {
             Text("Made with ❤️ for pet parents")
                 .font(.caption2)
                 .foregroundStyle(.secondary.opacity(0.7))
+
+            if let privacyURL = URL(string: "https://thyghos.github.io/petpal-privacy/") {
+                Link("Privacy Policy", destination: privacyURL)
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+                    .padding(.top, 2)
+                    .accessibilityHint("Opens the privacy policy in Safari")
+            }
         }
         .multilineTextAlignment(.center)
     }

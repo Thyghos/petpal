@@ -8,20 +8,16 @@
 	<string></string>
 	<key>GEMINI_API_KEY</key>
 	<string></string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Petpal uses your location to show nearby veterinarians, pet-friendly places, and directions in Travel Mode.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Petpal uses your location to find nearby pet services and vets while you use the app.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Petpal uses ​Bluetooth to discover and connect to your pet​&apos;s tracking device so you can locate your pet when they​&apos;re nearby.</string>
 	<key>CFBundleIdentifier</key>
 	<string></string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Petpal uses your location to find nearby pet​-friendly places and veterinarians.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Petpal uses your camera to take photos of your pet for their profile.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Petpal can save ​QR codes and pet information to your photo library.</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Petpal can remind you about medications, vet visits, and other tasks you add in Reminders.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Petpal needs access to your photo library to set your pet​&apos;s profile picture.</string>
 	<key>EXAppExtensionAttributes</key>

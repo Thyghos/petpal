@@ -694,7 +694,6 @@
 				INFOPLIST_FILE = Petpal/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Petpal uses ​Bluetooth to discover and connect to your pet​'s tracking device so you can locate your pet when they​'re nearby.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Petpal uses your camera to take photos of your pet for their profile.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Petpal uses your location to find nearby pet-friendly places and veterinarians.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Petpal can save QR codes and images to your photo library when you choose to save them.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Petpal needs access to your photo library to set your pet's profile picture.";
 				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Petpal can send reminders for vet appointments and pet care.";
@@ -748,7 +747,6 @@
 				INFOPLIST_FILE = Petpal/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Petpal uses ​Bluetooth to discover and connect to your pet​'s tracking device so you can locate your pet when they​'re nearby.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Petpal uses your camera to take photos of your pet for their profile.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Petpal uses your location to find nearby pet-friendly places and veterinarians.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Petpal can save QR codes and images to your photo library when you choose to save them.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Petpal needs access to your photo library to set your pet's profile picture.";
 				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Petpal can send reminders for vet appointments and pet care.";
