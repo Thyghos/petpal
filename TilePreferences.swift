@@ -52,7 +52,7 @@ struct HomeTile: Identifiable, Hashable {
         HomeTile(id: "insurance", icon: "cross.case.fill", title: "Insurance", subtitle: "Upload all policy docs", gradient: ["BrandBlue", "cyan"], iconSize: 24),
         HomeTile(id: "weight", icon: "chart.line.uptrend.xyaxis", title: "Weight Tracker", subtitle: "Track weight over time", gradient: ["BrandGreen", "BrandBlue"], iconSize: 24),
         HomeTile(id: "certificates", icon: "doc.text.fill", title: "Certificates", subtitle: "Vaccines, licenses, travel forms", gradient: ["BrandBlue", "BrandPurple"], iconSize: 24),
-        HomeTile(id: "favorites", icon: "gift.fill", title: "Pet Picks", subtitle: "Recommended picks for pet parents", gradient: ["BrandOrange", "BrandPurple"], iconSize: 24),
+        HomeTile(id: "favorites", icon: "gift.fill", title: "Pet Deals", subtitle: "Discounts & partner offers", gradient: ["BrandOrange", "BrandPurple"], iconSize: 24),
     ]
     
     /// Default home grid order (left-to-right, top-to-bottom in a 2-column grid).

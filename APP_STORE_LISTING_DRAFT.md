@@ -75,11 +75,12 @@ WHAT YOU CAN DO
 • Your home screen, your way — show, hide, and reorder tiles for the features you use most.
 • Health tips — optional daily or weekly tips based on your pet's species (dog, cat, bird, rabbit, or all).
 • Optional Vet assistant — general, educational Q&A only; not medical advice. If you use it, your questions are processed by third-party AI as described in our Privacy Policy.
+• Pet Deals (optional) — shortcuts to pet retailers, memberships, and supplies we use on the road. Some links are affiliate or partner links; Petpal may earn a commission at no extra cost to you. The app shows a short disclosure on that screen; purchases happen on third-party sites, not inside Petpal.
 • Privacy-minded — pet data stays on your device (and your iCloud, if you use sync) unless you use network features such as the optional assistant or opening external links. See our Privacy Policy for details.
 
 IMPORTANT
 
-Petpal is not a substitute for professional veterinary care. Always consult your veterinarian for medical decisions. Any informational or AI-assisted features are for general guidance only.
+Petpal is not a substitute for professional veterinary care. Always consult your veterinarian for medical decisions. Any informational or AI-assisted features are for general guidance only. Pet Deals and Insurance links are for convenience only; we do not endorse third-party products as veterinary advice.
 
 Terms: https://thyghos.github.io/petpal/terms.html
 
@@ -96,6 +97,11 @@ dog,cat,pet,reminder,vet,emergency,QR,lost,profile,health,schedule,puppy,kitten,
 *(Within 100 characters. Do not repeat the app name “Petpal” here per Apple guidance.)*
 
 ---
+
+## What’s New (example for an update with Pet Deals)
+```
+Pet Deals: optional partner links for supplies and travel (with in-app affiliate disclosure). Travel/map tab removed—Petpal stays focused on health, reminders, and QR. Bug fixes and polish.
+```
 
 ## What’s New (Version 1.0)
 ```
@@ -152,4 +158,4 @@ Complete Apple’s questionnaire honestly → expect **4+** for this app (medica
 
 ## App Privacy
 
-Your **App Privacy** answers should match **`PRIVACY_POLICY.md`** and real app behavior (no location in the current app; optional AI; photos when you attach them; etc.).
+Your **App Privacy** answers should match **`PRIVACY_POLICY.md`** and real app behavior (no location in the current app; optional AI; photos when you attach them; etc.). **Pet Deals** opens Safari for outbound links—Petpal does not embed ad or affiliate tracking SDKs; you generally **do not** declare “tracking” for those taps if the app itself is not linking user or device data to third-party data brokers (confirm against Apple’s current definitions in App Store Connect). Purchases off-site are not IAP.

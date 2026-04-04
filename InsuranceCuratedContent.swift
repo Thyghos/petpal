@@ -30,7 +30,7 @@ enum InsuranceCuratedContent {
 
 // MARK: - Affiliate disclosure (in-app + legal cross-reference)
 
-/// Short copy for footers on **Pet Picks** and **Insurance** when outbound links may include affiliate or partner programs.
+/// Short copy for footers on **Pet Deals** and **Insurance** when outbound links may include affiliate or partner programs.
 enum AffiliateLinkDisclosure {
     static let listFooter = """
     Some links are affiliate or partner links. Petpal may earn a commission if you buy or sign up—at no extra cost to you. Those websites set their own cookies and privacy rules; Petpal does not control what they collect after you leave the app.

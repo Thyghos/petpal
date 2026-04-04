@@ -15,9 +15,9 @@ Petpal is a pet health tracking and information application that allows you to:
 - Customize which features appear on your home screen
 - Generate emergency QR codes for pet information
 - Export or import selected data via backup (when you use that feature)
-- Open optional **Pet Picks** and **Insurance** links to third-party sites (some may be affiliate or partner links—see the Privacy Policy)
+- Open optional **Pet Deals** and **Insurance** links to third-party sites (some may be affiliate or partner links—see the Privacy Policy)
 
-**Not included in the current app:** map-based travel or place search, a standalone “Shop” tile, or continuous location tracking for discovery features.
+**Not included in the current app:** map-based travel or place search, a standalone “Shop” tile, or continuous location tracking for discovery features. **Pet Deals** does not sell products inside the app; purchases happen on third-party sites you choose to open.
 
 ## Medical Disclaimer
 
@@ -121,15 +121,15 @@ Depending on how you use the App, third parties may include:
 - **AI service providers** (optional Vet AI)
 - **Optional proxy or relay** services if configured for AI requests
 - **Hosting** for an optional static emergency page (if you set one up)
-- **Websites you choose to open** from Pet Picks, Insurance, or other links (each site has its own terms)
+- **Websites you choose to open** from Pet Deals, Insurance, or other links (each site has its own terms)
 
 Apple may provide **aggregated** crash or App Store analytics to the developer per Apple’s policies. This version of the App does **not** bundle third-party advertising or cross-app tracking SDKs.
 
-Each third-party service has its own terms and conditions. We are not responsible for third-party services.
+Each third-party service has its own terms and conditions. We are not responsible for third-party services. We are not responsible for the quality, safety, legality, or accuracy of products, memberships, or services you obtain through **Pet Deals** or **Insurance** links; those relationships are solely between you and the third party.
 
 ## Subscription and Payments
 
-**Optional in-app purchases** (for example subscriptions related to Vet AI features and optional tips) are processed by **Apple** through StoreKit. Pricing and renewal terms appear in the App Store at purchase time. Purchases are subject to [Apple’s standard App Store terms](https://www.apple.com/legal/internet-services/itunes/).
+**Optional in-app purchases** (for example subscriptions related to Vet AI features and optional tips) are processed by **Apple** through StoreKit. Pricing and renewal terms appear in the App Store at purchase time. Purchases are subject to Apple’s standard App Store terms: https://www.apple.com/legal/internet-services/itunes/
 
 ## Termination
 
@@ -179,7 +179,7 @@ Questions about these Terms?
 
 **Operator**: Emilio Alecci (Florida, United States)  
 **Email (legal & support)**: ealecci@gmail.com  
-**Website**: https://thyghos.github.io/petpal-privacy/ *(update if you host these pages elsewhere)*
+**Website**: https://thyghos.github.io/petpal/ (privacy, terms, support) — legacy: https://thyghos.github.io/petpal-privacy/
 
 ## Acknowledgment
 

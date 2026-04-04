@@ -61,6 +61,32 @@ struct PetDetailView: View {
                                 infoRow(icon: "scalemass", title: "Weight", value: "\(Int(pet.weight)) \(pet.weightUnit)")
                             }
                             
+                            if !pet.vetName.isEmpty {
+                                infoRow(icon: "stethoscope", title: "Veterinarian", value: pet.vetName)
+                            }
+                            if !pet.vetPhone.isEmpty {
+                                PetProfilePhoneRow(title: "Vet phone", phone: pet.vetPhone)
+                            }
+                            if !pet.vetEmail.isEmpty {
+                                PetProfileEmailRow(title: "Vet email", email: pet.vetEmail)
+                            }
+                            
+                            if !pet.groomerName.isEmpty || !pet.groomerPhone.isEmpty {
+                                if !pet.groomerName.isEmpty {
+                                    infoRow(icon: "scissors", title: "Groomer", value: pet.groomerName)
+                                }
+                                if !pet.groomerPhone.isEmpty {
+                                    infoRow(icon: "phone.fill", title: "Groomer phone", value: pet.groomerPhone)
+                                }
+                            }
+
+                            if !pet.microchipNumber.isEmpty {
+                                infoRow(icon: "dot.radiowaves.left.and.right", title: "Microchip", value: pet.microchipNumber)
+                            }
+                            if !pet.microchipRegistry.isEmpty {
+                                infoRow(icon: "building.columns", title: "Microchip registry", value: pet.microchipRegistry)
+                            }
+                            
                             infoRow(icon: "plus.circle", title: "Added", value: pet.dateAdded.formatted(date: .long, time: .omitted))
                         }
                         .padding()
@@ -171,9 +197,18 @@ struct EditPetView: View {
     @State private var weightUnit: String
     @State private var dateOfBirth: Date?
     @State private var showDatePicker: Bool
+    @State private var vetName: String
+    @State private var vetPhone: String
+    @State private var vetEmail: String
+    @State private var groomerName: String
+    @State private var groomerPhone: String
+    @State private var microchipNumber: String
+    @State private var microchipRegistry: String
+    @State private var editingVetPhone = false
+    @State private var editingVetEmail = false
     
     let speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Fish", "Reptile", "Other"]
-    let weightUnits = ["lbs", "kg"]
+    let weightUnits = ["lbs", "kg", "g"]
     
     init(pet: Pet) {
         self.pet = pet
@@ -184,6 +219,13 @@ struct EditPetView: View {
         _weightUnit = State(initialValue: pet.weightUnit)
         _dateOfBirth = State(initialValue: pet.dateOfBirth)
         _showDatePicker = State(initialValue: pet.dateOfBirth != nil)
+        _vetName = State(initialValue: pet.vetName)
+        _vetPhone = State(initialValue: pet.vetPhone)
+        _vetEmail = State(initialValue: pet.vetEmail)
+        _groomerName = State(initialValue: pet.groomerName)
+        _groomerPhone = State(initialValue: pet.groomerPhone)
+        _microchipNumber = State(initialValue: pet.microchipNumber)
+        _microchipRegistry = State(initialValue: pet.microchipRegistry)
     }
     
     private var canSave: Bool {
@@ -241,6 +283,50 @@ struct EditPetView: View {
                         .frame(width: 120)
                     }
                 }
+                
+                Section("Veterinarian (optional)") {
+                    TextField("Vet name", text: $vetName)
+                        .autocorrectionDisabled()
+                    if vetPhone.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        Button("Add vet phone") { editingVetPhone = true }
+                    } else {
+                        PetProfilePhoneRow(title: "Vet phone", phone: vetPhone)
+                        HStack {
+                            Button("Edit phone") { editingVetPhone = true }
+                            Spacer()
+                            Button("Remove", role: .destructive) { vetPhone = "" }
+                        }
+                        .font(.caption)
+                    }
+                    if vetEmail.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        Button("Add vet email") { editingVetEmail = true }
+                    } else {
+                        PetProfileEmailRow(title: "Vet email", email: vetEmail)
+                        HStack {
+                            Button("Edit email") { editingVetEmail = true }
+                            Spacer()
+                            Button("Remove", role: .destructive) { vetEmail = "" }
+                        }
+                        .font(.caption)
+                    }
+                }
+                
+                Section("Groomer (optional)") {
+                    TextField("Groomer name", text: $groomerName)
+                        .autocorrectionDisabled()
+                    TextField("Groomer phone", text: $groomerPhone)
+                        #if os(iOS)
+                        .keyboardType(.phonePad)
+                        #endif
+                        .autocorrectionDisabled()
+                }
+
+                Section("Microchip (optional)") {
+                    TextField("Microchip number", text: $microchipNumber)
+                        .autocorrectionDisabled()
+                    TextField("Registry (optional)", text: $microchipRegistry)
+                        .autocorrectionDisabled()
+                }
             }
             .navigationTitle("Edit Pet")
             #if os(iOS)
@@ -265,6 +351,42 @@ struct EditPetView: View {
                     dateOfBirth = birthDatePickerFallback
                 }
             }
+            .sheet(isPresented: $editingVetPhone) {
+                NavigationStack {
+                    Form {
+                        TextField("Vet phone", text: $vetPhone)
+                            #if os(iOS)
+                            .keyboardType(.phonePad)
+                            #endif
+                    }
+                    .navigationTitle("Vet Phone")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Done") { editingVetPhone = false }
+                        }
+                    }
+                }
+            }
+            .sheet(isPresented: $editingVetEmail) {
+                NavigationStack {
+                    Form {
+                        TextField("Vet email", text: $vetEmail)
+                            #if os(iOS)
+                            .keyboardType(.emailAddress)
+                            .textContentType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                            #endif
+                    }
+                    .navigationTitle("Vet Email")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Done") { editingVetEmail = false }
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -285,6 +407,13 @@ struct EditPetView: View {
         pet.weight = Double(weight) ?? 0.0
         pet.weightUnit = weightUnit
         pet.dateOfBirth = showDatePicker ? dateOfBirth : nil
+        pet.vetName = vetName.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.vetPhone = vetPhone.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.vetEmail = vetEmail.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.groomerName = groomerName.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.groomerPhone = groomerPhone.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.microchipNumber = microchipNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.microchipRegistry = microchipRegistry.trimmingCharacters(in: .whitespacesAndNewlines)
         
         dismiss()
     }

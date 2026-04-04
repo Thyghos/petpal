@@ -24,15 +24,13 @@ struct HealthHistoryView: View {
         searchText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
-    private var activePetId: UUID? {
-        ActivePetStorage.activePetUUID
+    private var scopedPetId: UUID? {
+        FeaturePetScope.resolvedPetId(pets: pets)
     }
     
-    /// Only visits for the active pet. Legacy `petId == nil` is migrated on appear (not shared across pets).
+    /// Visits for the selected / active pet only.
     private var petScopedVisits: [VetVisitLog] {
-        guard let pid = activePetId else {
-            return visits.filter { $0.petId == nil }
-        }
+        guard let pid = scopedPetId else { return [] }
         return visits.filter { $0.petId == pid }
     }
 
@@ -47,63 +45,66 @@ struct HealthHistoryView: View {
 
     var body: some View {
         NavigationStack {
-            Group {
-                if petScopedVisits.isEmpty {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Log vaccines, checkups, and sick visits. Search by clinic, reason, or notes (e.g. “rabies”).")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 20)
-                            .padding(.top, 12)
-                            .padding(.bottom, 8)
-                        ContentUnavailableView {
-                            Label("No Visits Logged", systemImage: "heart.text.square.fill")
-                        } description: {
-                            Text("Tap + to add a visit. Attach vaccine records or receipts as photos or PDFs.")
-                        } actions: {
-                            Button("Add Visit") { showingAdd = true }
-                                .buttonStyle(.borderedProminent)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    List {
-                        Section {
-                            Text("Search by clinic, reason, or notes (e.g. rabies, vaccine).")
+            VStack(alignment: .leading, spacing: 0) {
+                FeaturePetScopeHeader(pets: pets)
+                Group {
+                    if petScopedVisits.isEmpty {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Log vaccines, checkups, and sick visits. Search by clinic, reason, or notes (e.g. “rabies”).")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
-                        }
-                        if filteredVisits.isEmpty {
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 20)
+                                .padding(.top, 8)
+                                .padding(.bottom, 8)
                             ContentUnavailableView {
-                                Label("No matches", systemImage: "magnifyingglass")
+                                Label("No Visits Logged", systemImage: "heart.text.square.fill")
                             } description: {
-                                Text("Nothing matches “\(trimmedQuery)”. Try another word.")
+                                Text("Tap + to add a visit. Attach vaccine records or receipts as photos or PDFs.")
+                            } actions: {
+                                Button("Add Visit") { showingAdd = true }
+                                    .buttonStyle(.borderedProminent)
                             }
-                        } else {
-                            ForEach(filteredVisits) { visit in
-                                NavigationLink {
-                                    VetVisitDetailView(visit: visit)
-                                } label: {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(visit.clinicName.isEmpty ? "Visit" : visit.clinicName)
-                                            .font(.headline)
-                                        Text(visit.visitDate.formatted(date: .abbreviated, time: .omitted))
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                        if !visit.reason.isEmpty {
-                                            Text(visit.reason)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        List {
+                            Section {
+                                Text("Search by clinic, reason, or notes (e.g. rabies, vaccine).")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                            }
+                            if filteredVisits.isEmpty {
+                                ContentUnavailableView {
+                                    Label("No matches", systemImage: "magnifyingglass")
+                                } description: {
+                                    Text("Nothing matches “\(trimmedQuery)”. Try another word.")
+                                }
+                            } else {
+                                ForEach(filteredVisits) { visit in
+                                    NavigationLink {
+                                        VetVisitDetailView(visit: visit)
+                                    } label: {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(visit.clinicName.isEmpty ? "Visit" : visit.clinicName)
+                                                .font(.headline)
+                                            Text(visit.visitDate.formatted(date: .abbreviated, time: .omitted))
                                                 .font(.caption)
-                                                .foregroundStyle(Color.secondary.opacity(0.85))
-                                                .lineLimit(2)
+                                                .foregroundStyle(.secondary)
+                                            if !visit.reason.isEmpty {
+                                                Text(visit.reason)
+                                                    .font(.caption)
+                                                    .foregroundStyle(Color.secondary.opacity(0.85))
+                                                    .lineLimit(2)
+                                            }
                                         }
                                     }
                                 }
+                                .onDelete(perform: deleteVisits)
                             }
-                            .onDelete(perform: deleteVisits)
                         }
+                        .searchable(text: $searchText, prompt: "Search visits, notes…")
                     }
-                    .searchable(text: $searchText, prompt: "Search visits, notes…")
                 }
             }
             .navigationTitle("Health History")
@@ -334,6 +335,7 @@ struct VetVisitDetailView: View {
 struct VetVisitEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Pet.dateAdded) private var pets: [Pet]
 
     @State private var draftRecordId: UUID?
     @State private var clinicName = ""
@@ -379,7 +381,7 @@ struct VetVisitEditorView: View {
                         guard let rid = draftRecordId else { return }
                         let v = VetVisitLog(
                             id: rid,
-                            petId: ActivePetStorage.activePetUUID,
+                            petId: FeaturePetScope.resolvedPetId(pets: pets),
                             visitDate: visitDate,
                             clinicName: clinicName.isEmpty ? "Visit" : clinicName,
                             reason: reason,
@@ -408,21 +410,27 @@ struct FoodRecommendationsView: View {
     @State private var sharePayload: ShareSheetPayload?
     #endif
     
-    private var activePetId: UUID? {
-        ActivePetStorage.activePetUUID
+    private var scopedPetId: UUID? {
+        FeaturePetScope.resolvedPetId(pets: pets)
+    }
+
+    private var displayPetName: String {
+        if let id = scopedPetId, let p = pets.first(where: { $0.id == id }) {
+            return p.name.isEmpty ? petName : p.name
+        }
+        return petName
     }
     
     /// Per-pet row only. Legacy `petId == nil` rows are not shared across pets (see migration).
     private var instructionsForPet: PetSitterInstructions? {
-        guard let pid = activePetId else {
-            return allInstructions.first { $0.petId == nil }
-        }
+        guard let pid = scopedPetId else { return nil }
         return allInstructions.first { $0.petId == pid }
     }
 
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 0) {
+                FeaturePetScopeHeader(pets: pets)
                 Text("Printable sheet for pet sitter")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -431,7 +439,7 @@ struct FoodRecommendationsView: View {
                     .padding(.top, 12)
                     .padding(.bottom, 4)
                 if let instructions = instructionsForPet {
-                    PetSitterInstructionsForm(instructions: instructions, petName: petName)
+                    PetSitterInstructionsForm(instructions: instructions, petName: displayPetName)
                 } else {
                     ContentUnavailableView {
                         Label("Setting up…", systemImage: "note.text")
@@ -450,11 +458,11 @@ struct FoodRecommendationsView: View {
                         Menu {
                             Button {
                                 instructions.updatedAt = Date()
-                                let printable = PetSitterPrintableDocument(instructions: instructions, petName: petName)
+                                let printable = PetSitterPrintableDocument(instructions: instructions, petName: displayPetName)
                                     .frame(width: 400, height: 680)
                                     .preferredColorScheme(.light)
                                 if let img = PrintShareHelper.renderToImage(printable) {
-                                    let text = "Pet Care Notes for \(petName)"
+                                    let text = "Pet Care Notes for \(displayPetName)"
                                     DispatchQueue.main.async {
                                         sharePayload = ShareSheetPayload(items: [img, text])
                                     }
@@ -464,11 +472,11 @@ struct FoodRecommendationsView: View {
                             }
                             Button {
                                 instructions.updatedAt = Date()
-                                let printable = PetSitterPrintableDocument(instructions: instructions, petName: petName)
+                                let printable = PetSitterPrintableDocument(instructions: instructions, petName: displayPetName)
                                     .frame(width: 400, height: 680)
                                     .preferredColorScheme(.light)
                                 DispatchQueue.main.async {
-                                    PrintShareHelper.printView(printable, title: "Pet Care Notes - \(petName)")
+                                    PrintShareHelper.printView(printable, title: "Pet Care Notes - \(displayPetName)")
                                 }
                             } label: {
                                 Label("Print", systemImage: "printer")
@@ -509,8 +517,11 @@ struct FoodRecommendationsView: View {
                     treatSchedule: template.treatSchedule,
                     walkSchedule: template.walkSchedule,
                     walkDuration: template.walkDuration,
+                    allergies: template.allergies,
                     medications: template.medications,
+                    vetName: template.vetName,
                     vetPhone: template.vetPhone,
+                    vetAddress: template.vetAddress,
                     specialInstructions: template.specialInstructions,
                     updatedAt: template.updatedAt
                 )
@@ -524,11 +535,8 @@ struct FoodRecommendationsView: View {
             return
         }
         
-        if let pid = activePetId, !allInstructions.contains(where: { $0.petId == pid }) {
+        if let pid = scopedPetId, !allInstructions.contains(where: { $0.petId == pid }) {
             modelContext.insert(PetSitterInstructions(petId: pid))
-            try? modelContext.save()
-        } else if activePetId == nil && allInstructions.isEmpty {
-            modelContext.insert(PetSitterInstructions(petId: nil))
             try? modelContext.save()
         }
     }
@@ -570,6 +578,13 @@ private struct PetSitterInstructionsForm: View {
                     set: { instructions.walkDuration = $0.isEmpty ? nil : $0 }
                 ))
             }
+            Section("Allergies") {
+                TextField("Food, meds, environment, reactions…", text: Binding(
+                    get: { instructions.allergies ?? "" },
+                    set: { instructions.allergies = $0.isEmpty ? nil : $0 }
+                ), axis: .vertical)
+                    .lineLimit(2...6)
+            }
             Section("Medications") {
                 TextField("Dose, timing, instructions…", text: Binding(
                     get: { instructions.medications ?? "" },
@@ -578,11 +593,20 @@ private struct PetSitterInstructionsForm: View {
                     .lineLimit(2...6)
             }
             Section("Vet contact") {
+                TextField("Vet name", text: Binding(
+                    get: { instructions.vetName ?? "" },
+                    set: { instructions.vetName = $0.isEmpty ? nil : $0 }
+                ))
                 TextField("Vet phone number", text: Binding(
                     get: { instructions.vetPhone ?? "" },
                     set: { instructions.vetPhone = $0.isEmpty ? nil : $0 }
                 ))
                     .keyboardType(.phonePad)
+                TextField("Vet address", text: Binding(
+                    get: { instructions.vetAddress ?? "" },
+                    set: { instructions.vetAddress = $0.isEmpty ? nil : $0 }
+                ), axis: .vertical)
+                    .lineLimit(2...4)
             }
             Section("Special instructions") {
                 TextField("Allergies, behavior notes, potty habits, no table scraps…", text: $instructions.specialInstructions, axis: .vertical)
@@ -641,8 +665,10 @@ private struct PetSitterPrintableDocument: View {
         !instructions.favoriteFood.isEmpty || !instructions.foodSchedule.isEmpty ||
         !(instructions.foodAddons ?? "").isEmpty ||
         !instructions.favoriteTreats.isEmpty || !instructions.treatSchedule.isEmpty ||
-        !(instructions.walkSchedule ?? "").isEmpty || !(instructions.medications ?? "").isEmpty ||
-        !(instructions.vetPhone ?? "").isEmpty || !instructions.specialInstructions.isEmpty
+        !(instructions.walkSchedule ?? "").isEmpty || !(instructions.allergies ?? "").isEmpty ||
+        !(instructions.medications ?? "").isEmpty || !(instructions.vetName ?? "").isEmpty ||
+        !(instructions.vetPhone ?? "").isEmpty || !(instructions.vetAddress ?? "").isEmpty ||
+        !instructions.specialInstructions.isEmpty
     }
 
     var body: some View {
@@ -681,6 +707,14 @@ private struct PetSitterPrintableDocument: View {
                 row("When to walk", instructions.walkSchedule ?? "")
                 row("Duration", instructions.walkDuration ?? "")
             }
+            if let allergies = instructions.allergies, !allergies.isEmpty {
+                Text("Allergies")
+                    .font(.headline)
+                    .foregroundStyle(textColor)
+                Text(allergies)
+                    .font(.subheadline)
+                    .foregroundStyle(textColor)
+            }
             if let med = instructions.medications, !med.isEmpty {
                 Text("Medications")
                     .font(.headline)
@@ -689,13 +723,13 @@ private struct PetSitterPrintableDocument: View {
                     .font(.subheadline)
                     .foregroundStyle(textColor)
             }
-            if let vp = instructions.vetPhone, !vp.isEmpty {
+            if !(instructions.vetName ?? "").isEmpty || !(instructions.vetPhone ?? "").isEmpty || !(instructions.vetAddress ?? "").isEmpty {
                 Text("Vet contact")
                     .font(.headline)
                     .foregroundStyle(textColor)
-                Text(vp)
-                    .font(.subheadline)
-                    .foregroundStyle(textColor)
+                row("Name", instructions.vetName ?? "")
+                row("Phone", instructions.vetPhone ?? "")
+                row("Address", instructions.vetAddress ?? "")
             }
             if !instructions.specialInstructions.isEmpty {
                 Text("Special instructions")
@@ -725,17 +759,28 @@ struct RemindersView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \PetReminder.nextDueDate) private var reminders: [PetReminder]
+    @Query(sort: \Pet.dateAdded) private var pets: [Pet]
 
     @State private var showingAdd = false
     
+    private var scopedPetId: UUID? {
+        FeaturePetScope.resolvedPetId(pets: pets)
+    }
+    
     private var petScopedReminders: [PetReminder] {
-        let pid = ActivePetStorage.activePetUUID
+        guard let pid = scopedPetId else { return [] }
         return reminders.filter { PetRecordFilter.matches($0.petId, selectedPetId: pid) }
+    }
+
+    /// Due or “now” for this pet’s list — stays after the app icon badge clears until completed, rescheduled, or deleted.
+    private var dueAttentionCountForScopedPet: Int {
+        petScopedReminders.filter { $0.needsAttention }.count
     }
 
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 0) {
+                FeaturePetScopeHeader(pets: pets)
                 Text("Push notifications for meds & more")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -758,7 +803,13 @@ struct RemindersView: View {
                             NavigationLink {
                                 PetReminderDetailView(reminder: r)
                             } label: {
-                                HStack {
+                                HStack(alignment: .center, spacing: 10) {
+                                    if r.needsAttention {
+                                        Circle()
+                                            .fill(Color.red)
+                                            .frame(width: 10, height: 10)
+                                            .accessibilityLabel("Due — needs attention")
+                                    }
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(r.title.isEmpty ? "Reminder" : r.title)
                                             .font(.headline)
@@ -767,7 +818,7 @@ struct RemindersView: View {
                                             .foregroundStyle(.secondary)
                                         Text(r.nextDueDate.formatted(date: .abbreviated, time: .shortened))
                                             .font(.caption2)
-                                            .foregroundStyle(r.isOverdue ? Color.red : Color.secondary.opacity(0.85))
+                                            .foregroundStyle(r.needsAttention ? Color.red : Color.secondary.opacity(0.85))
                                     }
                                     Spacer()
                                     if r.isCompleted {
@@ -787,7 +838,18 @@ struct RemindersView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") { dismiss() }
                 }
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    #if os(iOS)
+                    if dueAttentionCountForScopedPet > 0 {
+                        Text(dueAttentionCountForScopedPet > 99 ? "99+" : "\(dueAttentionCountForScopedPet)")
+                            .font(.caption2.weight(.bold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 4)
+                            .background(Capsule().fill(Color.red))
+                            .accessibilityLabel("\(dueAttentionCountForScopedPet) due reminders for this pet")
+                    }
+                    #endif
                     Button { showingAdd = true } label: {
                         Image(systemName: "plus.circle.fill")
                     }
@@ -796,13 +858,26 @@ struct RemindersView: View {
             .sheet(isPresented: $showingAdd) {
                 PetReminderEditorView()
             }
+            #if os(iOS)
+            .task {
+                await PetReminderNotificationService.requestPermissionIfNeeded()
+            }
+            #endif
         }
     }
 
     private func deleteReminders(at offsets: IndexSet) {
         for index in offsets {
-            modelContext.delete(petScopedReminders[index])
+            let r = petScopedReminders[index]
+            #if os(iOS)
+            PetReminderNotificationService.cancel(reminderId: r.id)
+            #endif
+            modelContext.delete(r)
         }
+        try? modelContext.save()
+        #if os(iOS)
+        PetReminderNotificationService.scheduleAfterReminderChange(modelContext: modelContext)
+        #endif
     }
 }
 
@@ -838,6 +913,7 @@ private enum RecurrencePreset: String, CaseIterable {
 
 struct PetReminderDetailView: View {
     @Bindable var reminder: PetReminder
+    @Environment(\.modelContext) private var modelContext
 
     private func recurrencePresetBinding() -> Binding<RecurrencePreset> {
         Binding(
@@ -886,12 +962,27 @@ struct PetReminderDetailView: View {
             }
         }
         .navigationTitle("Reminder")
+        #if os(iOS)
+        .onChange(of: reminder.nextDueDate) { _, _ in
+            PetReminderNotificationService.scheduleAfterReminderChange(modelContext: modelContext)
+        }
+        .onChange(of: reminder.isCompleted) { _, _ in
+            PetReminderNotificationService.scheduleAfterReminderChange(modelContext: modelContext)
+        }
+        .onChange(of: reminder.recurring) { _, _ in
+            PetReminderNotificationService.scheduleAfterReminderChange(modelContext: modelContext)
+        }
+        .onDisappear {
+            PetReminderNotificationService.scheduleAfterReminderChange(modelContext: modelContext)
+        }
+        #endif
     }
 }
 
 struct PetReminderEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Pet.dateAdded) private var pets: [Pet]
 
     @State private var title = ""
     @State private var category = "General"
@@ -947,7 +1038,7 @@ struct PetReminderEditorView: View {
                         let (interval, unit) = recurrencePreset.toIntervalAndUnit()
                             ?? (recurrenceInterval, recurrenceUnit)
                         let r = PetReminder(
-                            petId: ActivePetStorage.activePetUUID,
+                            petId: FeaturePetScope.resolvedPetId(pets: pets),
                             title: title.isEmpty ? "Reminder" : title,
                             notes: notes,
                             category: category,
@@ -957,8 +1048,13 @@ struct PetReminderEditorView: View {
                             recurrenceUnit: unit
                         )
                         modelContext.insert(r)
+                        try? modelContext.save()
+                        #if os(iOS)
+                        PetReminderNotificationService.scheduleAfterReminderChange(modelContext: modelContext)
+                        #endif
                         dismiss()
                     }
+                    .disabled(FeaturePetScope.resolvedPetId(pets: pets) == nil)
                 }
             }
         }
@@ -971,20 +1067,26 @@ struct InsuranceTrackerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \PetInsuranceInfo.providerName) private var policies: [PetInsuranceInfo]
+    @Query(sort: \Pet.dateAdded) private var pets: [Pet]
 
     @State private var showingAdd = false
     #if os(iOS)
     @State private var sharePayload: ShareSheetPayload?
     #endif
     
+    private var scopedPetId: UUID? {
+        FeaturePetScope.resolvedPetId(pets: pets)
+    }
+    
     private var petScopedPolicies: [PetInsuranceInfo] {
-        let pid = ActivePetStorage.activePetUUID
+        guard let pid = scopedPetId else { return [] }
         return policies.filter { PetRecordFilter.matches($0.petId, selectedPetId: pid) }
     }
 
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 0) {
+                FeaturePetScopeHeader(pets: pets)
                 Text("Upload all policy docs")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -1183,6 +1285,7 @@ struct InsuranceDetailView: View {
 struct InsuranceEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Pet.dateAdded) private var pets: [Pet]
 
     @State private var draftRecordId: UUID?
     @State private var provider = ""
@@ -1229,7 +1332,7 @@ struct InsuranceEditorView: View {
                         guard let rid = draftRecordId else { return }
                         let p = PetInsuranceInfo(
                             id: rid,
-                            petId: ActivePetStorage.activePetUUID,
+                            petId: FeaturePetScope.resolvedPetId(pets: pets),
                             providerName: provider.isEmpty ? "Policy" : provider,
                             policyNumber: number,
                             phone: phone,
@@ -1239,7 +1342,7 @@ struct InsuranceEditorView: View {
                         modelContext.insert(p)
                         dismiss()
                     }
-                    .disabled(draftRecordId == nil)
+                    .disabled(draftRecordId == nil || FeaturePetScope.resolvedPetId(pets: pets) == nil)
                 }
             }
         }

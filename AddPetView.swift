@@ -17,9 +17,16 @@ struct AddPetView: View {
     @State private var weightUnit = "lbs"
     @State private var dateOfBirth: Date?
     @State private var showDatePicker = false
+    @State private var vetName = ""
+    @State private var vetPhone = ""
+    @State private var vetEmail = ""
+    @State private var groomerName = ""
+    @State private var groomerPhone = ""
+    @State private var microchipNumber = ""
+    @State private var microchipRegistry = ""
     
     let speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Fish", "Reptile", "Other"]
-    let weightUnits = ["lbs", "kg"]
+    let weightUnits = ["lbs", "kg", "g"]
     
     private var canSave: Bool {
         !name.trimmingCharacters(in: .whitespaces).isEmpty &&
@@ -31,6 +38,8 @@ struct AddPetView: View {
             Form {
                 Section("Pet Information") {
                     TextField("Name", text: $name)
+                        .foregroundColor(.black)
+                        .tint(.black)
                         .autocorrectionDisabled()
                     
                     Picker("Species", selection: $species) {
@@ -40,6 +49,8 @@ struct AddPetView: View {
                     }
                     
                     TextField("Breed (Optional)", text: $breed)
+                        .foregroundColor(.black)
+                        .tint(.black)
                         .autocorrectionDisabled()
                 }
                 
@@ -73,6 +84,8 @@ struct AddPetView: View {
                 Section("Weight") {
                     HStack {
                         TextField("Weight", text: $weight)
+                            .foregroundColor(.black)
+                            .tint(.black)
                             #if os(iOS)
                             .keyboardType(.decimalPad)
                             #endif
@@ -85,6 +98,54 @@ struct AddPetView: View {
                         .pickerStyle(.segmented)
                         .frame(width: 120)
                     }
+                }
+                
+                Section("Veterinarian (optional)") {
+                    TextField("Vet name", text: $vetName)
+                        .foregroundColor(.black)
+                        .tint(.black)
+                        .autocorrectionDisabled()
+                    TextField("Vet phone", text: $vetPhone)
+                        .foregroundColor(.black)
+                        .tint(.black)
+                        #if os(iOS)
+                        .keyboardType(.phonePad)
+                        #endif
+                        .autocorrectionDisabled()
+                    TextField("Vet email", text: $vetEmail)
+                        .foregroundColor(.black)
+                        .tint(.black)
+                        #if os(iOS)
+                        .keyboardType(.emailAddress)
+                        .textContentType(.emailAddress)
+                        .textInputAutocapitalization(.never)
+                        #endif
+                        .autocorrectionDisabled()
+                }
+                
+                Section("Groomer (optional)") {
+                    TextField("Groomer name", text: $groomerName)
+                        .foregroundColor(.black)
+                        .tint(.black)
+                        .autocorrectionDisabled()
+                    TextField("Groomer phone", text: $groomerPhone)
+                        .foregroundColor(.black)
+                        .tint(.black)
+                        #if os(iOS)
+                        .keyboardType(.phonePad)
+                        #endif
+                        .autocorrectionDisabled()
+                }
+
+                Section("Microchip (optional)") {
+                    TextField("Microchip number", text: $microchipNumber)
+                        .foregroundColor(.black)
+                        .tint(.black)
+                        .autocorrectionDisabled()
+                    TextField("Registry (optional)", text: $microchipRegistry)
+                        .foregroundColor(.black)
+                        .tint(.black)
+                        .autocorrectionDisabled()
                 }
             }
             .navigationTitle("Add Pet")
@@ -133,7 +194,14 @@ struct AddPetView: View {
             breed: breed.trimmingCharacters(in: .whitespaces),
             weight: weightValue,
             weightUnit: weightUnit,
-            dateOfBirth: showDatePicker ? dateOfBirth : nil
+            dateOfBirth: showDatePicker ? dateOfBirth : nil,
+            vetName: vetName.trimmingCharacters(in: .whitespacesAndNewlines),
+            vetPhone: vetPhone.trimmingCharacters(in: .whitespacesAndNewlines),
+            vetEmail: vetEmail.trimmingCharacters(in: .whitespacesAndNewlines),
+            groomerName: groomerName.trimmingCharacters(in: .whitespacesAndNewlines),
+            groomerPhone: groomerPhone.trimmingCharacters(in: .whitespacesAndNewlines),
+            microchipNumber: microchipNumber.trimmingCharacters(in: .whitespacesAndNewlines),
+            microchipRegistry: microchipRegistry.trimmingCharacters(in: .whitespacesAndNewlines)
         )
         
         modelContext.insert(newPet)

@@ -8,11 +8,11 @@ Welcome to Petpal ("we," "our," or "us"). We are committed to protecting your pr
 
 ## Summary (current version)
 
-**Petpal does not collect or use your device location** in this build. There is **no Travel Mode**, **no map-based place search**, and **no separate “Shop” home tile**—those features are not part of the app. The home screen is **customizable**; typical areas include Reminders, AI Vet, Health History, Pet Care Notes, Insurance, Weight Tracker, Certificates, Emergency QR, and Pet Picks (exact tiles depend on what you show and how you order them).
+**Petpal does not collect or use your device location** in this build. There is **no Travel Mode**, **no map-based place search**, and **no separate “Shop” home tile**—those features are not part of the app. The home screen is **customizable**; typical areas include Reminders, AI Vet, Health History, Pet Care Notes, Insurance, Weight Tracker, Certificates, Emergency QR, and **Pet Deals** (exact tiles depend on what you show and how you order them). Optional **Developer Tip Jar** for voluntary tips is available from **Settings**.
 
 Data you enter stays on your device and, if you use iCloud, in **your** Apple iCloud account via CloudKit—we do not run our own database for your pet records.
 
-Optional **Vet AI** sends only the text you type to AI providers you configure (or a proxy). **In-app purchases** (subscriptions and tips) are processed by **Apple**. **Pet Picks** and **Insurance** may include **affiliate or partner links**; we may earn a commission when you use them, at no extra cost to you.
+Optional **Vet AI** sends only the text you type to AI providers you configure (or a proxy). **In-app purchases** (subscriptions and tips) are processed by **Apple**. **Pet Deals** and **Insurance** may include **affiliate or partner links** to third-party retailers, membership programs, supplement sellers, and pharmacies; we may earn a commission when you buy or sign up through those links, at no extra cost to you. **Pet Deals** is informational only—we do not endorse third-party products or services as a substitute for veterinary advice.
 
 ---
 
@@ -74,9 +74,9 @@ These apply **only** when you use the relevant feature or sign in:
 - **Cloudflare Worker (or similar) proxy** — Optional: may relay Vet AI requests if a proxy URL is configured—only request content you send, not your full pet database.
 - **Hosted emergency page** — If you use the optional static emergency page feature, that page is served from infrastructure you configure (e.g. GitHub Pages); visitors only see what you put on that page.
 
-Opening **external websites** (for example insurance resources, product recommendations, or App Store links) is governed by those sites’ policies.
+Opening **external websites** (for example insurance resources, **Pet Deals** merchants, product recommendations, or App Store links) is governed by those sites’ policies.
 
-**Affiliate and partner links:** When you tap a link and it opens in Safari (or another browser), **Petpal does not run that website** and does **not** control cookies, analytics, or personal data collected **on that site**. Merchants, affiliate networks, and partners may use cookies, pixels, or similar technologies under **their** privacy policies. We do not receive your full browsing history from those sites through normal use of Petpal.
+**Affiliate and partner links:** When you tap a link and it opens in Safari (or another browser), **Petpal does not run that website** and does **not** control cookies, analytics, or personal data collected **on that site**. Merchants, affiliate networks, and partners may use cookies, pixels, or similar technologies under **their** privacy policies. We do not receive your full browsing history from those sites through normal use of Petpal. Promotional codes or discounts shown in the app are subject to each merchant’s terms and may change without notice.
 
 ## Data Sharing
 
@@ -125,7 +125,7 @@ Petpal is for informational purposes only and is not a substitute for profession
 
 **Operator**: Emilio Alecci (Florida, United States)  
 **Email (privacy & support)**: ealecci@gmail.com  
-**Policy URL**: https://thyghos.github.io/petpal-privacy/
+**Policy URL (canonical for App Store Connect)**: https://thyghos.github.io/petpal/privacy.html — legacy mirror: https://thyghos.github.io/petpal-privacy/
 
 ## Consent
 

@@ -1,0 +1,169 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "E1A2B3C4-D5E6-F7A8-B9C0-D1E2F3A4B5C6",
+  "nonRenewableSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "A0000001",
+      "localizations" : [
+        {
+          "description" : "A $1 tip to support Petpal development",
+          "displayName" : "$1 Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.thyghos.petpalapp.tip.small",
+      "referenceName" : "$1 Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "A0000002",
+      "localizations" : [
+        {
+          "description" : "A $5 tip to support Petpal development",
+          "displayName" : "$5 Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.thyghos.petpalapp.tip.medium",
+      "referenceName" : "$5 Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "A0000003",
+      "localizations" : [
+        {
+          "description" : "A $10 tip to support Petpal development",
+          "displayName" : "$10 Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.thyghos.petpalapp.tip.large",
+      "referenceName" : "$10 Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "19.99",
+      "familyShareable" : false,
+      "internalID" : "A0000005",
+      "localizations" : [
+        {
+          "description" : "A $20 tier tip to support Petpal development",
+          "displayName" : "$20 Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.thyghos.petpalapp.tip.generous",
+      "referenceName" : "$20 Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "A0000004",
+      "localizations" : [
+        {
+          "description" : "10 bonus AI Vet replies that never expire",
+          "displayName" : "AI Vet Top-Up (10 Replies)",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.thyghos.petpalapp.aivet.topup",
+      "referenceName" : "AI Vet Top-Up",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "",
+    "_developerTeamID" : "",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : null,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "cycleError"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "B0000001",
+      "localizations" : [
+        {
+          "description" : "AI Vet monthly plans",
+          "displayName" : "AI Vet",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "AI Vet",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "3.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "B0000002",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "75 AI Vet replies per month",
+              "displayName" : "AI Vet Plus",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.thyghos.petpalapp.aivet.plus",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "AI Vet Plus",
+          "subscriptionGroupID" : "B0000001",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : []
+        },
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "9.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "B0000003",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "250 AI Vet replies per month",
+              "displayName" : "AI Vet Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.thyghos.petpalapp.aivet.pro",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "AI Vet Pro",
+          "subscriptionGroupID" : "B0000001",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : []
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

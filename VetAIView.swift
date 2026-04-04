@@ -2,6 +2,10 @@
 
 import SwiftUI
 import SwiftData
+import Combine
+#if os(iOS)
+import StoreKit
+#endif
 
 struct VetAIView: View {
     @Environment(\.dismiss) private var dismiss
@@ -21,14 +25,26 @@ struct VetAIView: View {
     @Query private var recordAttachments: [PetRecordAttachment]
 
     private var scopedPetId: UUID? {
-        ActivePetStorage.activePetUUID
+        FeaturePetScope.resolvedPetId(pets: swiftDataPets)
+    }
+
+    /// Profile fields for prompts: resolved SwiftData pet when available, else legacy @AppStorage.
+    private var contextProfile: (name: String, species: String, breed: String, weight: Double, unit: String) {
+        if let id = scopedPetId, let p = swiftDataPets.first(where: { $0.id == id }) {
+            let n = p.name.trimmingCharacters(in: .whitespacesAndNewlines)
+            return (n.isEmpty ? "Your Pet" : n, p.species, p.breed, p.weight, p.weightUnit)
+        }
+        return (petName, petSpecies, petBreed, petWeight, weightUnit)
+    }
+
+    private var petsForAIContext: [Pet] {
+        guard let id = scopedPetId, let p = swiftDataPets.first(where: { $0.id == id }) else { return [] }
+        return [p]
     }
     
     private var scopedVisits: [VetVisitLog] {
-        guard let sid = scopedPetId else {
-            return vetVisits.filter { $0.petId == nil }
-        }
-        return vetVisits.filter { $0.petId == sid }
+        guard let sid = scopedPetId else { return [] }
+        return vetVisits.filter { PetRecordFilter.matches($0.petId, selectedPetId: sid) }
     }
     private var scopedPolicies: [PetInsuranceInfo] {
         insurancePolicies.filter { PetRecordFilter.matches($0.petId, selectedPetId: scopedPetId) }
@@ -37,10 +53,11 @@ struct VetAIView: View {
         petReminders.filter { PetRecordFilter.matches($0.petId, selectedPetId: scopedPetId) }
     }
     private var scopedEmergencyProfiles: [EmergencyProfile] {
-        guard let sid = scopedPetId else {
-            return emergencyProfiles.filter { $0.linkedPetId == nil }
+        guard let sid = scopedPetId else { return [] }
+        return emergencyProfiles.filter {
+            guard let lid = $0.linkedPetId else { return false }
+            return lid == sid
         }
-        return emergencyProfiles.filter { $0.linkedPetId == sid }
     }
     private var scopedSitterNotes: [PetSitterInstructions] {
         petSitterInstructions.filter { PetRecordFilter.matches($0.petId, selectedPetId: scopedPetId) }
@@ -49,22 +66,23 @@ struct VetAIView: View {
     @State private var messages: [AIMessage] = []
     @State private var inputText: String = ""
     @State private var isLoading: Bool = false
-    @State private var showingAISetup = false
+    @State private var showingPlanSheet = false
 
-    /// Proxy is preferred (server-side key), then Claude, then Gemini.
-    private var activeProviderDescription: String {
-        if APIConfiguration.vetAIProxyURL != nil { return "Secure Proxy" }
-        if APIConfiguration.anthropicAPIKey != nil { return "Claude" }
-        if APIConfiguration.geminiAPIKey != nil { return "Gemini" }
-        return ""
+    @AppStorage("aiVetPlanTier") private var planTierRaw: String = AIVetPlanTier.free.rawValue
+    @AppStorage("aiVetUsageCount") private var monthlyUsageCount: Int = 0
+    @AppStorage("aiVetUsageMonth") private var usageMonthKey: String = ""
+    @AppStorage("aiVetBonusCredits") private var bonusCredits: Int = 0
+
+    private var currentPlan: AIVetPlanTier {
+        AIVetPlanTier(rawValue: planTierRaw) ?? .free
+    }
+
+    private var remainingThisMonth: Int {
+        max(currentPlan.monthlyLimit - monthlyUsageCount, 0) + bonusCredits
     }
 
     private var providerStatusText: String {
-        if APIConfiguration.vetAIProxyURL != nil { return "Provider: Secure Proxy" }
-        if APIConfiguration.hasInvalidVetAIProxyURL { return "Provider: Invalid proxy URL" }
-        if APIConfiguration.anthropicAPIKey != nil { return "Provider: Claude (device key)" }
-        if APIConfiguration.geminiAPIKey != nil { return "Provider: Gemini (device key)" }
-        return "Provider: Offline mode"
+        "Plan: \(currentPlan.displayName) • \(remainingThisMonth) left this month"
     }
 
     var body: some View {
@@ -77,31 +95,7 @@ struct VetAIView: View {
     
     private var chatView: some View {
         VStack(spacing: 0) {
-            if activeProviderDescription.isEmpty {
-                HStack(spacing: 12) {
-                    Image(systemName: "key.fill")
-                        .foregroundStyle(Color("BrandBlue"))
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("AI setup needed")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(Color("BrandDark"))
-                        Text("Add proxy or API key to enable live replies.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    Button("Configure") {
-                        showingAISetup = true
-                    }
-                    .font(.subheadline.weight(.semibold))
-                }
-                .padding(12)
-                .background(Color.white.opacity(0.9))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .padding(.horizontal)
-                .padding(.top, 8)
-            }
-
+            FeaturePetScopeHeader(pets: swiftDataPets)
             ScrollView {
                 VStack(spacing: 16) {
                     ForEach(messages) { message in
@@ -124,7 +118,7 @@ struct VetAIView: View {
             Divider()
             
             HStack(spacing: 12) {
-                TextField("Ask about \(petName)'s health...", text: $inputText, axis: .vertical)
+                TextField("Ask about \(contextProfile.name)'s health...", text: $inputText, axis: .vertical)
                     .lineLimit(1...4)
                     .textFieldStyle(.plain)
                     .padding(12)
@@ -172,11 +166,10 @@ struct VetAIView: View {
             ToolbarItem(placement: .primaryAction) {
                 HStack(spacing: 14) {
                     Button {
-                        showingAISetup = true
+                        showingPlanSheet = true
                     } label: {
-                        Label("AI Setup", systemImage: "key")
+                        Label("Plan", systemImage: "creditcard")
                     }
-
                     Button {
                         messages.removeAll()
                         loadWelcomeMessage()
@@ -187,42 +180,43 @@ struct VetAIView: View {
             }
         }
         .onAppear {
-            APIConfiguration.ensureDefaultVetAIProxyURLSeeded()
+            resetMonthlyUsageIfNeeded()
             if messages.isEmpty {
                 loadWelcomeMessage()
             }
         }
-        .sheet(isPresented: $showingAISetup) {
-            SettingsView()
+        .sheet(isPresented: $showingPlanSheet) {
+            AIVetPlanSheet(
+                bonusCredits: $bonusCredits,
+                monthlyUsageCount: monthlyUsageCount
+            )
         }
     }
     
     // MARK: - Functions
     
     private func loadWelcomeMessage() {
-        let providerLine: String
-        if !activeProviderDescription.isEmpty {
-            providerLine = "Powered by \(activeProviderDescription). "
-        } else if APIConfiguration.hasInvalidVetAIProxyURL {
-            providerLine = "Your proxy URL appears invalid. Re-enter it in Settings > Vet AI API Keys (you can paste just the base workers.dev URL). "
-        } else {
-            providerLine = "No active proxy or API key found. Add your proxy URL/token or Claude/Gemini key in Settings > Vet AI API Keys. If using proxy, base URL is okay; Petpal auto-adds /v1/vet-chat. "
-        }
+        let providerLine = "Powered by Petpal AI. "
         let hasRecords = !scopedVisits.isEmpty || !scopedPolicies.isEmpty
             || !scopedReminders.isEmpty || !scopedEmergencyProfiles.isEmpty || !scopedSitterNotes.isEmpty
-            || !swiftDataPets.isEmpty
         let recordsLine = hasRecords
             ? " I use the health history, reminders, and notes you’ve saved in Petpal to tailor answers—attachment files are listed but not read by the AI.\n\n"
             : " Add visit history and notes in Petpal and I’ll use them in future replies.\n\n"
         messages = [
             AIMessage(
                 role: .assistant,
-                content: "Hello! I'm your AI veterinary assistant. \(providerLine)I'm here to help with questions about \(petName)'s health and care.\(recordsLine)⚠️ Remember: I provide general information only. For emergencies or serious concerns, contact a licensed veterinarian immediately."
+                content: "Hello! I'm your AI veterinary assistant. \(providerLine)I'm here to help with questions about \(contextProfile.name)'s health and care.\(recordsLine)⚠️ Remember: I provide general information only. For emergencies or serious concerns, contact a licensed veterinarian immediately.\n\nYou have \(remainingThisMonth) replies left this month on the \(currentPlan.displayName) plan."
             )
         ]
     }
     
     private func sendMessage() {
+        resetMonthlyUsageIfNeeded()
+        guard remainingThisMonth > 0 else {
+            messages.append(AIMessage(role: .assistant, content: "You’ve reached your AI Vet limit for the \(currentPlan.displayName) plan. Upgrade your plan or grab a top-up (10 replies for $0.99) to keep chatting."))
+            showingPlanSheet = true
+            return
+        }
         let userText = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !userText.isEmpty else { return }
         
@@ -230,13 +224,14 @@ struct VetAIView: View {
         inputText = ""
         isLoading = true
         
+        let cp = contextProfile
         let petContext = VetAIPetContextBuilder.buildContext(
-            profileName: petName,
-            profileSpecies: petSpecies,
-            profileBreed: petBreed,
-            profileWeight: petWeight,
-            weightUnit: weightUnit,
-            pets: swiftDataPets,
+            profileName: cp.name,
+            profileSpecies: cp.species,
+            profileBreed: cp.breed,
+            profileWeight: cp.weight,
+            weightUnit: cp.unit,
+            pets: petsForAIContext,
             visits: scopedVisits,
             policies: scopedPolicies,
             reminders: scopedReminders,
@@ -262,6 +257,7 @@ struct VetAIView: View {
                 } else {
                     response = offlineGuidance(for: userText)
                 }
+                incrementUsage()
                 messages.append(AIMessage(role: .assistant, content: response))
             } catch {
                 messages.append(AIMessage(role: .assistant, content: "Sorry, I encountered an error: \(error.localizedDescription). Please try again."))
@@ -270,18 +266,43 @@ struct VetAIView: View {
         }
     }
 
+    private func resetMonthlyUsageIfNeeded() {
+        let key = Self.currentMonthKey()
+        if usageMonthKey != key {
+            usageMonthKey = key
+            monthlyUsageCount = 0
+        }
+    }
+
+    private func incrementUsage() {
+        let planRemaining = max(currentPlan.monthlyLimit - monthlyUsageCount, 0)
+        if planRemaining > 0 {
+            monthlyUsageCount += 1
+        } else if bonusCredits > 0 {
+            bonusCredits -= 1
+        }
+    }
+
+    private static func currentMonthKey() -> String {
+        let f = DateFormatter()
+        f.calendar = Calendar(identifier: .gregorian)
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.dateFormat = "yyyy-MM"
+        return f.string(from: Date())
+    }
+
     private func offlineGuidance(for text: String) -> String {
         let lower = text.lowercased()
         if lower.contains("emergency") || lower.contains("poison") || lower.contains("choking") || lower.contains("not breathing") {
             return "If this might be an emergency, contact your nearest emergency vet or animal poison control now. This app cannot triage emergencies.\n\nU.S. poison hotline (example): ASPCA Animal Poison Control (fee may apply) — search for the current number. When in doubt, go to an emergency clinic."
         }
         if lower.contains("vomit") || lower.contains("diarrhea") {
-            return "Mild stomach upset can happen, but repeated vomiting, blood, lethargy, or refusal to drink needs a vet the same day. Offer small amounts of water; avoid new foods or treats until \(petName) is stable.\n\nTo get tailored AI answers, add your proxy URL or API key in Settings > Vet AI API Keys."
+            return "Mild stomach upset can happen, but repeated vomiting, blood, lethargy, or refusal to drink needs a vet the same day. Offer small amounts of water; avoid new foods or treats until \(contextProfile.name) is stable."
         }
         if lower.contains("food") || lower.contains("eat") || lower.contains("toxic") {
-            return "Many human foods are toxic to pets (e.g. chocolate, grapes, onions, xylitol). When unsure, don’t feed it and ask your vet.\n\nFor interactive AI help, add your proxy URL or API key in Settings > Vet AI API Keys."
+            return "Many human foods are toxic to pets (e.g. chocolate, grapes, onions, xylitol). When unsure, don’t feed it and ask your vet."
         }
-        return "I’m running in offline mode. Add your proxy URL or Claude/Gemini key in Settings > Vet AI API Keys for full AI chat.\n\nUntil then: keep \(petName) on their regular diet, fresh water, and schedule routine care with a licensed veterinarian for any ongoing concerns."
+        return "I’m running in offline mode. Until then: keep \(contextProfile.name) on their regular diet, fresh water, and schedule routine care with a licensed veterinarian for any ongoing concerns."
     }
 
     /// Drops the initial welcome bubble so the API conversation starts with a `user` turn.
@@ -294,6 +315,7 @@ struct VetAIView: View {
     }
 
     private func callClaudeAPI(conversation messages: [AIMessage], apiKey: String, petContext: String) async throws -> String {
+        let cp = contextProfile
         let trimmed = trimmedConversationForAPI(messages)
         let anthropicMessages: [[String: Any]] = trimmed.map { msg in
             let role = msg.role == .user ? "user" : "assistant"
@@ -310,7 +332,7 @@ struct VetAIView: View {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
 
-        let systemPrompt = Self.systemPrompt(petSpecies: petSpecies, petName: petName, petContext: petContext)
+        let systemPrompt = Self.systemPrompt(petSpecies: cp.species, petName: cp.name, petContext: petContext)
 
         // Sonnet 4 (replaces retired claude-3-5-sonnet-20241022). List: https://docs.anthropic.com/en/docs/about-claude/models
         let body: [String: Any] = [
@@ -403,6 +425,7 @@ struct VetAIView: View {
         token: String?,
         petContext: String
     ) async throws -> String {
+        let cp = contextProfile
         guard let url = URL(string: proxyURLString) else {
             throw NSError(domain: "VetAI", code: -20, userInfo: [NSLocalizedDescriptionKey: "Invalid proxy URL."])
         }
@@ -421,8 +444,8 @@ struct VetAIView: View {
 
         let body: [String: Any] = [
             "messages": payloadMessages,
-            "petName": petName,
-            "petSpecies": petSpecies,
+            "petName": cp.name,
+            "petSpecies": cp.species,
             "petContext": petContext
         ]
 
@@ -450,6 +473,7 @@ struct VetAIView: View {
     }
 
     private func callGeminiAPI(conversation messages: [AIMessage], apiKey: String, petContext: String) async throws -> String {
+        let cp = contextProfile
         // See https://ai.google.dev/gemini-api/docs/models — update if Google renames the model.
         let model = "gemini-2.0-flash"
         var components = URLComponents(string: "https://generativelanguage.googleapis.com/v1beta/models/\(model):generateContent")!
@@ -458,7 +482,7 @@ struct VetAIView: View {
             throw NSError(domain: "VetAI", code: -2, userInfo: [NSLocalizedDescriptionKey: "Invalid Gemini URL"])
         }
 
-        let systemPrompt = Self.systemPrompt(petSpecies: petSpecies, petName: petName, petContext: petContext)
+        let systemPrompt = Self.systemPrompt(petSpecies: cp.species, petName: cp.name, petContext: petContext)
 
         let contents = geminiContents(from: messages)
         guard !contents.isEmpty else {
@@ -522,6 +546,315 @@ struct VetAIView: View {
         if let status = err["status"] as? String { return status }
         return nil
     }
+}
+
+// MARK: - Top-Up Store (Consumable IAP)
+
+#if os(iOS)
+@MainActor
+final class AIVetTopUpStore: ObservableObject {
+    static let productID = "com.thyghos.petpalapp.aivet.topup"
+    static let creditsPerTopUp = 10
+
+    @Published private(set) var product: Product?
+    @Published private(set) var isLoading = true
+    @Published var purchaseError: String?
+    @Published var showSuccess = false
+
+    func loadProduct() async {
+        isLoading = true
+        purchaseError = nil
+        defer { isLoading = false }
+        do {
+            let loaded = try await Product.products(for: [Self.productID])
+            product = loaded.first
+        } catch {
+            purchaseError = error.localizedDescription
+        }
+    }
+
+    func purchase() async {
+        guard let product else { return }
+        purchaseError = nil
+        showSuccess = false
+        do {
+            let result = try await product.purchase()
+            switch result {
+            case .success(let verification):
+                switch verification {
+                case .verified(let transaction):
+                    await transaction.finish()
+                    let current = UserDefaults.standard.integer(forKey: "aiVetBonusCredits")
+                    UserDefaults.standard.set(current + Self.creditsPerTopUp, forKey: "aiVetBonusCredits")
+                    showSuccess = true
+                case .unverified(_, let error):
+                    purchaseError = error.localizedDescription
+                }
+            case .userCancelled: break
+            case .pending:
+                purchaseError = "Purchase is pending approval."
+            @unknown default: break
+            }
+        } catch {
+            purchaseError = error.localizedDescription
+        }
+    }
+}
+#endif
+
+enum AIVetPlanTier: String, CaseIterable, Identifiable {
+    case free
+    case plus
+    case pro
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .free: return "Free"
+        case .plus: return "Plus"
+        case .pro: return "Pro"
+        }
+    }
+
+    var monthlyLimit: Int {
+        switch self {
+        case .free: return 5
+        case .plus: return 75
+        case .pro: return 250
+        }
+    }
+
+    var priceLabel: String {
+        switch self {
+        case .free: return "$0"
+        case .plus: return "$3.99 / month"
+        case .pro: return "$9.99 / month"
+        }
+    }
+}
+
+struct AIVetPlanSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
+    @Binding var bonusCredits: Int
+    let monthlyUsageCount: Int
+
+    #if os(iOS)
+    @ObservedObject private var store = PetpalStore.shared
+    @StateObject private var topUpStore = AIVetTopUpStore()
+    @State private var isPurchasing = false
+    #endif
+
+    private var activeTier: AIVetPlanTier {
+        #if os(iOS)
+        store.activeTier
+        #else
+        .free
+        #endif
+    }
+
+    private var remainingThisMonth: Int {
+        max(activeTier.monthlyLimit - monthlyUsageCount, 0) + bonusCredits
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                subscriptionSection
+                #if os(iOS)
+                topUpSection
+                #endif
+                statusSection
+                #if os(iOS)
+                manageSection
+                #endif
+            }
+            .navigationTitle("AI Vet Plan")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") { dismiss() }
+                }
+            }
+        }
+        #if os(iOS)
+        .task {
+            await store.loadProducts()
+            await store.refreshSubscriptionStatus()
+            await topUpStore.loadProduct()
+        }
+        .onChange(of: topUpStore.showSuccess) { _, success in
+            if success {
+                bonusCredits = UserDefaults.standard.integer(forKey: "aiVetBonusCredits")
+            }
+        }
+        #endif
+    }
+
+    // MARK: - Subscription Tiers
+
+    private var subscriptionSection: some View {
+        Section("AI Vet plans") {
+            ForEach(AIVetPlanTier.allCases) { tier in
+                planRow(for: tier)
+            }
+
+            #if os(iOS)
+            if let err = store.purchaseError {
+                Text(err)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
+            #endif
+        }
+    }
+
+    @ViewBuilder
+    private func planRow(for tier: AIVetPlanTier) -> some View {
+        let isCurrent = activeTier == tier
+
+        Button {
+            #if os(iOS)
+            guard tier != .free, !isCurrent else { return }
+            guard let product = store.product(for: tier) else { return }
+            Task {
+                isPurchasing = true
+                await store.purchase(product)
+                isPurchasing = false
+            }
+            #endif
+        } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("\(tier.displayName) \u{2022} \(tier.monthlyLimit) replies/month")
+                        .foregroundStyle(Color("BrandDark"))
+
+                    #if os(iOS)
+                    if let product = store.product(for: tier) {
+                        Text("\(product.displayPrice) / month")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text(tier.priceLabel)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    #else
+                    Text(tier.priceLabel)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    #endif
+                }
+                Spacer()
+                if isCurrent {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(Color("BrandGreen"))
+                }
+            }
+        }
+        .disabled(isCurrent || isPurchasing)
+    }
+
+    // MARK: - Status
+
+    private var statusSection: some View {
+        Section {
+            HStack {
+                Label("Replies left", systemImage: "bubble.left.and.bubble.right")
+                Spacer()
+                Text("\(remainingThisMonth)")
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color("BrandGreen"))
+            }
+            .font(.subheadline)
+
+            if bonusCredits > 0 {
+                HStack {
+                    Label("Bonus credits", systemImage: "star.fill")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Text("\(bonusCredits)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+    }
+
+    // MARK: - Manage Subscription
+
+    #if os(iOS)
+    @ViewBuilder
+    private var manageSection: some View {
+        if activeTier != .free {
+            Section {
+                Button {
+                    if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
+                        openURL(url)
+                    }
+                } label: {
+                    Label("Manage Subscription", systemImage: "arrow.up.forward.app")
+                }
+            } footer: {
+                Text("Cancel or change your plan anytime through Apple\u{2019}s subscription settings.")
+            }
+        }
+    }
+    #endif
+
+    // MARK: - Top Up
+
+    #if os(iOS)
+    @ViewBuilder
+    private var topUpSection: some View {
+        Section("Top up") {
+            if topUpStore.isLoading {
+                HStack {
+                    ProgressView()
+                    Text("Loading\u{2026}")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            } else if let product = topUpStore.product {
+                Button {
+                    Task { await topUpStore.purchase() }
+                } label: {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("10 bonus replies")
+                                .foregroundStyle(Color("BrandDark"))
+                            Text("One-time purchase \u{2022} never expires")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        Text(product.displayPrice)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(Color("BrandGreen"))
+                    }
+                }
+
+                if topUpStore.showSuccess {
+                    Label("10 replies added!", systemImage: "checkmark.circle.fill")
+                        .font(.subheadline)
+                        .foregroundStyle(Color("BrandGreen"))
+                }
+            } else {
+                Text("Top-ups aren\u{2019}t available yet.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            if let err = topUpStore.purchaseError {
+                Text(err)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
+        }
+    }
+    #endif
 }
 
 // MARK: - AI Message Model

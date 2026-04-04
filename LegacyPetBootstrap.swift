@@ -10,16 +10,23 @@ enum LegacyPetBootstrap {
 
     @MainActor
     static func runIfNeeded(modelContext: ModelContext) {
-        guard !UserDefaults.standard.bool(forKey: completionKey) else { return }
-
         do {
             let petCount = try modelContext.fetchCount(FetchDescriptor<Pet>())
-            guard petCount == 0 else {
+            if petCount > 0 {
                 UserDefaults.standard.set(true, forKey: completionKey)
                 return
             }
 
-            guard shouldCreateRecoveryPet(modelContext: modelContext) else {
+            // Store shows no pets. Still recover if anything hints data survived in UserDefaults or in other
+            // SwiftData tables (e.g. after an upgrade opened the wrong store file once). Do not skip solely
+            // because a previous run set `completionKey` — that can strand users after a bad migration.
+            let wasMarkedDone = UserDefaults.standard.bool(forKey: completionKey)
+            let recoveryWarranted = shouldCreateRecoveryPet(modelContext: modelContext)
+            if wasMarkedDone && !recoveryWarranted {
+                return
+            }
+
+            guard recoveryWarranted else {
                 UserDefaults.standard.set(true, forKey: completionKey)
                 return
             }

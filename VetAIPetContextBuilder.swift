@@ -45,6 +45,15 @@ enum VetAIPetContextBuilder {
                 if let dob = p.dateOfBirth {
                     line += ", DOB \(dob.formatted(date: .abbreviated, time: .omitted))"
                 }
+                if !p.vetName.isEmpty || !p.vetPhone.isEmpty || !p.vetEmail.isEmpty {
+                    line += "\n  Vet: \(p.vetName.isEmpty ? "—" : p.vetName)\(p.vetPhone.isEmpty ? "" : ", \(p.vetPhone)")\(p.vetEmail.isEmpty ? "" : ", \(p.vetEmail)")"
+                }
+                if !p.groomerName.isEmpty || !p.groomerPhone.isEmpty {
+                    line += "\n  Groomer: \(p.groomerName.isEmpty ? "—" : p.groomerName)\(p.groomerPhone.isEmpty ? "" : ", \(p.groomerPhone)")"
+                }
+                if !p.microchipNumber.isEmpty {
+                    line += "\n  Microchip: \(clip(p.microchipNumber))\(p.microchipRegistry.isEmpty ? "" : " (\(clip(p.microchipRegistry)))")"
+                }
                 sections.append(line)
             }
             if pets.count > 8 {
@@ -124,8 +133,11 @@ enum VetAIPetContextBuilder {
                 appendNonEmpty(&sections, "Food add-ons", sitter.foodAddons ?? "")
                 appendNonEmpty(&sections, "Treats", sitter.favoriteTreats)
                 appendNonEmpty(&sections, "Walk schedule", sitter.walkSchedule ?? "")
+                appendNonEmpty(&sections, "Allergies", sitter.allergies ?? "")
                 appendNonEmpty(&sections, "Medications (notes)", sitter.medications ?? "")
+                appendNonEmpty(&sections, "Vet name (notes)", sitter.vetName ?? "")
                 appendNonEmpty(&sections, "Vet phone (notes)", sitter.vetPhone ?? "")
+                appendNonEmpty(&sections, "Vet address (notes)", sitter.vetAddress ?? "")
                 appendNonEmpty(&sections, "Special instructions", sitter.specialInstructions)
             }
         }

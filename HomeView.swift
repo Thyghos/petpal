@@ -19,6 +19,7 @@ struct HomeView: View {
     @AppStorage("weightUnit") private var weightUnit: String = "lbs"
     @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer = false
     @AppStorage("hasAcceptedVetAIDisclaimer") private var hasAcceptedVetAIDisclaimer = false
+    @AppStorage("activePetId") private var activePetIdStorage: String = ""
     
     @Query(sort: \Pet.dateAdded) private var allPets: [Pet]
     @Query(sort: \PetReminder.nextDueDate) private var reminders: [PetReminder]
@@ -57,11 +58,24 @@ struct HomeView: View {
         }
         return sortedPets.first(where: { $0.isActive })?.id ?? sortedPets.first?.id
     }
+
+    /// Index of the pet shown in the hero pager (matches `petPagerSection` selection binding).
+    private var homePagerDisplayedIndex: Int {
+        guard !sortedPets.isEmpty else { return 0 }
+        let displayedId: UUID
+        if sortedPets.contains(where: { $0.id == pagerSelection }) {
+            displayedId = pagerSelection
+        } else {
+            displayedId = sortedPets.first(where: { $0.isActive })?.id ?? sortedPets[0].id
+        }
+        return sortedPets.firstIndex { $0.id == displayedId } ?? 0
+    }
     
+    /// Home tile red badge: reminders whose due time has passed (or is now) for the pet on the pager, until completed / rescheduled / deleted.
     var overdueRemindersCount: Int {
         let pid = homeScopedPetId
         return reminders.filter { r in
-            r.isOverdue && PetRecordFilter.matches(r.petId, selectedPetId: pid)
+            r.needsAttention && PetRecordFilter.matches(r.petId, selectedPetId: pid)
         }.count
     }
     
@@ -215,9 +229,19 @@ struct HomeView: View {
         #endif
         .onAppear {
             reconcileActivePetAndPager()
+            FeaturePetScope.claimOrphanRecordsIfNeeded(
+                activePetId: homeScopedPetId ?? sortedPets.first?.id,
+                modelContext: modelContext
+            )
         }
         .onChange(of: allPets.map(\.id)) { _, _ in
             reconcileActivePetAndPager()
+        }
+        .onChange(of: activePetIdStorage) { _, new in
+            guard let u = UUID(uuidString: new),
+                  sortedPets.contains(where: { $0.id == u }),
+                  pagerSelection != u else { return }
+            pagerSelection = u
         }
     }
     
@@ -459,7 +483,6 @@ struct HomeView: View {
                 ForEach(sortedPets) { pet in
                     HomePetHeroPage(
                         pet: pet,
-                        showSwipeHint: sortedPets.count > 1,
                         onEdit: {
                             HapticManager.shared.medium()
                             petUnderEdit = pet
@@ -469,8 +492,38 @@ struct HomeView: View {
                     .tag(pet.id)
                 }
             }
-            .tabViewStyle(.page(indexDisplayMode: sortedPets.count > 1 ? .automatic : .never))
-            .frame(height: 220)
+            // Custom dots below — system page indicators read as white on the light card.
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 132)
+
+            if sortedPets.count > 1 {
+                HStack(spacing: 8) {
+                    ForEach(Array(sortedPets.enumerated()), id: \.element.id) { index, pet in
+                        Button {
+                            HapticManager.shared.selection()
+                            withAnimation(.easeInOut(duration: 0.22)) {
+                                pagerSelection = pet.id
+                                activatePet(pet)
+                            }
+                        } label: {
+                            Circle()
+                                .fill(index == homePagerDisplayedIndex ? Color("BrandBlue") : Color("BrandBlue").opacity(0.4))
+                                .frame(width: index == homePagerDisplayedIndex ? 9 : 7, height: index == homePagerDisplayedIndex ? 9 : 7)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("\(pet.name), pet \(index + 1) of \(sortedPets.count)")
+                        .accessibilityAddTraits(index == homePagerDisplayedIndex ? [.isSelected] : [])
+                    }
+                }
+                .padding(.top, 2)
+
+                Text("Swipe for your other pets")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 2)
+            }
         }
     }
     
@@ -702,7 +755,6 @@ struct HomeView: View {
 
 private struct HomePetHeroPage: View {
     let pet: Pet
-    var showSwipeHint: Bool
     let onEdit: () -> Void
     let onManagePets: () -> Void
     
@@ -718,139 +770,90 @@ private struct HomePetHeroPage: View {
     }
     
     var body: some View {
-        Button(action: onEdit) {
-            HStack(spacing: 20) {
-                ZStack {
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color("BrandOrange").opacity(0.4),
-                                    Color("BrandBlue").opacity(0.2),
-                                    .clear
-                                ],
-                                center: .center,
-                                startRadius: 20,
-                                endRadius: 60
-                            )
-                        )
-                        .frame(width: 110, height: 110)
-                        .blur(radius: 15)
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color("BrandOrange").opacity(0.15),
-                                    Color("BrandBlue").opacity(0.1)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .frame(width: 92, height: 92)
-                    #if os(iOS)
-                    if let data = pet.profileImage, let uiImage = UIImage(data: data) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 85, height: 85)
-                            .clipShape(Circle())
-                            .overlay(
-                                Circle()
-                                    .strokeBorder(
-                                        LinearGradient(
-                                            colors: [.white.opacity(0.9), .white.opacity(0.5)],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ),
-                                        lineWidth: 3
-                                    )
-                            )
-                    } else {
-                        placeholderSpeciesIcon
-                    }
-                    #elseif os(macOS)
-                    if let data = pet.profileImage, let nsImage = NSImage(data: data) {
-                        Image(nsImage: nsImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 85, height: 85)
-                            .clipShape(Circle())
-                            .overlay(
-                                Circle()
-                                    .strokeBorder(
-                                        LinearGradient(
-                                            colors: [.white.opacity(0.9), .white.opacity(0.5)],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ),
-                                        lineWidth: 3
-                                    )
-                            )
-                    } else {
-                        placeholderSpeciesIcon
-                    }
-                    #endif
-                    ZStack {
-                        Circle()
-                            .fill(Color("BrandOrange").opacity(0.3))
-                            .frame(width: 32, height: 32)
-                            .blur(radius: 4)
-                        Circle()
-                            .fill(Color("BrandOrange"))
-                            .frame(width: 28, height: 28)
-                        Image(systemName: "camera.fill")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(.white)
-                    }
-                    .offset(x: 32, y: 32)
-                }
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(pet.name)
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
-                        .foregroundStyle(Color("BrandDark"))
-                        .lineLimit(1)
-                    HStack(spacing: 6) {
-                        Circle()
-                            .fill(Color("BrandGreen"))
-                            .frame(width: 8, height: 8)
-                        Text(showSwipeHint ? "Swipe for your other pets" : "Tap to edit profile")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundStyle(Color("BrandGreen"))
-                    }
-                    if !pet.breed.isEmpty {
-                        Text("\(pet.breed) • \(pet.species)")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                    } else {
-                        Text(pet.species)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                    if pet.weight > 0 {
-                        HStack(spacing: 4) {
-                            Image(systemName: "scalemass.fill")
-                                .font(.caption2)
-                            Text("\(Int(pet.weight)) \(pet.weightUnit)")
-                                .font(.caption)
-                        }
-                        .foregroundStyle(.secondary)
-                    }
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.secondary.opacity(0.3))
+        HStack(alignment: .center, spacing: 18) {
+            avatarView
+            Text(pet.name)
+                .font(.system(size: 26, weight: .bold, design: .rounded))
+                .foregroundStyle(Color("BrandDark"))
+                .lineLimit(1)
+            Spacer(minLength: 8)
+            Button {
+                onEdit()
+            } label: {
+                Image(systemName: "pencil.circle.fill")
+                    .font(.system(size: 32))
+                    .foregroundStyle(Color("BrandBlue"))
             }
-            .padding(22)
-            .background(HomePetHeroPageBackground())
+            .buttonStyle(.plain)
+            .accessibilityLabel("Edit \(pet.name)")
         }
-        .buttonStyle(SmoothButtonStyle())
+        .padding(.horizontal, 20)
+        .padding(.vertical, 18)
+        .background(HomePetHeroPageBackground())
         .contextMenu {
+            Button("Edit pet", action: onEdit)
             Button("Manage pets", action: onManagePets)
+        }
+    }
+
+    @ViewBuilder
+    private var avatarView: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color("BrandOrange").opacity(0.2),
+                            Color("BrandBlue").opacity(0.12)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .frame(width: 88, height: 88)
+            #if os(iOS)
+            if let data = pet.profileImage, let uiImage = UIImage(data: data) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 82, height: 82)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [.white.opacity(0.9), .white.opacity(0.45)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 2.5
+                            )
+                    )
+            } else {
+                placeholderSpeciesIcon
+            }
+            #elseif os(macOS)
+            if let data = pet.profileImage, let nsImage = NSImage(data: data) {
+                Image(nsImage: nsImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 82, height: 82)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [.white.opacity(0.9), .white.opacity(0.45)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 2.5
+                            )
+                    )
+            } else {
+                placeholderSpeciesIcon
+            }
+            #endif
         }
     }
     
@@ -864,17 +867,17 @@ private struct HomePetHeroPage: View {
                     endPoint: .bottomTrailing
                 )
             )
-            .frame(width: 85, height: 85)
+            .frame(width: 82, height: 82)
             .background(Circle().fill(Color("BrandOrange").opacity(0.1)))
             .overlay(
                 Circle()
                     .strokeBorder(
                         LinearGradient(
-                            colors: [.white.opacity(0.9), .white.opacity(0.5)],
+                            colors: [.white.opacity(0.9), .white.opacity(0.45)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
-                        lineWidth: 3
+                        lineWidth: 2.5
                     )
             )
     }
@@ -1022,10 +1025,16 @@ struct ModernEditPetSheet: View {
     @State private var photoRemoved = false
     @State private var showBirthDate = false
     @State private var tempDateOfBirth: Date?
+    @State private var tempVetName: String = ""
+    @State private var tempVetPhone: String = ""
+    @State private var tempVetEmail: String = ""
+    @State private var tempMicrochipNumber: String = ""
+    @State private var editingVetPhone = false
+    @State private var editingVetEmail = false
     @State private var showingDeleteConfirm = false
  
     let speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Fish", "Reptile", "Other"]
-    let weightUnits = ["lbs", "kg"]
+    let weightUnits = ["lbs", "kg", "g"]
     
     private var displayedAvatar: Data? {
         tempAvatarData ?? pet.profileImage
@@ -1239,6 +1248,83 @@ struct ModernEditPetSheet: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                 }
                             }
+
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Veterinarian")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                TextField("Vet name", text: $tempVetName)
+                                    .font(.body)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                VStack(alignment: .leading, spacing: 10) {
+                                    if tempVetPhone.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        Button {
+                                            editingVetPhone = true
+                                        } label: {
+                                            Label("Add vet phone", systemImage: "plus.circle")
+                                                .font(.subheadline.weight(.semibold))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding()
+                                                .background(Color.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        }
+                                        .buttonStyle(.plain)
+                                    } else {
+                                        PetProfilePhoneRow(title: "Vet phone", phone: tempVetPhone)
+                                            .padding()
+                                            .background(Color.white)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        HStack(spacing: 14) {
+                                            Button("Edit phone") { editingVetPhone = true }
+                                                .font(.caption.weight(.semibold))
+                                            Button("Remove", role: .destructive) { tempVetPhone = "" }
+                                                .font(.caption.weight(.semibold))
+                                        }
+                                        .padding(.horizontal, 4)
+                                    }
+
+                                    if tempVetEmail.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        Button {
+                                            editingVetEmail = true
+                                        } label: {
+                                            Label("Add vet email", systemImage: "plus.circle")
+                                                .font(.subheadline.weight(.semibold))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding()
+                                                .background(Color.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        }
+                                        .buttonStyle(.plain)
+                                    } else {
+                                        PetProfileEmailRow(title: "Vet email", email: tempVetEmail)
+                                            .padding()
+                                            .background(Color.white)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        HStack(spacing: 14) {
+                                            Button("Edit email") { editingVetEmail = true }
+                                                .font(.caption.weight(.semibold))
+                                            Button("Remove", role: .destructive) { tempVetEmail = "" }
+                                                .font(.caption.weight(.semibold))
+                                        }
+                                        .padding(.horizontal, 4)
+                                    }
+                                }
+                            }
+
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Microchip")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                TextField("Microchip number", text: $tempMicrochipNumber)
+                                    .font(.body)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
                             
                             Button(role: .destructive) {
                                 showingDeleteConfirm = true
@@ -1291,6 +1377,42 @@ struct ModernEditPetSheet: View {
                     tempDateOfBirth = birthDatePickerFallback
                 }
             }
+            .sheet(isPresented: $editingVetPhone) {
+                NavigationStack {
+                    Form {
+                        TextField("Vet phone", text: $tempVetPhone)
+                            #if os(iOS)
+                            .keyboardType(.phonePad)
+                            #endif
+                    }
+                    .navigationTitle("Vet Phone")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Done") { editingVetPhone = false }
+                        }
+                    }
+                }
+            }
+            .sheet(isPresented: $editingVetEmail) {
+                NavigationStack {
+                    Form {
+                        TextField("Vet email", text: $tempVetEmail)
+                            #if os(iOS)
+                            .keyboardType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                            .textContentType(.emailAddress)
+                            #endif
+                    }
+                    .navigationTitle("Vet Email")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Done") { editingVetEmail = false }
+                        }
+                    }
+                }
+            }
             .onAppear {
                 photoRemoved = false
                 tempName = pet.name
@@ -1301,6 +1423,10 @@ struct ModernEditPetSheet: View {
                 tempAvatarData = pet.profileImage
                 showBirthDate = pet.dateOfBirth != nil
                 tempDateOfBirth = pet.dateOfBirth
+                tempVetName = pet.vetName
+                tempVetPhone = pet.vetPhone
+                tempVetEmail = pet.vetEmail
+                tempMicrochipNumber = pet.microchipNumber
             }
         }
     }
@@ -1354,6 +1480,10 @@ struct ModernEditPetSheet: View {
             pet.profileImage = nil
         }
         pet.dateOfBirth = showBirthDate ? tempDateOfBirth : nil
+        pet.vetName = tempVetName.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.vetPhone = tempVetPhone.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.vetEmail = tempVetEmail.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.microchipNumber = tempMicrochipNumber.trimmingCharacters(in: .whitespacesAndNewlines)
         if pet.isActive {
             pet.syncToLegacyAppStorage()
         }
@@ -1445,7 +1575,7 @@ struct EditPetSheet: View {
     @State private var tempWeightUnit: String = "lbs"
  
     let speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Fish", "Reptile", "Other"]
-    let weightUnits = ["lbs", "kg"]
+    let weightUnits = ["lbs", "kg", "g"]
  
     var body: some View {
         NavigationStack {

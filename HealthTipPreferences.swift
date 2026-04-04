@@ -6,17 +6,17 @@ import SwiftData
 
 @Model
 final class HealthTipPreferences {
-    var id: UUID
-    var isEnabled: Bool
-    var frequency: TipFrequency // daily or weekly
+    var id: UUID = UUID()
+    var isEnabled: Bool = true
+    var frequency: TipFrequency = TipFrequency.daily // daily or weekly
     var lastShownDate: Date?
-    var currentTipIndex: Int
-    var petSpecies: String // To show species-specific tips
+    var currentTipIndex: Int = 0
+    var petSpecies: String = "Dog" // To show species-specific tips
     
     init(
         id: UUID = UUID(),
         isEnabled: Bool = true,
-        frequency: TipFrequency = .daily,
+        frequency: TipFrequency = TipFrequency.daily,
         lastShownDate: Date? = nil,
         currentTipIndex: Int = 0,
         petSpecies: String = "Dog"
