@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Claude_API_Key</key>
+	<string></string>
+	<key>GEMINI_API_KEY</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>Petpal uses your camera to capture photos of vet records, shelter documents, certificates, and insurance cards so we can automatically fill in your pet&apos;s information.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Petpal saves your Pet Passport to your photo library.</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Petpal can remind you about medications, vet visits, and other tasks you add in Reminders.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Petpal needs access to your photo library to set your pet&apos;s profile picture.</string>
+</dict>
+</plist>

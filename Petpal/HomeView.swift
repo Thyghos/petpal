@@ -1,0 +1,1764 @@
+// HomeView.swift
+// Petpal - Home Screen
+//
+// Legacy tile-grid home (kept for rollback / reference). App root is `MainTabView` via `AppRootView`.
+
+import SwiftUI
+import SwiftData
+import PhotosUI
+import UniformTypeIdentifiers
+#if os(iOS)
+import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
+ 
+struct HomeView: View {
+ 
+    @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer = false
+    @AppStorage("hasAcceptedVetAIDisclaimer") private var hasAcceptedVetAIDisclaimer = false
+    @AppStorage("activePetId") private var activePetIdStorage: String = ""
+    
+    @Query(sort: \Pet.dateAdded) private var allPets: [Pet]
+    @Query(sort: \PetReminder.nextDueDate) private var reminders: [PetReminder]
+    @Query private var tilePreferences: [TilePreferences]
+    @Query private var healthTipPreferences: [HealthTipPreferences]
+    @Environment(\.modelContext) private var modelContext
+ 
+    @State private var pagerSelection: UUID = UUID()
+    @State private var petUnderEdit: Pet?
+    @State private var showingAddPet = false
+    @State private var showingPetsList = false
+    @State private var showingVetAI = false
+    @State private var showingHealthHistory = false
+    @State private var showingFoodRecommendations = false
+    @State private var showingEmergencyQR = false
+    @State private var showingReminders = false
+    @State private var showingInsuranceTracker = false
+    @State private var showingWeightTracker = false
+    @State private var showingCertificates = false
+    @State private var showingHelpfulProducts = false
+    @State private var showingGeneralDisclaimer = false
+    @State private var showingVetAIDisclaimerSheet = false
+    @State private var showingSettings = false
+    @State private var showingDevTipJar = false
+    @State private var healthTipDismissed = false
+    
+    private var sortedPets: [Pet] {
+        allPets.sorted { $0.dateAdded < $1.dateAdded }
+    }
+    
+    /// Pet whose data should scope home badges and tiles (pager or active flag).
+    private var homeScopedPetId: UUID? {
+        guard !sortedPets.isEmpty else { return nil }
+        if sortedPets.contains(where: { $0.id == pagerSelection }) {
+            return pagerSelection
+        }
+        return sortedPets.first(where: { $0.isActive })?.id ?? sortedPets.first?.id
+    }
+
+    /// Index of the pet shown in the hero pager (matches `petPagerSection` selection binding).
+    private var homePagerDisplayedIndex: Int {
+        guard !sortedPets.isEmpty else { return 0 }
+        let displayedId: UUID
+        if sortedPets.contains(where: { $0.id == pagerSelection }) {
+            displayedId = pagerSelection
+        } else {
+            displayedId = sortedPets.first(where: { $0.isActive })?.id ?? sortedPets[0].id
+        }
+        return sortedPets.firstIndex { $0.id == displayedId } ?? 0
+    }
+    
+    /// Home tile red badge: reminders whose due time has passed (or is now) for the pet on the pager, until completed / rescheduled / deleted.
+    var overdueRemindersCount: Int {
+        let pid = homeScopedPetId
+        return reminders.filter { r in
+            r.needsAttention && PetRecordFilter.matches(r.petId, selectedPetId: pid)
+        }.count
+    }
+    
+    var currentTilePreferences: TilePreferences {
+        if let prefs = tilePreferences.first {
+            return prefs
+        } else {
+            let newPrefs = TilePreferences()
+            modelContext.insert(newPrefs)
+            return newPrefs
+        }
+    }
+    
+    /// Species for health tips follows the pet shown on the home pager / active pet (SwiftData).
+    private var healthTipSpeciesFromPet: String {
+        if let id = homeScopedPetId,
+           let p = sortedPets.first(where: { $0.id == id }) {
+            return p.species
+        }
+        return sortedPets.first?.species ?? "Dog"
+    }
+
+    var currentHealthTipPreferences: HealthTipPreferences {
+        let species = healthTipSpeciesFromPet
+        if let prefs = healthTipPreferences.first {
+            if prefs.petSpecies != species {
+                prefs.petSpecies = species
+            }
+            return prefs
+        } else {
+            let newPrefs = HealthTipPreferences(petSpecies: species)
+            modelContext.insert(newPrefs)
+            return newPrefs
+        }
+    }
+    
+    var shouldShowHealthTip: Bool {
+        !healthTipDismissed && HealthTipService.shouldShowTip(preferences: currentHealthTipPreferences)
+    }
+    
+    var todaysHealthTip: HealthTip {
+        HealthTipService.getTipForToday(preferences: currentHealthTipPreferences)
+    }
+    
+    /// Tile ids shown on the home grid (order preserved). Until the user customizes, hidden tiles are ignored so every tile appears on first run.
+    private var homeVisibleTileIds: [String] {
+        let prefs = currentTilePreferences
+        let order = HomeTile.sanitizedTileOrder(prefs.tileOrder)
+        if HomeTileLayoutState.userHasCustomizedLayout {
+            let hidden = Set(prefs.hiddenTiles)
+            return order.filter { !hidden.contains($0) }
+        }
+        return order
+    }
+
+    var visibleTiles: [HomeTile] {
+        homeVisibleTileIds.compactMap { HomeTile.tile(for: $0) }
+    }
+    
+    var body: some View {
+        ZStack {
+            // Modern gradient background
+            LinearGradient(
+                colors: [
+                    Color("BrandCream"),
+                    Color("BrandSoftBlue").opacity(0.3),
+                    Color("BrandCream")
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+ 
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 20) {
+                    headerSection
+                    
+                    // Disclaimer Banner (if not accepted)
+                    if !hasAcceptedDisclaimer {
+                        disclaimerBanner
+                    }
+                    
+                    modernPetCard
+                    
+                    // Health Tip Card (if enabled and should show)
+                    if shouldShowHealthTip {
+                        healthTipSection
+                    }
+                    
+                    featuresGrid
+                    footerText
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 8)
+                .padding(.bottom, 32)
+            }
+        }
+        .fullScreenCover(item: $petUnderEdit, onDismiss: {
+            petUnderEdit = nil
+        }) { pet in
+            ModernEditPetSheet(pet: pet)
+        }
+        .sheet(isPresented: $showingAddPet) {
+            AddPetView()
+        }
+        .sheet(isPresented: $showingPetsList) {
+            PetsListView()
+        }
+        .sheet(isPresented: $showingGeneralDisclaimer) {
+            DisclaimerView()
+        }
+        .sheet(isPresented: $showingVetAIDisclaimerSheet) {
+            VetAIDisclaimerSheet(hasAcceptedVetAIDisclaimer: $hasAcceptedVetAIDisclaimer)
+                .onDisappear {
+                    if hasAcceptedVetAIDisclaimer {
+                        showingVetAI = true
+                    }
+                }
+        }
+        .fullScreenCover(isPresented: $showingVetAI) {
+            VetAIView()
+        }
+        .fullScreenCover(isPresented: $showingEmergencyQR) {
+            EmergencyQRView()
+        }
+        .fullScreenCover(isPresented: $showingHealthHistory) {
+            HealthHistoryView()
+        }
+        .fullScreenCover(isPresented: $showingFoodRecommendations) {
+            FoodRecommendationsView()
+        }
+        .fullScreenCover(isPresented: $showingReminders) {
+            RemindersView()
+        }
+        .fullScreenCover(isPresented: $showingInsuranceTracker) {
+            InsuranceTrackerView()
+        }
+        .fullScreenCover(isPresented: $showingWeightTracker) {
+            WeightTrackerView()
+        }
+        .fullScreenCover(isPresented: $showingCertificates) {
+            CertificatesView()
+        }
+        .fullScreenCover(isPresented: $showingHelpfulProducts) {
+            HelpfulProductsView()
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
+        }
+        #if os(iOS)
+        .sheet(isPresented: $showingDevTipJar) {
+            DeveloperTipJarView()
+        }
+        #endif
+        .onAppear {
+            HomeTileLayoutState.migrateExistingInstallIfNeeded(prefs: currentTilePreferences)
+            reconcileActivePetAndPager()
+            FeaturePetScope.claimOrphanRecordsIfNeeded(
+                activePetId: homeScopedPetId ?? sortedPets.first?.id,
+                modelContext: modelContext
+            )
+        }
+        .onChange(of: allPets.map(\.id)) { _, _ in
+            reconcileActivePetAndPager()
+        }
+        .onChange(of: activePetIdStorage) { _, new in
+            guard let u = UUID(uuidString: new),
+                  sortedPets.contains(where: { $0.id == u }),
+                  pagerSelection != u else { return }
+            pagerSelection = u
+        }
+    }
+    
+    private func reconcileActivePetAndPager() {
+        guard !sortedPets.isEmpty else { return }
+        let noneActive = sortedPets.allSatisfy { !$0.isActive }
+        if noneActive, let first = sortedPets.first {
+            activatePet(first)
+        }
+        let target = sortedPets.first(where: { $0.isActive })?.id ?? sortedPets.first!.id
+        if pagerSelection != target {
+            pagerSelection = target
+        }
+    }
+    
+    private func activatePet(_ pet: Pet) {
+        for p in allPets {
+            p.isActive = (p.id == pet.id)
+        }
+        pet.syncToLegacyAppStorage()
+        if let prefs = healthTipPreferences.first, prefs.petSpecies != pet.species {
+            prefs.petSpecies = pet.species
+        }
+        try? modelContext.save()
+    }
+ 
+    // MARK: - Header
+    private var headerSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(greetingText())
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.secondary)
+                
+                Text("Petpal")
+                    .font(.system(size: 36, weight: .bold, design: .rounded))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [Color("BrandOrange"), Color("BrandBlue")],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+            }
+            Spacer()
+            
+            // Settings button with modern design
+            Button {
+                HapticManager.shared.light()
+                showingSettings = true
+            } label: {
+                Image(systemName: "gearshape.fill")
+                    .font(.title3)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [Color("BrandBlue").opacity(0.8), Color("BrandPurple").opacity(0.8)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 44, height: 44)
+                    .background(
+                        Circle()
+                            .fill(.white)
+                            .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
+                    )
+            }
+ 
+            ModernPillButton(
+                title: "Add a pet",
+                icon: "plus.circle.fill",
+                color: Color("BrandOrange")
+            ) {
+                showingAddPet = true
+            }
+        }
+        .padding(.vertical, 8)
+    }
+    
+    // MARK: - Disclaimer Banner
+    private var disclaimerBanner: some View {
+        Button {
+            showingGeneralDisclaimer = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.title3)
+                    .foregroundStyle(.orange)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Medical Disclaimer")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color("BrandDark"))
+                    
+                    Text("Tap to read important information")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.orange.opacity(0.1), Color.red.opacity(0.1)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(Color.orange.opacity(0.3), lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+    
+    // MARK: - Health Tip Section
+    private var healthTipSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Today's Tip")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color("BrandDark"))
+                
+                Spacer()
+                
+                Button {
+                    withAnimation {
+                        healthTipDismissed = true
+                        var prefs = currentHealthTipPreferences
+                        HealthTipService.markTipAsShown(preferences: &prefs)
+                        try? modelContext.save()
+                    }
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title3)
+                        .foregroundStyle(.secondary.opacity(0.6))
+                }
+            }
+            .padding(.horizontal, 4)
+            
+            HealthTipCard(tip: todaysHealthTip, frequency: currentHealthTipPreferences.frequency)
+                .transition(.asymmetric(
+                    insertion: .scale.combined(with: .opacity),
+                    removal: .scale.combined(with: .opacity)
+                ))
+        }
+    }
+ 
+    // MARK: - Pet hero (pager or empty state)
+    private var modernPetCard: some View {
+        Group {
+            if sortedPets.isEmpty {
+                addFirstPetHeroCard
+            } else {
+                petPagerSection
+            }
+        }
+    }
+    
+    private var addFirstPetHeroCard: some View {
+        Button {
+            HapticManager.shared.medium()
+            showingAddPet = true
+        } label: {
+            HStack(spacing: 20) {
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color("BrandOrange").opacity(0.2),
+                                    Color("BrandBlue").opacity(0.15)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 92, height: 92)
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 44))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [Color("BrandOrange"), Color("BrandBlue")],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                }
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Add your first pet")
+                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .foregroundStyle(Color("BrandDark"))
+                    Text("Profiles power reminders, health history, insurance, and Vet AI for each pet.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.title3)
+                    .foregroundStyle(.secondary.opacity(0.35))
+            }
+            .padding(22)
+            .background(heroCardBackground)
+        }
+        .buttonStyle(SmoothButtonStyle())
+    }
+    
+    private var petPagerSection: some View {
+        let selectionBinding = Binding<UUID>(
+            get: {
+                if sortedPets.contains(where: { $0.id == pagerSelection }) {
+                    return pagerSelection
+                }
+                return sortedPets.first(where: { $0.isActive })?.id ?? sortedPets[0].id
+            },
+            set: { newId in
+                pagerSelection = newId
+                if let p = sortedPets.first(where: { $0.id == newId }) {
+                    activatePet(p)
+                }
+            }
+        )
+        return VStack(spacing: 10) {
+            TabView(selection: selectionBinding) {
+                ForEach(sortedPets) { pet in
+                    HomePetHeroPage(
+                        pet: pet,
+                        onEdit: {
+                            HapticManager.shared.medium()
+                            petUnderEdit = pet
+                        },
+                        onManagePets: { showingPetsList = true }
+                    )
+                    .tag(pet.id)
+                }
+            }
+            // Custom dots below — system page indicators read as white on the light card.
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 148)
+
+            if sortedPets.count > 1 {
+                HStack(spacing: 8) {
+                    ForEach(Array(sortedPets.enumerated()), id: \.element.id) { index, pet in
+                        Button {
+                            HapticManager.shared.selection()
+                            withAnimation(.easeInOut(duration: 0.22)) {
+                                pagerSelection = pet.id
+                                activatePet(pet)
+                            }
+                        } label: {
+                            Circle()
+                                .fill(index == homePagerDisplayedIndex ? Color("BrandBlue") : Color("BrandBlue").opacity(0.4))
+                                .frame(width: index == homePagerDisplayedIndex ? 9 : 7, height: index == homePagerDisplayedIndex ? 9 : 7)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("\(pet.name), pet \(index + 1) of \(sortedPets.count)")
+                        .accessibilityAddTraits(index == homePagerDisplayedIndex ? [.isSelected] : [])
+                    }
+                }
+                .padding(.top, 2)
+
+                Text("Swipe for your other pets")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 2)
+            }
+        }
+    }
+    
+    private var heroCardBackground: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 26)
+                .fill(.ultraThinMaterial)
+            RoundedRectangle(cornerRadius: 26)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color.white.opacity(0.9),
+                            Color.white.opacity(0.7)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+            RoundedRectangle(cornerRadius: 26)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color("BrandOrange").opacity(0.08),
+                            .clear,
+                            Color("BrandBlue").opacity(0.08)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+        }
+        .shadow(color: .black.opacity(0.08), radius: 25, x: 0, y: 10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 26)
+                .strokeBorder(
+                    LinearGradient(
+                        colors: [
+                            Color.white.opacity(0.7),
+                            Color.white.opacity(0.3)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1.5
+                )
+        )
+    }
+ 
+    // MARK: - Features Grid
+    private var featuresGrid: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 6) {
+                ModernSectionHeader(
+                    "Features",
+                    icon: "square.grid.2x2",
+                    actionTitle: "Customize"
+                ) {
+                    HapticManager.shared.selection()
+                    showingSettings = true
+                }
+                Text("Touch and hold a tile, then drag it onto another to reorder.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 14) {
+                ForEach(visibleTiles) { tile in
+                    modernTileView(for: tile)
+                        .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .onDrag {
+                            homeTileDragItemProvider(tileId: tile.id)
+                        }
+                        .onDrop(
+                            of: [UTType.plainText, UTType.utf8PlainText, UTType.text],
+                            delegate: HomeTileReorderDropDelegate(
+                                destinationId: tile.id,
+                                onReorder: { fromId, toId in
+                                    persistHomeTileReorder(from: fromId, to: toId)
+                                }
+                            )
+                        )
+                }
+            }
+        }
+    }
+
+    /// Explicit UTF-8 plain text so `onDrop` reliably matches `UTType.plainText` (NSString-only providers often fail to match).
+    private func homeTileDragItemProvider(tileId: String) -> NSItemProvider {
+        let provider = NSItemProvider()
+        provider.registerDataRepresentation(for: UTType.plainText, visibility: .all) { completion in
+            completion(Data(tileId.utf8), nil)
+            return nil
+        }
+        return provider
+    }
+
+    private func persistHomeTileReorder(from sourceId: String, to destinationId: String) {
+        guard sourceId != destinationId else { return }
+        let prefs = currentTilePreferences
+        var visible = homeVisibleTileIds
+        guard let fromIdx = visible.firstIndex(of: sourceId),
+              let toIdx = visible.firstIndex(of: destinationId) else { return }
+        let moved = visible.remove(at: fromIdx)
+        let destInsert = toIdx > fromIdx ? toIdx - 1 : toIdx
+        visible.insert(moved, at: destInsert)
+        let merged = HomeTile.mergedFullTileOrder(
+            visibleOrdered: visible,
+            hiddenIDs: prefs.hiddenTiles,
+            previousFullOrder: prefs.tileOrder
+        )
+        prefs.tileOrder = HomeTile.sanitizedTileOrder(merged)
+        prefs.lastUpdated = Date()
+        do {
+            try modelContext.save()
+            HomeTileLayoutState.markLayoutCustomizedByUser()
+            HapticManager.shared.selection()
+        } catch {
+            // Keep layout state unchanged if persistence failed.
+        }
+    }
+    
+    @ViewBuilder
+    private func modernTileView(for tile: HomeTile) -> some View {
+        let gradientColors = tile.gradient.map { colorName in
+            if colorName == "red" {
+                return Color.red
+            } else if colorName == "pink" {
+                return Color.pink
+            } else if colorName == "orange" {
+                return Color.orange
+            } else if colorName == "cyan" {
+                return Color.cyan
+            } else if colorName == "indigo" {
+                return Color.indigo
+            } else if colorName == "purple" {
+                return Color.purple
+            } else {
+                return Color(colorName)
+            }
+        }
+        
+        let badge: Int? = tile.id == "reminders" ? (overdueRemindersCount > 0 ? overdueRemindersCount : nil) : nil
+
+        // `Button` + `ScrollView` often steal drags; tap opens, long-press drags (system `onDrag` behavior).
+        VStack(alignment: .leading, spacing: 12) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(
+                        LinearGradient(
+                            colors: gradientColors,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 54, height: 54)
+
+                Image(systemName: tile.icon)
+                    .font(.system(size: tile.iconSize, weight: .semibold))
+                    .foregroundStyle(.white)
+            }
+            .overlay(alignment: .topTrailing) {
+                if let count = badge, count > 0 {
+                    Text(count > 99 ? "99+" : "\(count)")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 2)
+                        .background(Capsule().fill(Color.red))
+                        .offset(x: 6, y: -6)
+                }
+            }
+
+            Spacer()
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(tile.title)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(Color("BrandDark"))
+                    .lineLimit(1)
+                Text(tileCardSubtitle(tile))
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(height: 140)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.white)
+                .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 4)
+        )
+        .onTapGesture {
+            handleTileTap(tile.id)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel(tile.title)
+        .accessibilityHint(tileCardSubtitle(tile))
+        .help(tileCardSubtitle(tile))
+    }
+
+    private func tileCardSubtitle(_ tile: HomeTile) -> String {
+        ""
+    }
+    
+    private func handleTileTap(_ tileId: String) {
+        switch tileId {
+        case "reminders":
+            showingReminders = true
+        case "emergency":
+            showingEmergencyQR = true
+        case "health":
+            showingHealthHistory = true
+        case "food":
+            showingFoodRecommendations = true
+        case "insurance":
+            showingInsuranceTracker = true
+        case "weight":
+            showingWeightTracker = true
+        case "certificates":
+            showingCertificates = true
+        case "favorites":
+            showingHelpfulProducts = true
+        case "ai_vet":
+            if hasAcceptedVetAIDisclaimer {
+                showingVetAI = true
+            } else {
+                showingVetAIDisclaimerSheet = true
+            }
+        default:
+            break
+        }
+    }
+    
+    private var footerText: some View {
+        VStack(spacing: 10) {
+            Text("Your pet's health, always at your fingertips.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+
+            #if os(iOS)
+            Button {
+                showingDevTipJar = true
+            } label: {
+                Label("Developer Tip Jar", systemImage: "heart.circle.fill")
+                    .font(.subheadline.weight(.semibold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+            }
+            .buttonStyle(.bordered)
+            .tint(Color("BrandPurple"))
+            .accessibilityHint("Optional tips to support Petpal development")
+            #endif
+
+            HStack(spacing: 4) {
+                Text("Made with")
+                Image(systemName: "heart.fill")
+                    .font(.caption2)
+                    .foregroundStyle(Color("BrandPurple"))
+                Text("for pet parents")
+            }
+            .font(.caption2)
+            .foregroundStyle(.secondary.opacity(0.7))
+
+            if let privacyURL = URL(string: "https://thyghos.github.io/petpal-privacy/") {
+                Link("Privacy Policy", destination: privacyURL)
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+                    .accessibilityHint("Opens the privacy policy in Safari")
+            }
+        }
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity)
+    }
+    
+    private func greetingText() -> String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 0..<12: return "Good Morning"
+        case 12..<17: return "Good Afternoon"
+        default: return "Good Evening"
+        }
+    }
+}
+
+// MARK: - Home tile drag reorder (drop on another tile)
+
+private struct HomeTileReorderDropDelegate: DropDelegate {
+    let destinationId: String
+    let onReorder: (String, String) -> Void
+
+    private static let readableTypes = [UTType.plainText, UTType.utf8PlainText, UTType.text]
+
+    func validateDrop(info: DropInfo) -> Bool {
+        info.hasItemsConforming(to: Self.readableTypes)
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        guard let provider = info.itemProviders(for: Self.readableTypes).first else { return false }
+        _ = provider.loadDataRepresentation(for: UTType.plainText) { data, error in
+            if error == nil, let data, let s = String(data: data, encoding: .utf8), !s.isEmpty {
+                DispatchQueue.main.async {
+                    onReorder(s, destinationId)
+                }
+                return
+            }
+            _ = provider.loadObject(ofClass: NSString.self) { reading, _ in
+                let sourceId: String?
+                if let str = reading as? String {
+                    sourceId = str
+                } else if let ns = reading as? NSString {
+                    sourceId = ns as String
+                } else {
+                    sourceId = nil
+                }
+                guard let sourceId, !sourceId.isEmpty else { return }
+                DispatchQueue.main.async {
+                    onReorder(sourceId, destinationId)
+                }
+            }
+        }
+        return true
+    }
+}
+
+// MARK: - Home pet hero page (one pet per pager page)
+
+private struct HomePetHeroPage: View {
+    let pet: Pet
+    let onEdit: () -> Void
+    let onManagePets: () -> Void
+    
+    private var speciesIcon: String {
+        switch pet.species.lowercased() {
+        case "cat": return "cat.fill"
+        case "bird": return "bird.fill"
+        case "rabbit": return "hare.fill"
+        case "fish": return "fish.fill"
+        case "reptile": return "lizard.fill"
+        default: return "dog.fill"
+        }
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .center, spacing: 18) {
+                avatarView
+                Text(pet.name)
+                    .font(.system(size: 26, weight: .bold, design: .rounded))
+                    .foregroundStyle(Color("BrandDark"))
+                    .lineLimit(1)
+                Spacer(minLength: 8)
+                Button {
+                    onEdit()
+                } label: {
+                    Image(systemName: "pencil.circle.fill")
+                        .font(.system(size: 32))
+                        .foregroundStyle(Color("BrandBlue"))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Edit \(pet.name)")
+            }
+            if let next = pet.nextVetAppointmentDate {
+                Text("Next vet appointment · \(next.formatted(date: .abbreviated, time: .omitted))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.leading, 106)
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 18)
+        .background(HomePetHeroPageBackground())
+        .contextMenu {
+            Button("Edit pet", action: onEdit)
+            Button("Manage pets", action: onManagePets)
+        }
+    }
+
+    @ViewBuilder
+    private var avatarView: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color("BrandOrange").opacity(0.2),
+                            Color("BrandBlue").opacity(0.12)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .frame(width: 88, height: 88)
+            #if os(iOS)
+            if let data = pet.profileImage, let uiImage = UIImage(data: data) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 82, height: 82)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [.white.opacity(0.9), .white.opacity(0.45)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 2.5
+                            )
+                    )
+            } else {
+                placeholderSpeciesIcon
+            }
+            #elseif os(macOS)
+            if let data = pet.profileImage, let nsImage = NSImage(data: data) {
+                Image(nsImage: nsImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 82, height: 82)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [.white.opacity(0.9), .white.opacity(0.45)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 2.5
+                            )
+                    )
+            } else {
+                placeholderSpeciesIcon
+            }
+            #endif
+        }
+    }
+    
+    private var placeholderSpeciesIcon: some View {
+        Image(systemName: speciesIcon)
+            .font(.system(size: 38))
+            .foregroundStyle(
+                LinearGradient(
+                    colors: [Color("BrandOrange"), Color("BrandBlue")],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .frame(width: 82, height: 82)
+            .background(Circle().fill(Color("BrandOrange").opacity(0.1)))
+            .overlay(
+                Circle()
+                    .strokeBorder(
+                        LinearGradient(
+                            colors: [.white.opacity(0.9), .white.opacity(0.45)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 2.5
+                    )
+            )
+    }
+}
+
+private struct HomePetHeroPageBackground: View {
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 26)
+                .fill(.ultraThinMaterial)
+            RoundedRectangle(cornerRadius: 26)
+                .fill(
+                    LinearGradient(
+                        colors: [Color.white.opacity(0.9), Color.white.opacity(0.7)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+            RoundedRectangle(cornerRadius: 26)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color("BrandOrange").opacity(0.08),
+                            .clear,
+                            Color("BrandBlue").opacity(0.08)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+        }
+        .shadow(color: .black.opacity(0.08), radius: 25, x: 0, y: 10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 26)
+                .strokeBorder(
+                    LinearGradient(
+                        colors: [Color.white.opacity(0.7), Color.white.opacity(0.3)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1.5
+                )
+        )
+    }
+}
+
+// MARK: - Modern Feature Card
+ 
+struct ModernFeatureCard: View {
+    let icon: String
+    let title: String
+    let gradient: [Color]
+    var iconSize: CGFloat = 24
+    var badge: Int? = nil
+    let action: () -> Void
+    
+    @State private var isPressed = false
+    
+    var body: some View {
+        Button(action: action) {
+            ZStack(alignment: .topTrailing) {
+                VStack(alignment: .leading, spacing: 12) {
+                    // Icon with gradient background
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(
+                                LinearGradient(
+                                    colors: gradient,
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 54, height: 54)
+                            .shadow(color: gradient[0].opacity(0.4), radius: 8, x: 0, y: 4)
+                        
+                        Image(systemName: icon)
+                            .font(.system(size: iconSize, weight: .semibold))
+                            .foregroundStyle(.white)
+                    }
+                    
+                    Spacer()
+                    
+                    Text(title)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(Color("BrandDark"))
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(18)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(height: 140)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.white)
+                        .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 4)
+                )
+                
+                // Badge
+                if let count = badge, count > 0 {
+                    Text("\(count)")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .padding(6)
+                        .frame(minWidth: 22, minHeight: 22)
+                        .background(
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [.red, .red.opacity(0.8)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                        )
+                        .offset(x: 8, y: -8)
+                }
+            }
+            .scaleEffect(isPressed ? 0.95 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
+        }
+        .buttonStyle(.plain)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in isPressed = true }
+                .onEnded { _ in isPressed = false }
+        )
+    }
+}
+ 
+// MARK: - Modern Edit Pet Sheet
+ 
+struct ModernEditPetSheet: View {
+    @Bindable var pet: Pet
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+ 
+    @State private var tempName: String = ""
+    @State private var tempSpecies: String = ""
+    @State private var tempBreed: String = ""
+    @State private var tempWeight: String = ""
+    @State private var tempWeightUnit: String = "lbs"
+    @State private var selectedImage: PhotosPickerItem?
+    @State private var tempAvatarData: Data?
+    @State private var photoRemoved = false
+    @State private var showBirthDate = false
+    @State private var tempDateOfBirth: Date?
+    @State private var tempVetName: String = ""
+    @State private var tempVetPhone: String = ""
+    @State private var tempVetEmail: String = ""
+    @State private var tempMicrochipNumber: String = ""
+    @State private var editingVetPhone = false
+    @State private var editingVetEmail = false
+    @State private var showingDeleteConfirm = false
+ 
+    let speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Fish", "Reptile", "Other"]
+    let weightUnits = ["lbs", "kg", "g"]
+    
+    private var displayedAvatar: Data? {
+        tempAvatarData ?? pet.profileImage
+    }
+ 
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color("BrandCream").opacity(0.3)
+                    .ignoresSafeArea()
+                
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Avatar Selection
+                        VStack(spacing: 16) {
+                            ZStack {
+                                Circle()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                Color("BrandOrange").opacity(0.2),
+                                                Color("BrandBlue").opacity(0.2)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .frame(width: 140, height: 140)
+                                
+                                #if os(iOS)
+                                if let data = displayedAvatar,
+                                   let uiImage = UIImage(data: data) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 130, height: 130)
+                                        .clipShape(Circle())
+                                } else {
+                                    Image(systemName: tempSpecies == "Cat" ? "cat.fill" : "dog.fill")
+                                        .font(.system(size: 50))
+                                        .foregroundStyle(
+                                            LinearGradient(
+                                                colors: [Color("BrandOrange"), Color("BrandBlue")],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                }
+                                #elseif os(macOS)
+                                if let data = displayedAvatar,
+                                   let nsImage = NSImage(data: data) {
+                                    Image(nsImage: nsImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 130, height: 130)
+                                        .clipShape(Circle())
+                                } else {
+                                    Image(systemName: tempSpecies == "Cat" ? "cat.fill" : "dog.fill")
+                                        .font(.system(size: 50))
+                                        .foregroundStyle(
+                                            LinearGradient(
+                                                colors: [Color("BrandOrange"), Color("BrandBlue")],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                }
+                                #endif
+                            }
+                            .overlay(
+                                Circle()
+                                    .strokeBorder(.white, lineWidth: 4)
+                                    .frame(width: 130, height: 130)
+                            )
+                            
+                            PhotosPicker(selection: $selectedImage, matching: .images) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "camera.fill")
+                                        .font(.callout)
+                                    Text(displayedAvatar == nil ? "Add Photo" : "Change Photo")
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+                                }
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color("BrandOrange"), Color("BrandOrange").opacity(0.8)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .clipShape(Capsule())
+                                .shadow(color: Color("BrandOrange").opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
+                            .onChange(of: selectedImage) { _, newValue in
+                                Task {
+                                    if let data = try? await newValue?.loadTransferable(type: Data.self) {
+                                        tempAvatarData = data
+                                        photoRemoved = false
+                                    }
+                                }
+                            }
+                            
+                            if displayedAvatar != nil {
+                                Button(role: .destructive) {
+                                    tempAvatarData = nil
+                                    selectedImage = nil
+                                    photoRemoved = true
+                                } label: {
+                                    Text("Remove Photo")
+                                        .font(.caption)
+                                        .foregroundStyle(.red)
+                                }
+                            }
+                        }
+                        .padding(.vertical)
+                        
+                        // Form Fields
+                        VStack(spacing: 16) {
+                            // Pet Name
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Pet's Name")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                TextField("Enter name", text: $tempName)
+                                    .font(.body)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                            
+                            // Species
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Species")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                Picker("Species", selection: $tempSpecies) {
+                                    ForEach(speciesOptions, id: \.self) { species in
+                                        Text(species).tag(species)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .padding()
+                                .background(Color.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                            
+                            // Breed
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Breed (Optional)")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                TextField("Enter breed", text: $tempBreed)
+                                    .font(.body)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                            
+                            // Weight
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Weight")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                HStack(spacing: 12) {
+                                    TextField("Weight", text: $tempWeight)
+                                        #if os(iOS)
+                                        .keyboardType(.decimalPad)
+                                        #endif
+                                        .font(.body)
+                                        .padding()
+                                        .background(Color.white)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    
+                                    Picker("Unit", selection: $tempWeightUnit) {
+                                        ForEach(weightUnits, id: \.self) { unit in
+                                            Text(unit).tag(unit)
+                                        }
+                                    }
+                                    .pickerStyle(.segmented)
+                                    .frame(width: 100)
+                                }
+                            }
+                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Date of birth")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                Toggle("Set birth date", isOn: $showBirthDate)
+                                    .padding(.horizontal, 4)
+                                if showBirthDate {
+                                    DatePicker(
+                                        "Birth date",
+                                        selection: Binding(
+                                            get: { tempDateOfBirth ?? birthDatePickerFallback },
+                                            set: { tempDateOfBirth = $0 }
+                                        ),
+                                        in: ...Date(),
+                                        displayedComponents: .date
+                                    )
+                                    .datePickerStyle(.graphical)
+                                    .padding(8)
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                }
+                            }
+
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Veterinarian")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                TextField("Vet name", text: $tempVetName)
+                                    .font(.body)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                VStack(alignment: .leading, spacing: 10) {
+                                    if tempVetPhone.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        Button {
+                                            editingVetPhone = true
+                                        } label: {
+                                            Label("Add vet phone", systemImage: "plus.circle")
+                                                .font(.subheadline.weight(.semibold))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding()
+                                                .background(Color.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        }
+                                        .buttonStyle(.plain)
+                                    } else {
+                                        PetProfilePhoneRow(title: "Vet phone", phone: tempVetPhone)
+                                            .padding()
+                                            .background(Color.white)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        HStack(spacing: 14) {
+                                            Button("Edit phone") { editingVetPhone = true }
+                                                .font(.caption.weight(.semibold))
+                                            Button("Remove", role: .destructive) { tempVetPhone = "" }
+                                                .font(.caption.weight(.semibold))
+                                        }
+                                        .padding(.horizontal, 4)
+                                    }
+
+                                    if tempVetEmail.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        Button {
+                                            editingVetEmail = true
+                                        } label: {
+                                            Label("Add vet email", systemImage: "plus.circle")
+                                                .font(.subheadline.weight(.semibold))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding()
+                                                .background(Color.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        }
+                                        .buttonStyle(.plain)
+                                    } else {
+                                        PetProfileEmailRow(title: "Vet email", email: tempVetEmail)
+                                            .padding()
+                                            .background(Color.white)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        HStack(spacing: 14) {
+                                            Button("Edit email") { editingVetEmail = true }
+                                                .font(.caption.weight(.semibold))
+                                            Button("Remove", role: .destructive) { tempVetEmail = "" }
+                                                .font(.caption.weight(.semibold))
+                                        }
+                                        .padding(.horizontal, 4)
+                                    }
+                                }
+                            }
+
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Microchip")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                TextField("Microchip number", text: $tempMicrochipNumber)
+                                    .font(.body)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Next vet visit")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.secondary)
+                                NextVetAppointmentProfileFields(pet: pet)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                Text("Not filled in from imported records — set here when you book.")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                            Button(role: .destructive) {
+                                showingDeleteConfirm = true
+                            } label: {
+                                Text("Delete pet")
+                                    .font(.body.weight(.semibold))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 14)
+                            }
+                            .padding(.top, 8)
+                        }
+                        .padding(.horizontal)
+                    }
+                    .padding()
+                }
+            }
+            .navigationTitle("Edit Pet Profile")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(.secondary)
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        saveChanges()
+                    }
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color("BrandOrange"))
+                }
+            }
+            .confirmationDialog(
+                "Delete \(pet.name)?",
+                isPresented: $showingDeleteConfirm,
+                titleVisibility: .visible
+            ) {
+                Button("Delete pet", role: .destructive) {
+                    deleteThisPet()
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This removes the pet from your list. You can add them again anytime.")
+            }
+            .onChange(of: showBirthDate) { _, isOn in
+                if isOn && tempDateOfBirth == nil {
+                    tempDateOfBirth = birthDatePickerFallback
+                }
+            }
+            .sheet(isPresented: $editingVetPhone) {
+                NavigationStack {
+                    Form {
+                        TextField("Vet phone", text: $tempVetPhone)
+                            #if os(iOS)
+                            .keyboardType(.phonePad)
+                            #endif
+                    }
+                    .navigationTitle("Vet Phone")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Done") { editingVetPhone = false }
+                        }
+                    }
+                }
+            }
+            .sheet(isPresented: $editingVetEmail) {
+                NavigationStack {
+                    Form {
+                        TextField("Vet email", text: $tempVetEmail)
+                            #if os(iOS)
+                            .keyboardType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                            .textContentType(.emailAddress)
+                            #endif
+                    }
+                    .navigationTitle("Vet Email")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Done") { editingVetEmail = false }
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                photoRemoved = false
+                tempName = pet.name
+                tempSpecies = pet.species.isEmpty ? "Dog" : pet.species
+                tempBreed = pet.breed
+                tempWeight = pet.weight > 0 ? String(Int(pet.weight)) : ""
+                tempWeightUnit = pet.weightUnit
+                tempAvatarData = pet.profileImage
+                showBirthDate = pet.dateOfBirth != nil
+                tempDateOfBirth = pet.dateOfBirth
+                tempVetName = pet.vetName
+                tempVetPhone = pet.vetPhone
+                tempVetEmail = pet.vetEmail
+                tempMicrochipNumber = pet.microchipNumber
+            }
+        }
+    }
+    
+    private var birthDatePickerFallback: Date {
+        Self.defaultBirthDateForPicker()
+    }
+    
+    private static func defaultBirthDateForPicker() -> Date {
+        let cal = Calendar.current
+        let base = cal.date(byAdding: .year, value: -2, to: Date()) ?? Date()
+        return cal.date(bySettingHour: 12, minute: 0, second: 0, of: base) ?? base
+    }
+    
+    private func deleteThisPet() {
+        let petId = pet.id
+        let wasActive = pet.isActive
+        let descriptor = FetchDescriptor<Pet>(predicate: #Predicate<Pet> { $0.id == petId })
+        guard let toDelete = try? modelContext.fetch(descriptor).first else {
+            dismiss()
+            return
+        }
+        let others = (try? modelContext.fetch(FetchDescriptor<Pet>()))?.filter { $0.id != petId } ?? []
+        modelContext.delete(toDelete)
+        if wasActive, let next = others.first {
+            for p in others {
+                p.isActive = (p.id == next.id)
+            }
+            next.syncToLegacyAppStorage()
+        } else if wasActive {
+            UserDefaults.standard.removeObject(forKey: "activePetId")
+        }
+        try? modelContext.save()
+        dismiss()
+    }
+    
+    private func saveChanges() {
+        let trimmed = tempName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmed.isEmpty {
+            pet.name = trimmed
+        }
+        pet.species = tempSpecies
+        pet.breed = tempBreed
+        pet.weightUnit = tempWeightUnit
+        if let weight = Double(tempWeight) {
+            pet.weight = weight
+        }
+        if let data = tempAvatarData {
+            pet.profileImage = data
+        } else if photoRemoved {
+            pet.profileImage = nil
+        }
+        pet.dateOfBirth = showBirthDate ? tempDateOfBirth : nil
+        pet.vetName = tempVetName.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.vetPhone = tempVetPhone.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.vetEmail = tempVetEmail.trimmingCharacters(in: .whitespacesAndNewlines)
+        pet.microchipNumber = tempMicrochipNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+        if pet.isActive {
+            pet.syncToLegacyAppStorage()
+        }
+        try? modelContext.save()
+        dismiss()
+    }
+}
+
+// Keep old ActionTile for compatibility
+ 
+// Keep old ActionTile for compatibility
+struct ActionTile: View {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let color: Color
+    let action: () -> Void
+    var badgeCount: Int = 0
+    @State private var isPressed = false
+ 
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 10) {
+                ZStack(alignment: .topTrailing) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(color.opacity(0.15))
+                            .frame(width: 44, height: 44)
+                        Image(systemName: icon)
+                            .font(.title3)
+                            .foregroundStyle(color)
+                    }
+                    
+                    if badgeCount > 0 {
+                        Text("\(badgeCount)")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .padding(4)
+                            .frame(minWidth: 20, minHeight: 20)
+                            .background(Color.red)
+                            .clipShape(Circle())
+                            .offset(x: 8, y: -8)
+                    }
+                }
+                Spacer()
+                Text(title)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color("BrandDark"))
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, minHeight: 130, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.white)
+                    .shadow(color: .black.opacity(0.07), radius: 8, x: 0, y: 4)
+            )
+            .scaleEffect(isPressed ? 0.96 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isPressed)
+        }
+        .buttonStyle(.plain)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in isPressed = true }
+                .onEnded { _ in isPressed = false }
+        )
+    }
+}
+
+// MARK: - Legacy Edit Pet Sheet (deprecated, use ModernEditPetSheet)
+ 
+struct EditPetSheet: View {
+    @Binding var petName: String
+    @Binding var petSpecies: String
+    @Binding var petBreed: String
+    @Binding var petWeight: Double
+    @Binding var weightUnit: String
+    @Environment(\.dismiss) private var dismiss
+ 
+    @State private var tempName: String = ""
+    @State private var tempSpecies: String = ""
+    @State private var tempBreed: String = ""
+    @State private var tempWeight: String = ""
+    @State private var tempWeightUnit: String = "lbs"
+ 
+    let speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Fish", "Reptile", "Other"]
+    let weightUnits = ["lbs", "kg", "g"]
+ 
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Pet Details") {
+                    TextField("Pet's name", text: $tempName)
+                    Picker("Species", selection: $tempSpecies) {
+                        ForEach(speciesOptions, id: \.self) { Text($0).tag($0) }
+                    }
+                    TextField("Breed (optional)", text: $tempBreed)
+                }
+                Section("Weight") {
+                    HStack {
+                        TextField("Weight", text: $tempWeight)
+                            #if os(iOS)
+                            .keyboardType(.decimalPad)
+                            #endif
+                        Picker("Unit", selection: $tempWeightUnit) {
+                            ForEach(weightUnits, id: \.self) { Text($0).tag($0) }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 100)
+                    }
+                }
+            }
+            .navigationTitle("Edit Pet Profile")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        if !tempName.trimmingCharacters(in: .whitespaces).isEmpty {
+                            petName = tempName
+                        }
+                        petSpecies = tempSpecies
+                        petBreed = tempBreed
+                        weightUnit = tempWeightUnit
+                        if let weight = Double(tempWeight) { petWeight = weight }
+                        dismiss()
+                    }
+                    .fontWeight(.semibold)
+                }
+            }
+            .onAppear {
+                tempName = petName
+                tempSpecies = petSpecies
+                tempBreed = petBreed
+                tempWeight = petWeight > 0 ? String(Int(petWeight)) : ""
+                tempWeightUnit = weightUnit
+            }
+        }
+        .presentationDetents([.medium, .large])
+    }
+}
+
+
+#Preview {
+    HomeView()
+        .modelContainer(for: Pet.self, inMemory: true)
+}
